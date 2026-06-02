@@ -1,0 +1,360 @@
+{"fr": "La santé est importante.", "mina": "Nuwɔna nye na devɛwo.", "domain": "sante"}
+{"fr": "Je suis malade.", "mina": "Eku mɛ.", "domain": "sante"}
+{"fr": "Il a mal à la tête.", "mina": "Eƒu nu mɛ.", "domain": "sante"}
+{"fr": "Elle a de la fièvre.", "mina": "Eku ɖevi.", "domain": "sante"}
+{"fr": "J'ai mal au ventre.", "mina": "Aku mɛ nyongbɔ mɛ.", "domain": "sante"}
+{"fr": "Le médecin est venu.", "mina": "Nusɔla la va.", "domain": "sante"}
+{"fr": "Il tousse beaucoup.", "mina": "Ehu ʋu alo.", "domain": "sante"}
+{"fr": "Elle a mal à la gorge.", "mina": "Eku ɖevi tɔgbo.", "domain": "sante"}
+{"fr": "J'ai vomi ce matin.", "mina": "Manɔ kuku ɖa gboẽ.", "domain": "sante"}
+{"fr": "L'enfant a la diarrhée.", "mina": "ŋkɔ vi la ɖo.", "domain": "sante"}
+{"fr": "Mon père a le paludisme.", "mina": "Tata ɖaƒiaɖɔ.", "domain": "sante"}
+{"fr": "Elle a une blessure au pied.", "mina": "Eku ɖeviʋu amɛ.", "domain": "sante"}
+{"fr": "Le médecin a prescrit des médicaments.", "mina": "Nusɔla la bu le asawuwu.", "domain": "sante"}
+{"fr": "Je dois aller à l'hôpital.", "mina": "Mekpɔa ŋkɔ o klɔe.", "domain": "sante"}
+{"fr": "Elle est enceinte.", "mina": "Eku ɖevi ɖo.", "domain": "sante"}
+{"fr": "Le bébé dort bien.", "mina": "Koklo vi la susumɔ.", "domain": "sante"}
+{"fr": "Il a une allergie cutanée.", "mina": "Eku nu tso dzi.", "domain": "sante"}
+{"fr": "Le patient est faible.", "mina": "Mɔla la ku ɖevie.", "domain": "sante"}
+{"fr": "Elle a mal aux dents.", "mina": "Eku ɖevi ɖu.", "domain": "sante"}
+{"fr": "J'ai mal au dos.", "mina": "Aku mɛ tɔnyɔ.", "domain": "sante"}
+{"fr": "Le comprimé est amer.", "mina": "Asawuwu ta tɔ.", "domain": "sante"}
+{"fr": "Il doit se reposer.", "mina": "Ekpɔa dzikpɔku o.", "domain": "sante"}
+{"fr": "La plaie est infectée.", "mina": "Gaɖa la ku hena.", "domain": "sante"}
+{"fr": "Il a une brûlure.", "mina": "Eku ɖeƒu.", "domain": "sante"}
+{"fr": "Elle a le zona.", "mina": "Eku ɖevi ɖo nyɔnu dzi.", "domain": "sante"}
+{"fr": "Le patient a une insolation.", "mina": "Mɔla la ku nyɔnu ɖa.", "domain": "sante"}
+{"fr": "J'ai des vertiges.", "mina": "Aku tɔgbo mɛ.", "domain": "sante"}
+{"fr": "Elle a mal au cœur.", "mina": "Eku ɖevi ʋu ɖeƒe.", "domain": "sante"}
+{"fr": "Il a l'asthme.", "mina": "Eku ɖeƒe yiyu mɛ.", "domain": "sante"}
+{"fr": "Le pansement est serré.", "mina": "Sisisẽ la ka.", "domain": "sante"}
+{"fr": "Il a la tuberculose.", "mina": "Eku ɖeƒe blɔ.", "domain": "sante"}
+{"fr": "Elle est guérie.", "mina": "Eku ɖevi ɖa.", "domain": "sante"}
+{"fr": "La piqûre fait mal.", "mina": "Wɔla ku.", "domain": "sante"}
+{"fr": "Il tousse du sang.", "mina": "Ehu nyɔnu.", "domain": "sante"}
+{"fr": "Le miel est bon pour la toux.", "mina": "Dodome kpɔe na hu.", "domain": "sante"}
+{"fr": "L'eau est sale, elle cause la diarrhée.", "mina": "Dzii ta wu, eye ake ɖo.", "domain": "sante"}
+{"fr": "Elle a une infection urinaire.", "mina": "Eku ɖevi sɔ gbɔ.", "domain": "sante"}
+{"fr": "J'ai mal au genou.", "mina": "Aku mɛ dunɔ.", "domain": "sante"}
+{"fr": "La ambulance est arrivée.", "mina": "To vi ta sɔŋ la va.", "domain": "sante"}
+{"fr": "Le pharmacien a préparé le remède.", "mina": "Asawuwuƒo la wɔ le asawuwu.", "domain": "sante"}
+{"fr": "Il a une fracture.", "mina": "Eku ɖeƒe blɔ.", "domain": "sante"}
+{"fr": "Elle a mal aux yeux.", "mina": "Eku ɖevi anyi.", "domain": "sante"}
+{"fr": "Le bandage est tombé.", "mina": "Sisisẽ la ɖa.", "domain": "sante"}
+{"fr": "J'ai pris le traitement.", "mina": "Maɖa le asawuwu.", "domain": "sante"}
+{"fr": "La consultation est finie.", "mina": "Nuwɔna ta ku.", "domain": "sante"}
+{"fr": "Il a le rhume.", "mina": "Eku ɖeƒe ɖovi.", "domain": "sante"}
+{"fr": "Elle a une sinusite.", "mina": "Eku ɖevi tɔgbo mɛ.", "domain": "sante"}
+{"fr": "Le patient est décédé.", "mina": "Mɔla la ku.", "domain": "sante"}
+{"fr": "La maladie est contagieuse.", "mina": "Nuɖuɖu ake ba.", "domain": "sante"}
+{"fr": "Il a la varicelle.", "mina": "Eku ɖeƒe nyɔnu blɔ.", "domain": "sante"}
+{"fr": "Elle a une hépatite.", "mina": "Eku ɖevi teƒe blɔ.", "domain": "sante"}
+{"fr": "Le moustique cause le paludisme.", "mina": "Nuki ta sɔŋ ɖaƒiaɖɔ.", "domain": "sante"}
+{"fr": "Le juge rend la sentence.", "mina": "Ɣletɔ va wu dete.", "domain": "justice"}
+{"fr": "Le voleur est arrêté par la police.", "mina": "Sɔsɔ va ta dzɔɖi.", "domain": "justice"}
+{"fr": "Le prisonnier est dans la cellule.", "mina": "Eɖa le dunu ta.", "domain": "justice"}
+{"fr": "Le témoin dit la vérité.", "mina": "Sisi va sɔ nyamǝ.", "domain": "justice"}
+{"fr": "Le policier arrête le coupable.", "mina": "Ɣlatɔ va ta sɔgbɔ.", "domain": "justice"}
+{"fr": "La courprononce le verdict.", "mina": "Nyamedenu va kple gbeɖe.", "domain": "justice"}
+{"fr": "L'accusé nie les faits.", "mina": "Wǝna va le nɔnɔɖe.", "domain": "justice"}
+{"fr": "L'avocate défend son client.", "mina": "Ɣɖevɔ va tsɔ kpɔtɔ.", "domain": "justice"}
+{"fr": "La justice protège les innocents.", "mina": "Nyamedenu va tso nyamǝwo.", "domain": "justice"}
+{"fr": "L'enquête est terminée.", "mina": "Dzigbɔ le xexlẽ.", "domain": "justice"}
+{"fr": "Le criminel purge sa peine.", "mina": "Wo va kple kɔto.", "domain": "justice"}
+{"fr": "Le tribunal siège chaque matin.", "mina": "Nyamedenu le ɣletɔna.", "domain": "justice"}
+{"fr": "Le jury délibère en secret.", "mina": "Nyamedenu va le seɖee.", "domain": "justice"}
+{"fr": "L'huissier appelle le témoin.", "mina": "Ɣlatɔ va wu sisi.", "domain": "justice"}
+{"fr": "La magistrate instruisit l'affaire.", "mina": "Ɣletɔ leƒe nyawo.", "domain": "justice"}
+{"fr": "Le greffier enregistre les débats.", "mina": "Ɣlatɔ le dzɔɖi.", "domain": "justice"}
+{"fr": "Le justiciable fait appel.", "mina": "Amǝ va le dzigbɔ.", "domain": "justice"}
+{"fr": "La sentence est rendue.", "mina": "Nunya le nyamedenu ta.", "domain": "justice"}
+{"fr": "L'enquêteur pose des questions.", "mina": "Ɣlatɔ va le nyamedenu.", "domain": "justice"}
+{"fr": "Le magistrat vérifie les preuves.", "mina": "Ɣletɔ va sɔ seɖe.", "domain": "justice"}
+{"fr": "Le gardé à vue refuse de parler.", "mina": "Amǝ va ɖo seɖe.", "domain": "justice"}
+{"fr": "La victime témoigne au tribunal.", "mina": "Wo va ta nyamǝ.", "domain": "justice"}
+{"fr": "Le parquet requiert la prison.", "mina": "Ɣlatɔ va wo dzɔɖi.", "domain": "justice"}
+{"fr": "L'inculpé nie sa culpabilité.", "mina": "Wǝna va wo ta.", "domain": "justice"}
+{"fr": "Le commissariat reçoit la plainte.", "mina": "Sɔsɔ va ta sɔgbɔ.", "domain": "justice"}
+{"fr": "L'officier de police perquisitionne.", "mina": "Ɣlatɔ va ɣli gbo.", "domain": "justice"}
+{"fr": "Le brigadier interroge le suspect.", "mina": "Ɣlatɔ va tsɔ sɔgbɔ.", "domain": "justice"}
+{"fr": "Le parquet enquête sur l'affaire.", "mina": "Wo va ta nyamǝ.", "domain": "justice"}
+{"fr": "L'huissier notifie l'ordonnance.", "mina": "Ɣlatɔ va tsɔ seɖe.", "domain": "justice"}
+{"fr": "L'avocate cross-examine le témoin.", "mina": "Ɣɖevɔ va ɖo sisi.", "domain": "justice"}
+{"fr": "Le greffier signe le procès-verbal.", "mina": "Ɣlatɔ va tso nyamedenu.", "domain": "justice"}
+{"fr": "L'huissier signifie l'acte.", "mina": "Ɣlatɔ va tsɔ nyamedenu.", "domain": "justice"}
+{"fr": "Le témoin oculaire confirme le fait.", "mina": "Sisi le nyamǝ.", "domain": "justice"}
+{"fr": "Le jury prononce l'acquittement.", "mina": "Wo va le nyamedenu ta.", "domain": "justice"}
+{"fr": "Le condamné purge sa peine.", "mina": "Wo va tso kɔto.", "domain": "justice"}
+{"fr": "La justice est rendue au peuple.", "mina": "Nyamedenu va le amǝ ta.", "domain": "justice"}
+{"fr": "L'agent de police escorte le détenu.", "mina": "Ɣlatɔ va ɣli dzigbɔ.", "domain": "justice"}
+{"fr": "Le magistrat prononce l'amende.", "mina": "Ɣletɔ va wu xexlẽ.", "domain": "justice"}
+{"fr": "Le pénal statue sur le délit.", "mina": "Nyamedenu le nyamǝ ta.", "domain": "justice"}
+{"fr": "La Cour suprême examine l'appel.", "mina": "Nyamedenu le ta.", "domain": "justice"}
+{"fr": "Le témoin contredit l'accusé.", "mina": "Sisi va ta sɔgbɔ.", "domain": "justice"}
+{"fr": "L'enquête révèle la vérité.", "mina": "Wo va sɔ nyamǝ.", "domain": "justice"}
+{"fr": "Le justiciable comparaît demain.", "mina": "Amǝ va ta nyamedenu.", "domain": "justice"}
+{"fr": "Le greffier enregistre l'audience.", "mina": "Ɣlatɔ va ta nyamedenu.", "domain": "justice"}
+{"fr": "Le directeur de prison supervise.", "mina": "Ɣlatɔ le dzigbɔ ta.", "domain": "justice"}
+{"fr": "La Cour confirme la sentence.", "mina": "Nyamedenu va nyamǝwo.", "domain": "justice"}
+{"fr": "Le tribunal acquitte l'innocent.", "mina": "Nyamedenu va wo.", "domain": "justice"}
+{"fr": "Le gardé à vue est libéré.", "mina": "Amǝ va tsɔ dzigbɔ.", "domain": "justice"}
+{"fr": "La justice condamne le bandit.", "mina": "Nyamedenu va ta sɔgbɔ.", "domain": "justice"}
+{"fr": "Le prévenu paye l'amende.", "mina": "Amǝ va kpɔna xexlẽ.", "domain": "justice"}
+{"fr": "Le marché est ouvert.", "mina": "Ɛ̀kɔ ɖà.", "domain": "marche"}
+{"fr": "Je vais au marché.", "mina": "Me sᴐ ɖàkɔ.", "domain": "marche"}
+{"fr": "Tu achètes du poisson ?", "mina": "Won xɔ alɔ ?", "domain": "marche"}
+{"fr": "Le prix est élevé.", "mina": "Se ɖà.", "domain": "marche"}
+{"fr": "Combien ça coûte ?", "mina": "Se ɖè kɛ ?", "domain": "marche"}
+{"fr": "Vends-moi cette tomate.", "mina": "Nyè nye tomati.", "domain": "marche"}
+{"fr": "Le marché est bondé.", "mina": "Ɛ̀kɔ ɖà ɖàwù.", "domain": "marche"}
+{"fr": "Je vends du piment.", "mina": "Mèdzᴐ atadyᴐ.", "domain": "marche"}
+{"fr": "Elle achète des oignons.", "mina": "Ɛyɔ xɔayᴐ.", "domain": "marche"}
+{"fr": "Voici mon argent.", "mina": "Nyè fa le.", "domain": "marche"}
+{"fr": "La tomate est fraîche.", "mina": "Tomati yɛyɛ.", "domain": "marche"}
+{"fr": "Donne-moi la好了.", "mina": "Nyè nye sᴐ.", "domain": "marche"}
+{"fr": "Le vendeur est gentil.", "mina": "Nɔxᴐ ɖàwù.", "domain": "marche"}
+{"fr": "J'ai acheté du manioc.", "mina": "Me xɔ akpu.", "domain": "marche"}
+{"fr": "Le marché ferme tôt.", "mina": "Ɛ̀kɔ kple yɛ.", "domain": "marche"}
+{"fr": "Tu as de la monnaie ?", "mina": "Won mia fa le ?", "domain": "marche"}
+{"fr": "La bonne est chère.", "mina": "Nyamᴐ ɖà.", "domain": "marche"}
+{"fr": "Je veux du sucre.", "mina": "Mèkɔ suga.", "domain": "marche"}
+{"fr": "Où est le marché ?", "mina": "Ɛ̀kɔ ɖò ke ?", "domain": "marche"}
+{"fr": "Il manque du sel.", "mina": "Dze kɔ.", "domain": "marche"}
+{"fr": "Le riz est bon.", "mina": "Orizi yɛ.", "domain": "marche"}
+{"fr": "Combien de kilogrammes ?", "mina": "Kilo ɖè kɛ ?", "domain": "marche"}
+{"fr": "La tomate est mûre.", "mina": "Tomati ku.", "domain": "marche"}
+{"fr": "Je vends du riz.", "mina": "Mèdzᴐ orizi.", "domain": "marche"}
+{"fr": "Le poisson est salé.", "mina": "Alɔ yù.", "domain": "marche"}
+{"fr": "Achète ce pagne.", "mina": "Xɔ savᴐ nye.", "domain": "marche"}
+{"fr": "Le commerçant est parti.", "mina": "Nɔxᴐ sᴐ.", "domain": "marche"}
+{"fr": "Elle veut vendre.", "mina": "Ɛyɔ dzᴐ.", "domain": "marche"}
+{"fr": "Le prix a augmenté.", "mina": "Se ɖà.", "domain": "marche"}
+{"fr": "Je vends des bananes.", "mina": "Mèdzᴐ alika.", "domain": "marche"}
+{"fr": "Le marché est loin.", "mina": "Ɛ̀kɔ ɖò.", "domain": "marche"}
+{"fr": "Achète ici.", "mina": "Xɔ vɔ.", "domain": "marche"}
+{"fr": "Vends là-bas.", "mina": "Dzᴐ be.", "domain": "marche"}
+{"fr": "Le sac est lourd.", "mina": "Kete ɖà.", "domain": "marche"}
+{"fr": "Je compte l'argent.", "mina": "Mèkɔ fa.", "domain": "marche"}
+{"fr": "Le client est parti.", "mina": "Nyamᴐ ɖà sᴐ.", "domain": "marche"}
+{"fr": "Elle achète du pain.", "mina": "Ɛyɔ xɔ amᴐ.", "domain": "marche"}
+{"fr": "Le marché est calme.", "mina": "Ɛ̀kɔ ɖù.", "domain": "marche"}
+{"fr": "Donne-moi deux.", "mina": "Nyè eve.", "domain": "marche"}
+{"fr": "La sauce est prête.", "mina": "Yɔfua yɛ.", "domain": "marche"}
+{"fr": "Je vends des ignames.", "mina": "Mèdzᴐ ɖᴐ.", "domain": "marche"}
+{"fr": "Le prix est bas.", "mina": "Se kɔ.", "domain": "marche"}
+{"fr": "Tu veux négocier ?", "mina": "Won kɔ se ?", "domain": "marche"}
+{"fr": "La pintade est grasse.", "mina": "Kɔku ɖà.", "domain": "marche"}
+{"fr": "Je vends des herbes.", "mina": "Mèdzᴐ akɔwᴐ.", "domain": "marche"}
+{"fr": "L'eau est froide.", "mina": "Mɛwù.", "domain": "marche"}
+{"fr": "Le marché est propre.", "mina": "Ɛ̀kɔ yù.", "domain": "marche"}
+{"fr": "Elle attend le client.", "mina": "Ɛyɔ xɔ nyamᴐ.", "domain": "marche"}
+{"fr": "Le millet est sec.", "mina": "Aɖᴐ kɔ.", "domain": "marche"}
+{"fr": "Viens au marché demain.", "mina": "Va ɖàkɔ ɖù.", "domain": "marche"}
+{"fr": "La tomate est tombée.", "mina": "Tomati fà.", "domain": "marche"}
+{"fr": "Le bus est parti.", "mina": "Bas la dɔ nu.", "domain": "transport"}
+{"fr": "Je prends le taxi.", "mina": "Me kple taksi.", "domain": "transport"}
+{"fr": "La voiture est pleine.", "mina": "Kpɔtɔ la xlɛ.", "domain": "transport"}
+{"fr": "Où est la gare ?", "mina": "Gare la nye nanɛɔ ?", "domain": "transport"}
+{"fr": "Je vais à Lomé.", "mina": "Me ya lɔ Lomé.", "domain": "transport"}
+{"fr": "Le train arrive.", "mina": "Siklet la bɔ.", "domain": "transport"}
+{"fr": "L'avion vole haut.", "mina": "Kakɛ la tso nu.", "domain": "transport"}
+{"fr": "Le bateau a coulé.", "mina": "Dzata la nu ɖe.", "domain": "transport"}
+{"fr": "La route est longue.", "mina": "Anyimɔ la ɖe.", "domain": "transport"}
+{"fr": "Le pont est cassé.", "mina": "ʋu la wu.", "domain": "transport"}
+{"fr": "J'attends le bus.", "mina": "Me tso bas.", "domain": "transport"}
+{"fr": "Le chauffeur conduit vite.", "mina": "Sɔwɔla la ɖe nɔ.", "domain": "transport"}
+{"fr": "L'essence est chère.", "mina": "Petro la kɔ.", "domain": "transport"}
+{"fr": "J'ai payé le ticket.", "mina": "Me kple bilɛ.", "domain": "transport"}
+{"fr": "Le moteur tourne.", "mina": "Motɔ la kɔ.", "domain": "transport"}
+{"fr": "La roue est plate.", "mina": "Wɔ la wu.", "domain": "transport"}
+{"fr": "Le siège est confortable.", "mina": "Tu la ku.", "domain": "transport"}
+{"fr": "Je traverse la rue.", "mina": "Me kple anyimɔ.", "domain": "transport"}
+{"fr": "Le carrefour est loin.", "mina": "Dɔdɔ la ɖe.", "domain": "transport"}
+{"fr": "Il y a un embouteillage.", "mina": "Dɔdze aɖe ɖe.", "domain": "transport"}
+{"fr": "Le taxi est rapide.", "mina": "Taksi la nɔ.", "domain": "transport"}
+{"fr": "Où va ce bus ?", "mina": "Bas sia ya kɔ nanɛɔ ?", "domain": "transport"}
+{"fr": "Je descends ici.", "mina": "Me si hi.", "domain": "transport"}
+{"fr": "Le feu est rouge.", "mina": "Hənya la blabo.", "domain": "transport"}
+{"fr": "La gare est bondée.", "mina": "Gare la blɔ.", "domain": "transport"}
+{"fr": "Le passager est en retard.", "mina": "Dɔliwo la ɖe ƒe.", "domain": "transport"}
+{"fr": "J'ai oublié mon ticket.", "mina": "Me li bilɛ na.", "domain": "transport"}
+{"fr": "Le trajet est court.", "mina": "Dɔli la fifi.", "domain": "transport"}
+{"fr": "Le chauffeur est fatigué.", "mina": "Sɔwɔla la xɔ.", "domain": "transport"}
+{"fr": "L'horaire est affiché.", "mina": "ƒe sia la tso.", "domain": "transport"}
+{"fr": "Le prix du transport est bas.", "mina": "Kɔnɛɔ la fifi.", "domain": "transport"}
+{"fr": "Je marche vers la gare.", "mina": "Me ɖe ya gare.", "domain": "transport"}
+{"fr": "La distance est de 100 km.", "mina": "Ku la ɖe kpa ta.", "domain": "transport"}
+{"fr": "Le bus s'est arrêté.", "mina": "Bas la dra.", "domain": "transport"}
+{"fr": "J'ai raté le dernier bus.", "mina": "Me wu bas ɖe.", "domain": "transport"}
+{"fr": "Le taxi coûte combien ?", "mina": "Taksi la kɔ nanɛɔ ?", "domain": "transport"}
+{"fr": "La charrette est cassée.", "mina": "Wuwu la wu.", "domain": "transport"}
+{"fr": "Le voyage a été long.", "mina": "Dɔdze la ɖe.", "domain": "transport"}
+{"fr": "Je veux aller à Aného.", "mina": "Me dzɔ ya Aného.", "domain": "transport"}
+{"fr": "Le pont est dangereux.", "mina": "ʋu la sɔ.", "domain": "transport"}
+{"fr": "La route est mouillée.", "mina": "Anyimɔ la ɖu.", "domain": "transport"}
+{"fr": "L'arrêt de bus est plein.", "mina": "Basfɔ la blɔ.", "domain": "transport"}
+{"fr": "J'ai trouvé une place.", "mina": "Me ku funya aɖe.", "domain": "transport"}
+{"fr": "Le moteur est en panne.", "mina": "Motɔ la wu.", "domain": "transport"}
+{"fr": "Je monte dans le bus.", "mina": "Me nɔ bas me.", "domain": "transport"}
+{"fr": "La moto roule vite.", "mina": "Moto la kɔ nɔ.", "domain": "transport"}
+{"fr": "Le bicycle est ancien.", "mina": "Siklɛ la du.", "domain": "transport"}
+{"fr": "Le feu est vert.", "mina": "Hənya la gbɔ.", "domain": "transport"}
+{"fr": "J'arrive à Tsévié.", "mina": "Me bɔ Tsévié.", "domain": "transport"}
+{"fr": "Le交通 est fluide.", "mina": "Dɔdze la ɖu.", "domain": "transport"}
+{"fr": "Merci pour le transport.", "mina": "Nyamedzo na dɔdze la.", "domain": "transport"}
+{"fr": "Ma mère est à la maison.", "mina": "Nyɔ̱ ɖevi ŋuƒeƒe la.", "domain": "famille"}
+{"fr": "Mon père est cultivateur.", "mina": "Nyɔ̱ gbã tɔtrɔ.", "domain": "famille"}
+{"fr": "Mon frère cadet habite à Lomé.", "mina": "Nuƒome ŋuƒeƒe ŋɔkɔe ɖa Lomé ta.", "domain": "famille"}
+{"fr": "Ma sœur aînée est institutrice.", "mina": "Nyɔ̱ yɔɖi ɖe nye.", "domain": "famille"}
+{"fr": "Mon fils est malade.", "mina": "D斧 o.", "domain": "famille"}
+{"fr": "Ma fille joue dans la cour.", "mina": "Nyɔ̱ ta sɔ ɖi.", "domain": "famille"}
+{"fr": "Mon grand-père est très âgé.", "mina": "Nyɔ̱ gbãtɔ nye kɔkɔe.", "domain": "famille"}
+{"fr": "Ma grand-mère prépare le repas.", "mina": "Nyɔ̱ yɔɖitɔ nɔ kpɔ dze.", "domain": "famille"}
+{"fr": "Mon oncle est venu hier.", "mina": "Nyɔ̱ ɖɔƒe ɖa nuʋʋa.", "domain": "famille"}
+{"fr": "Ma tante est revenue ce matin.", "mina": "Nyɔ̱ yɔɖiɖe ɖa etɔ̃.", "domain": "famille"}
+{"fr": "J'ai trois enfants.", "mina": "Nye daƒo eli.", "domain": "famille"}
+{"fr": "Mon neveu est un bon élève.", "mina": "Nyɔ̱ d斧 ko vɔ.", "domain": "famille"}
+{"fr": "Ma nièce apprend à coudre.", "mina": "Nyɔ̱ ta ko kɔ ɖaƒe.", "domain": "famille"}
+{"fr": "Mon cousin joue au football.", "mina": "Nyɔ̱ fetɔ ko to ɖi.", "domain": "famille"}
+{"fr": "Ma cousine danse très bien.", "mina": "Nyɔ̱ feta sɔ̃ vɔ.", "domain": "famille"}
+{"fr": "Mon petit-fils est né le mois dernier.", "mina": "Nyɔ̱ gbã o wuƒeƒe ɖa xexe.", "domain": "famille"}
+{"fr": "Ma petite-fille s'appelle Akua.", "mina": "Nyɔ̱ yɔɖi o ŋlɔ nye Akua.", "domain": "famille"}
+{"fr": "Mon beau-père est artisan.", "mina": "Nyɔ̱ ɖɔƒeɖe ko vɔ.", "domain": "famille"}
+{"fr": "Ma belle-mère est vendeuse.", "mina": "Nyɔ̱ yɔɖiɖe ko dzɔ.", "domain": "famille"}
+{"fr": "Mon beau-frère est cultivateur.", "mina": "Nyɔ̱ fetɔ ko tɔtrɔ.", "domain": "famille"}
+{"fr": "Ma belle-sœur fait la cuisine.", "mina": "Nyɔ̱ feta ko ɖa kpɔ.", "domain": "famille"}
+{"fr": "Mon gendre est policeman.", "mina": "Nyɔ̱ gbã o ko nuƒo.", "domain": "famille"}
+{"fr": "Ma bru est institutrice.", "mina": "Nyɔ̱ ta o ko ɖokpɔ.", "domain": "famille"}
+{"fr": "J'aime ma famille.", "mina": "Nye ku na nyɔ̱a.", "domain": "famille"}
+{"fr": "La famille est précieuse.", "mina": "Nyɔ̱a ŋlɔ vɔ.", "domain": "famille"}
+{"fr": "Nous mangeons ensemble le soir.", "mina": "Mie ɖaɖaƒe ɖi.", "domain": "famille"}
+{"fr": "Mon père cultivate le champ.", "mina": "Nyɔ̱ gbã ko kplo.", "domain": "famille"}
+{"fr": "Ma mère vend au marché.", "mina": "Nyɔ̱ ɖevi ko dzɔ ɖa kplɔe.", "domain": "famille"}
+{"fr": "Mon frère travaille à Aného.", "mina": "Nuƒome koƒe ɖa Aného.", "domain": "famille"}
+{"fr": "Ma sœur garde les enfants.", "mina": "Nyɔ̱ yɔɖi ko ɖaƒi eli.", "domain": "famille"}
+{"fr": "Mon fils lit le livre.", "mina": "Nyɔ̱ o ko ku ɖaƒe.", "domain": "famille"}
+{"fr": "Ma fille lave les vêtements.", "mina": "Nyɔ̱ ta ko ɖa xɔ.", "domain": "famille"}
+{"fr": "Mon oncle construit une maison.", "mina": "Nyɔ̱ ɖɔƒe ko wuƒe.", "domain": "famille"}
+{"fr": "Ma tante prépare le repas.", "mina": "Nyɔ̱ yɔɖiɖe ko kpɔ dze.", "domain": "famille"}
+{"fr": "Mon neveu est à l'école.", "mina": "Nyɔ̱ d斧 ko ɖa kpɔ.", "domain": "famille"}
+{"fr": "Ma nièce chante au chorale.", "mina": "Nyɔ̱ ta ko ɖe gbe.", "domain": "famille"}
+{"fr": "Mon cousin pêche au fleuve.", "mina": "Nyɔ̱ fetɔ ko ɖo nu.", "domain": "famille"}
+{"fr": "Ma cousine tresse les cheveux.", "mina": "Nyɔ̱ feta ko ɖaƒi.", "domain": "famille"}
+{"fr": "Mon grand-père conte des histoires.", "mina": "Nyɔ̱ gbãtɔ ko ɖe ɖeƒe.", "domain": "famille"}
+{"fr": "Ma grand-mère prie chaque jour.", "mina": "Nyɔ̱ yɔɖitɔ ko ɖe nyane.", "domain": "famille"}
+{"fr": "Les enfants jouent dehors.", "mina": "Eli ko sɔ ɖaƒe.", "domain": "famille"}
+{"fr": "Mon père dort sous le mbeli.", "mina": "Nyɔ̱ gbã ko ɖo ɖa xexe.", "domain": "famille"}
+{"fr": "Ma mère se lève tôt le matin.", "mina": "Nyɔ̱ ɖevi ko ɖu etɔ̃.", "domain": "famille"}
+{"fr": "Mon petit-fils pleure souvent.", "mina": "Nyɔ̱ gbã o ko lɔ.", "domain": "famille"}
+{"fr": "Ma petite-fille rit beaucoup.", "mina": "Nyɔ̱ yɔɖi o ko ɖe.", "domain": "famille"}
+{"fr": "Mon fils aîné est marié.", "mina": "Nyɔ̱ o ɖe ko ɖo.", "domain": "famille"}
+{"fr": "Ma fille aînée est mariée.", "mina": "Nyɔ̱ ta ɖe ko ɖo.", "domain": "famille"}
+{"fr": "Mon gendre construit sa propre maison.", "mina": "Nyɔ̱ gbã o ko ɖe.", "domain": "famille"}
+{"fr": "Ma bru soigne ma mère.", "mina": "Nyɔ̱ ta o ko ɖe nyɔ̱ ɖevi.", "domain": "famille"}
+{"fr": "La famille se réunit chaque dimanche.", "mina": "Nyɔ̱a ko ɖaɖaƒe ɖa nyɔ̃.", "domain": "famille"}
+{"fr": "Nous aimons notre famille.", "mina": "Mie ku na nyɔ̱a.", "domain": "famille"}
+{"fr": "La famille est notre richesse.", "mina": "Nyɔ̱a nye mɔ.", "domain": "famille"}
+{"fr": "Le fidèle sert Dieu.", "mina": "Katɔlɛki fia Mawu.", "domain": "religion"}
+{"fr": "L'élève entre en classe.", "mina": "Mɔ anɔ xa.", "domain": "education"}
+{"fr": "Le maître enseigne la leçon.", "mina": "Mɛlɔ kplɔ nu.", "domain": "education"}
+{"fr": "L'enfant lit le livre.", "mina": "Kɔ anɔ agbɛsɔ.", "domain": "education"}
+{"fr": "La fillette écrit au tableau.", "mina": "Kɔtinyi sɔ nu tɔn.", "domain": "education"}
+{"fr": "L'école commence à sept heures.", "mina": "Axa nɔ dzɔ ɖo ɖokpoe ɖe.", "domain": "education"}
+{"fr": "L'examen finit demain.", "mina": "Nyityɔwo va ɖo ɣetrɔ.", "domain": "education"}
+{"fr": "Le maître corrige les devoirs.", "mina": "Mɛlɔ nɔ fafa nuwowɔme.", "domain": "education"}
+{"fr": "L'élève répond à la question.", "mina": "Mɔ ta nu le didi.", "domain": "education"}
+{"fr": "Le cartable est sur la table.", "mina": "Nyɔnu nɔ ɖo te ɖokpo.", "domain": "education"}
+{"fr": "La craie est blanche.", "mina": "Kakaɖa nɔ wɛ ɖe.", "domain": "education"}
+{"fr": "J'apprends à lire le mina.", "mina": "Mɛnɔ mɔ kpɔ nu na.", "domain": "education"}
+{"fr": "La leçon est difficile.", "mina": "Nu nɔ wɔ blɔ.", "domain": "education"}
+{"fr": "Le maître explique la grammaire.", "mina": "Mɛlɔ nɔ sɔ amɛ凡 nu.", "domain": "education"}
+{"fr": "L'élève fait ses devoirs.", "mina": "Mɔ nɔ wɔ nuwowɔme.", "domain": "education"}
+{"fr": "La classe est silencieuse.", "mina": "Xa nɔ ŋuŋlɔ.", "domain": "education"}
+{"fr": "Le directeur est dans le bureau.", "mina": "Tɔgbui nɔ ɖo taɖaɖa.", "domain": "education"}
+{"fr": "J'aime beaucoup l'école.", "mina": "Mɛnɔ ɖa axa.", "domain": "education"}
+{"fr": "L'ami prête son livre.", "mina": "Nyitɔ kpɔ agbɛsɔe ɖo.", "domain": "education"}
+{"fr": "La carte du Togo est sur le mur.", "mina": "Xexefia tɔn nɔ ɖo dzata.", "domain": "education"}
+{"fr": "Le maître punit l'élève indiscipliné.", "mina": "Mɛlɔ ta mɔ aɖɛ.", "domain": "education"}
+{"fr": "L'élève prépare son sac.", "mina": "Mɔ nɔ fɔ nyɔnue.", "domain": "education"}
+{"fr": "La cloche sonne le matin.", "mina": "Gɔnɔ nɔ xu ɖo ɣetrɔ.", "domain": "education"}
+{"fr": "Le tableau est noir.", "mina": "Tɔn nɔ wɛ ɖa.", "domain": "education"}
+{"fr": "J'ai réussi mon examen.", "mina": "Nyityɔwo katɔ mɛ.", "domain": "education"}
+{"fr": "Le livre de mathématiques est lourd.", "mina": "Agbɛsɔ aɖɛ nɔ to.", "domain": "education"}
+{"fr": "La maîtresse sourit aux enfants.", "mina": "Mɛlɔtinyi nɔ bɔa kɔwo.", "domain": "education"}
+{"fr": "L'école est loin de la maison.", "mina": "Axa nɔ kpli tɔn.", "domain": "education"}
+{"fr": "L'élève compte jusqu'à cent.", "mina": "Mɔ nɔ yra ɖo alafia.", "domain": "education"}
+{"fr": "Le crayon sert à écrire.", "mina": "Sɔnu nɔ na sɔ nu.", "domain": "education"}
+{"fr": "La fenêtre de la classe est ouverte.", "mina": "Xaxata xa tɔn nɔ kpɔ.", "domain": "education"}
+{"fr": "L'examen commence demain.", "mina": "Nyityɔwo nɔ dzɔ ɖo ɣetrɔ.", "domain": "education"}
+{"fr": "Le maître dicte une phrase.", "mina": "Mɛlɔ nɔ sɔ anyifyo.", "domain": "education"}
+{"fr": "Le pupitre est devant le tableau.", "mina": "Teɖokpo nɔ ɖo tɔn do.", "domain": "education"}
+{"fr": "L'élève lève la main.", "mina": "Mɔ nɔ gblɔa.", "domain": "education"}
+{"fr": "La craie tombe par terre.", "mina": "Kakaɖa nɔ dzi te.", "domain": "education"}
+{"fr": "J'apporte mon cahier.", "mina": "Mɛtɔ kɔnuɖa.", "domain": "education"}
+{"fr": "Le maître donne un exemple.", "mina": "Mɛlɔ nɔ sɔ nu ta.", "domain": "education"}
+{"fr": "La récréation dure quinze minutes.", "mina": "Nyɔɖɔɖɔ nɔ ta alafa.", "domain": "education"}
+{"fr": "L'école a un grand terrain.", "mina": "Axa nɔ na tɔ.", "domain": "education"}
+{"fr": "Le directeur fait un discours.", "mina": "Tɔgbui nɔ xɔ nu.", "domain": "education"}
+{"fr": "L'élève écoute le maître.", "mina": "Mɔ nɔ sɛ mɛlɔ.", "domain": "education"}
+{"fr": "La cloche sonne à midi.", "mina": "Gɔnɔ nɔ xu ɖo ɣle.", "domain": "education"}
+{"fr": "La leçon de sciences est intéressante.", "mina": "Nuwɔna nɔ ɖa.", "domain": "education"}
+{"fr": "J'étudie le français tous les jours.", "mina": "Mɛwɔ xexefa ɖo nuwɔtɔ.", "domain": "education"}
+{"fr": "Le livre est sous la chaise.", "mina": "Agbɛsɔ nɔ ɖo toɖa.", "domain": "education"}
+{"fr": "La carte du monde est grande.", "mina": "Xexefia aɖɛ nɔ to.", "domain": "education"}
+{"fr": "L'examen de fin d'année approche.", "mina": "Nyityɔ aɖɛ nɔ yɔ.", "domain": "education"}
+{"fr": "Le maître distribue les copies.", "mina": "Mɛlɔ nɔ kpɔ nuwɔme.", "domain": "education"}
+{"fr": "La bibliothèque est ouverte.", "mina": "Nuwɔnaaxa nɔ kpɔ.", "domain": "education"}
+{"fr": "J'emprunte un livre à la bibliothèque.", "mina": "Mɛkplɔ agbɛsɔ ɖo nuwɔnaaxa.", "domain": "education"}
+{"fr": "Les amis révisent ensemble.", "mina": "Nyitɔwo nɔ wɔ anyi.", "domain": "education"}
+{"fr": "Je suis fonctionnaire.", "mina": "Nye nɔdrɔ̃.", "domain": "administration"}
+{"fr": "J'ai un travail à faire.", "mina": "Nyɛ gbetɔ le nye ta.", "domain": "administration"}
+{"fr": "Je veux un certificat de naissance.", "mina": "Nyɛ aɖaŋlɔ̃ ɖo nyɔnɔ ta a.", "domain": "administration"}
+{"fr": "J'ai perdu ma carte d'identité.", "mina": "Nyɛ xɔsrɔ̃ ɖo eƒe le kple.", "domain": "administration"}
+{"fr": "Je veux ouvrir un dossier.", "mina": "Nyɛ xɔsrɔ̃ lugbɔ a.", "domain": "administration"}
+{"fr": "Le bureau est ouvert.", "mina": "Axa gbo.", "domain": "administration"}
+{"fr": "Le bureau est fermé.", "mina": "Axa to.", "domain": "administration"}
+{"fr": "J'ai besoin d'un formulaire.", "mina": "Nyɛ aɖaŋlɔ̃ xɔsrɔ̃ a.", "domain": "administration"}
+{"fr": "Où est le guichet ?", "mina": "Se xɔsrɔ̃ le a ?", "domain": "administration"}
+{"fr": "Le guichet est là-bas.", "mina": "Se xɔsrɔ̃ le exale.", "domain": "administration"}
+{"fr": "Donnez-moi un reçu.", "mina": "Nyɔnɔ xɔsrɔ̃ ta na nyɛ.", "domain": "administration"}
+{"fr": "Le reçu est ici.", "mina": "Nyɔnɔ xɔsrɔ̃ ta le axaɔ.", "domain": "administration"}
+{"fr": "Je cherche le chef de bureau.", "mina": "Nyɛ fia ɖo axa xɔsrɔ̃ ta.", "domain": "administration"}
+{"fr": "Le chef de bureau est absent.", "mina": "Fia ɖo axa xɔsrɔ̃ ta va ko.", "domain": "administration"}
+{"fr": "Le chef de bureau est présent.", "mina": "Fia ɖo axa xɔsrɔ̃ ta va.", "domain": "administration"}
+{"fr": "Le dossier est prêt.", "mina": "Xɔsrɔ̃ ko.", "domain": "administration"}
+{"fr": "Le dossier n'est pas prêt.", "mina": "Xɔsrɔ̃ ko a.", "domain": "administration"}
+{"fr": "Le dossier est incomplet.", "mina": "Xɔsrɔ̃ le gbogbo.", "domain": "administration"}
+{"fr": "Le dossier est complet.", "mina": "Xɔsrɔ̃ gbogbo.", "domain": "administration"}
+{"fr": "Je veux payer les frais.", "mina": "Nyɛ srafa ta a.", "domain": "administration"}
+{"fr": "Combien coûtent les frais ?", "mina": "Srafa le vɔ ?", "domain": "administration"}
+{"fr": "Les frais ne suffisent pas.", "mina": "Srafa va ko.", "domain": "administration"}
+{"fr": "Le délai est de combien de jours ?", "mina": "Kɔkɔtɔ le vɔ ?", "domain": "administration"}
+{"fr": "Le délai est de trois jours.", "mina": "Kɔkɔtɔ le eƒe.", "domain": "administration"}
+{"fr": "C'est urgent.", "mina": "Eya gɔ̃.", "domain": "administration"}
+{"fr": "Ce n'est pas urgent.", "mina": "Eya gɔ̃ a.", "domain": "administration"}
+{"fr": "Je veux signer le document.", "mina": "Nyɛ nyɔnɔ xɔsrɔ̃ ɖa a.", "domain": "administration"}
+{"fr": "Où dois-je signer ?", "mina": "Nyɛ ɖa le a ?", "domain": "administration"}
+{"fr": "Signez ici.", "mina": "Ɖa axaɔ.", "domain": "administration"}
+{"fr": "Merci pour votre aide.", "mina": "Nyɛ ta e ɖa wò.", "domain": "administration"}
+{"fr": "De rien.", "mina": "Ahiamba.", "domain": "administration"}
+{"fr": "Revenez demain.", "mina": "Va gɔ.", "domain": "administration"}
+{"fr": "Attendez là.", "mina": "Dɔ ɖaka exale.", "domain": "administration"}
+{"fr": "Entrez, s'il vous plaît.", "mina": "Gbo axaɔ.", "domain": "administration"}
+{"fr": "Veuillez vous asseoir.", "mina": "Tso le ta.", "domain": "administration"}
+{"fr": "Je suis citoyen.", "mina": "Nyɛ ame ɖo dukɔ.", "domain": "administration"}
+{"fr": "Je suis étranger.", "mina": "Nyɛ ame ɖo gbesi.", "domain": "administration"}
+{"fr": "Le document n'est pas disponible.", "mina": "Nyɔnɔ xɔsrɔ̃ le a.", "domain": "administration"}
+{"fr": "Le document est disponible.", "mina": "Nyɔnɔ xɔsrɔ̃ le.", "domain": "administration"}
+{"fr": "J'ai fait ma demande.", "mina": "Nyɛ nyɔnɔ ɖo.", "domain": "administration"}
+{"fr": "Ma demande est en cours.", "mina": "Nye nyɔnɔ ɖo va.", "domain": "administration"}
+{"fr": "La procédure est claire.", "mina": "Nyɔnɔ gbɔtɔ wo.", "domain": "administration"}
+{"fr": "Le délai est long.", "mina": "Kɔkɔtɔ gɔ̃.", "domain": "administration"}
+{"fr": "Le bureau est loin.", "mina": "Axa ɖo ta.", "domain": "administration"}
+{"fr": "La file d'attente est longue.", "mina": "Ame ɖo axa ta dodo.", "domain": "administration"}
+{"fr": "J'ai déjà payé.", "mina": "Nyɛ srafa ta ko.", "domain": "administration"}
+{"fr": "Le cachet est ici.", "mina": "Nyɔnɔ se le axaɔ.", "domain": "administration"}
+{"fr": "Le cachet n'est pas là.", "mina": "Nyɔnɔ se le a.", "domain": "administration"}
+{"fr": "Mon dossier est retenu.", "mina": "Nye xɔsrɔ̃ le ta.", "domain": "administration"}
+{"fr": "Le fonctionnaire est occupé.", "mina": "Nɔdrɔ̃ gbetɔ ta.", "domain": "administration"}
+{"fr": "Le fonctionnaire est libre.", "mina": "Nɔdrɔ̃ gbetɔ a.", "domain": "administration"}
+{"fr": "Il faut attendre.", "mina": "E na dɔ a.", "domain": "administration"}
