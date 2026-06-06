@@ -2,6 +2,13 @@
 crowdsource_app.py - Application Streamlit pour le crowdsourcing Mina → Français
 ================================================================================
 
+Une application MINIMALISTE où les utilisateurs :
+1. Écoutent une phrase en Mina (audio aléatoire)
+2. Tapez la traduction en français
+3. Valident et passent au suivant
+
+Les données sont stockées dans SQLite (local) ET Google Sheets (cloud).
+
 Usage:
     streamlit run crowdsource_app.py
 
@@ -24,8 +31,93 @@ PROJECT_ROOT = Path(__file__).parent
 DB_PATH = PROJECT_ROOT / "data" / "mina_crowdsource.db"
 CV_PATH = PROJECT_ROOT / "data" / "cv-corpus-25.0-2026-03-09" / "gej"
 
+# Google Sheets (optionnel - les données sont toujours stockées en SQLite)
+USE_GOOGLE_SHEETS = os.environ.get("USE_GOOGLE_SHEETS", "false").lower() == "true"
+GOOGLE_SPREADSHEET_ID = os.environ.get("GOOGLE_SPREADSHEET_ID", "")
+CREDENTIALS_FILE = PROJECT_ROOT / "credentials.json"
+
+# Code secret pour télécharger la base (à changer!)
+ADMIN_CODE = os.environ.get("Yohann", "1604")
+
 # =============================================================================
-# FONCTIONS
+# FONCTIONS GOOGLE SHEETS
+# =============================================================================
+
+def init_google_sheets():
+    """Initialise la connexion Google Sheets"""
+
+    if not USE_GOOGLE_SHEETS:
+        return None
+
+    if not GOOGLE_SPREADSHEET_ID:
+        return None
+
+    if not CREDENTIALS_FILE.exists():
+        return None
+
+    try:
+        import gspread
+        from google.oauth2.service_account import Credentials
+
+        scopes = [
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive"
+        ]
+        credentials = Credentials.from_service_account_file(
+            str(CREDENTIALS_FILE),
+            scopes=scopes
+        )
+        gc = gspread.authorize(credentials)
+
+        # Ouvrir le spreadsheet
+        spreadsheet = gc.open_by_key(GOOGLE_SPREADSHEET_ID)
+        sheet = spreadsheet.sheet1
+
+        # Créer les en-têtes si vide
+        if not sheet.get_all_records():
+            sheet.append_row([
+                'audio_id',
+                'audio_path',
+                'mina_text',
+                'french_text',
+                'translation_type',
+                'created_at',
+                'session_id'
+            ])
+
+        return sheet
+
+    except Exception as e:
+        st.warning(f"⚠️ Google Sheets non disponible: {e}")
+        return None
+
+
+def save_to_google_sheets(sheet, audio_id, mina_text, french_text, session_id):
+    """Sauvegarde une traduction dans Google Sheets"""
+
+    if sheet is None:
+        return False
+
+    try:
+        from datetime import datetime
+
+        sheet.append_row([
+            audio_id,
+            str(CV_PATH / 'clips' / f'{audio_id}.mp3'),
+            mina_text,
+            french_text,
+            'text',
+            datetime.now().isoformat(),
+            session_id
+        ])
+        return True
+
+    except Exception as e:
+        return False
+
+
+# =============================================================================
+# FONCTIONS BASE DE DONNÉES
 # =============================================================================
 
 def init_database():
@@ -43,7 +135,7 @@ def init_database():
             audio_path TEXT,
             mina_text TEXT NOT NULL,
             french_text TEXT,
-            translation_type TEXT,
+            translation_type TEXT DEFAULT 'text',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             session_id TEXT
         )
@@ -111,7 +203,7 @@ def get_next_audio(audios, session_id):
     return random.choice(available)
 
 
-def save_translation(audio_id, mina_text, french_text, translation_type, session_id):
+def save_translation(audio_id, mina_text, french_text, session_id, sheet=None):
     """Enregistre une traduction"""
 
     conn = sqlite3.connect(str(DB_PATH))
@@ -120,13 +212,12 @@ def save_translation(audio_id, mina_text, french_text, translation_type, session
     cursor.execute("""
         INSERT INTO translations
         (audio_id, audio_path, mina_text, french_text, translation_type, session_id)
-        VALUES (?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, 'text', ?)
     """, (
         audio_id,
         str(CV_PATH / 'clips' / f'{audio_id}.mp3'),
         mina_text,
         french_text,
-        translation_type,
         session_id
     ))
 
@@ -137,6 +228,10 @@ def save_translation(audio_id, mina_text, french_text, translation_type, session
 
     conn.commit()
     conn.close()
+
+    # Also save to Google Sheets if available
+    if sheet:
+        save_to_google_sheets(sheet, audio_id, mina_text, french_text, session_id)
 
 
 def get_stats():
@@ -187,34 +282,25 @@ def main():
         layout="centered"
     )
 
-    # Style CSS personnalisé - fond sombre pour meilleur contraste
+    # Style CSS - fond sombre pour meilleur contraste
     st.markdown("""
     <style>
-    /* Fond de la page */
     .stApp {
         background-color: #1a1a2e;
     }
-
-    /* Titres */
     h1, h2, h3 {
         color: #ffffff !important;
     }
-
-    /* Texte général */
     .stText, .stTextArea, p {
         color: #e0e0e0 !important;
     }
-
-    /* Boîtes de contenu */
     .content-box {
         background-color: #16213e;
-        padding: 20px;
+        padding: 25px;
         border-radius: 15px;
-        margin: 10px 0;
+        margin: 15px 0;
         border: 2px solid #0f3460;
     }
-
-    /* Boutons */
     .stButton > button {
         background-color: #e94560;
         color: white;
@@ -223,30 +309,18 @@ def main():
         border-radius: 10px;
         border: none;
         font-weight: bold;
+        width: 100%;
     }
-
     .stButton > button:hover {
         background-color: #ff6b6b;
     }
-
-    /* Radio buttons */
-    .stRadio > div {
-        background-color: #16213e;
-        padding: 10px;
-        border-radius: 10px;
-    }
-
-    /* Metrics */
     [data-testid="stMetricValue"] {
         color: #00d9ff !important;
         font-size: 24px;
     }
-
     [data-testid="stMetricLabel"] {
         color: #ffffff !important;
     }
-
-    /* Info boxes */
     .info-box {
         background-color: #0f3460;
         padding: 15px;
@@ -254,13 +328,20 @@ def main():
         color: #ffffff;
         margin: 10px 0;
     }
-
-    /* Success message */
     .success-box {
         background-color: #1b5e20;
         padding: 15px;
         border-radius: 10px;
         color: #ffffff;
+    }
+    textarea {
+        background-color: #0f3460 !important;
+        color: #ffffff !important;
+        border: 2px solid #00d9ff !important;
+        border-radius: 10px !important;
+    }
+    textarea::placeholder {
+        color: #888888 !important;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -272,8 +353,9 @@ def main():
     if 'current_audio' not in st.session_state:
         st.session_state.current_audio = None
 
-    # Initialiser la base
+    # Initialiser la base et Google Sheets
     init_database()
+    google_sheet = init_google_sheets()
 
     # ============================================================
     # HEADER
@@ -286,10 +368,20 @@ def main():
             Aidez-nous à traduire le <strong>Mina</strong> en <strong>Français</strong>
         </p>
         <p style="color: #888; font-size: 14px;">
-            🎵 Écoutez • 🎙️ Enregistrez ou tapez • ✅ Validez
+            🎵 Écoutez • ✍️ Tapez la traduction • ✅ Validez
         </p>
     </div>
     """, unsafe_allow_html=True)
+
+    # Indicateur Google Sheets
+    if google_sheet:
+        st.markdown("""
+        <div style="text-align: center; padding: 5px; margin-bottom: 15px;">
+            <span style="background-color: #1b5e20; padding: 5px 15px; border-radius: 20px; color: #4caf50;">
+                ☁️ Synchronisé avec Google Sheets
+            </span>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("---")
 
@@ -312,6 +404,46 @@ def main():
         st.metric("👤 Vos traductions", user_stats)
 
     st.markdown("---")
+
+    # ============================================================
+    # SIDEBAR - ZONE ADMIN (CODE SECRET)
+    # ============================================================
+
+    with st.sidebar:
+        st.markdown("---")
+        st.markdown("### 🔐 Zone Admin")
+
+        # Champ pour le code secret
+        code_input = st.text_input("Entrez le code secret", type="password")
+
+        if code_input == ADMIN_CODE:
+            st.success("✅ Code correct!")
+
+            # Bouton de téléchargement
+            st.markdown("---")
+            st.markdown("### 📥 Téléchargement")
+
+            if os.path.exists(DB_PATH):
+                with open(DB_PATH, "rb") as f:
+                    db_data = f.read()
+                    st.download_button(
+                        label="💾 Télécharger la Base",
+                        data=db_data,
+                        file_name="mina_crowdsource.db",
+                        mime="application/octet-stream"
+                    )
+
+                # Statistiques
+                st.markdown("---")
+                st.markdown("### 📊 Stats Base")
+                stats = get_stats()
+                st.write(f"Total traductions: **{stats['total']}**")
+                st.write(f"Audios uniques: **{stats['unique']}**")
+            else:
+                st.warning("⚠️ Base non trouvée")
+
+        elif code_input:
+            st.error("❌ Code incorrect")
 
     # ============================================================
     # ZONE AUDIO MINA
@@ -350,7 +482,9 @@ def main():
     # Zone audio
     st.markdown("""
     <div class="content-box">
-        <h2 style="color: #00d9ff; text-align: center;">🎵 Écoutez la phrase en Mina</h2>
+        <h2 style="color: #00d9ff; text-align: center; margin-bottom: 20px;">
+            🎵 Écoutez la phrase en Mina
+        </h2>
     </div>
     """, unsafe_allow_html=True)
 
@@ -377,64 +511,23 @@ def main():
     st.markdown("---")
 
     # ============================================================
-    # ZONE TRADUCTION
+    # ZONE TRADUCTION (TEXTE SEULEMENT)
     # ============================================================
 
     st.markdown("""
     <div class="content-box">
-        <h2 style="color: #00d9ff; text-align: center;">✍️ Traduisez en Français</h2>
+        <h2 style="color: #00d9ff; text-align: center; margin-bottom: 20px;">
+            ✍️ Tapez la traduction en Français
+        </h2>
     </div>
     """, unsafe_allow_html=True)
 
-    # Choix du mode de traduction
-    st.markdown("""
-    <div style="background-color: #16213e; padding: 15px; border-radius: 10px; margin: 10px 0;">
-        <p style="color: #ffffff; margin: 0;">Choisissez comment traduire :</p>
-    </div>
-    """, unsafe_allow_html=True)
-
-    translation_mode = st.radio(
+    french_text = st.text_area(
         "",
-        ["✍️ Taper la traduction", "🎙️ Enregistrer ma voix"],
-        horizontal=True,
+        placeholder="Tapez ici votre traduction en français...",
+        height=150,
         label_visibility="collapsed"
     )
-
-    french_text = None
-
-    if translation_mode == "✍️ Taper la traduction":
-        st.markdown("""
-        <div style="background-color: #16213e; padding: 15px; border-radius: 10px; margin: 10px 0;">
-            <p style="color: #ffffff;">Tapez votre traduction française :</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-        french_text = st.text_area(
-            "",
-            placeholder="Ex: Bonjour, comment allez-vous ?",
-            height=120,
-            label_visibility="collapsed"
-        )
-
-    else:
-        st.markdown("""
-        <div style="background-color: #16213e; padding: 20px; border-radius: 10px; margin: 10px 0; text-align: center;">
-            <h3 style="color: #00d9ff;">🎙️ Enregistrement vocal</h3>
-            <p style="color: #ffffff;">
-                Utilisez le bouton ci-dessous pour enregistrer votre voix en français.<br>
-                <em style="color: #888;">(L'enregistrement sera sauvegardé avec la traduction)</em>
-            </p>
-            <p style="color: #ff6b6b; font-size: 14px;">
-                ⚠️ L'enregistrement audio nécessite un microphone.
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
-
-        french_text = st.text_area(
-            "Ou tapez la traduction ici (optionnel) :",
-            placeholder="Vous pouvez aussi taper la traduction...",
-            height=80
-        )
 
     st.markdown("---")
 
@@ -463,8 +556,8 @@ def main():
                 audio_id=audio['id'],
                 mina_text=audio['mina'],
                 french_text=french_text.strip(),
-                translation_type="text",
-                session_id=st.session_state.session_id
+                session_id=st.session_state.session_id,
+                sheet=google_sheet
             )
 
             st.session_state.current_audio = get_next_audio(audios, st.session_state.session_id)
@@ -513,7 +606,7 @@ def main():
     <div style="text-align: center; padding: 20px; color: #888;">
         <p>💡 Conseils :</p>
         <p>🎧 Écoutez l'audio plusieurs fois si nécessaire</p>
-        <p>✍️ Tapez votre traduction de manière naturelle</p>
+        <p>✍️ Traduisez de manière naturelle en français</p>
         <p>⏭️ Cliquez sur "Passer" si vous ne comprenez pas</p>
     </div>
     """, unsafe_allow_html=True)
