@@ -55,6 +55,10 @@ pytest-asyncio>=0.23.0
 black>=24.0.0
 ruff>=0.2.0
 
+# === Crowdsource App (Streamlit) ===
+streamlit>=1.28.0
+pandas>=2.0.0
+
 # =============================================
 # INSTALLATION GPU (RTX 4060 8GB)
 # =============================================

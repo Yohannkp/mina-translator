@@ -1,0 +1,44 @@
+# Configuration pour train_whisper.py
+# ====================================
+
+# Modèle de base
+MODEL_NAME: openai/whisper-small
+
+# Langue target
+TARGET_LANGUAGE: French
+LANGUAGE_CODE: fr
+TASK: translate  # ou "transcribe" pour Mina -> Mina
+
+# Répertoires
+CORPUS_FILE: data/corpus/mina_full_dataset.jsonl
+CV_DATASET_DIR: data/cv-corpus-25.0-2026-03-09
+OUTPUT_DIR: models/mina-whisper-v1
+
+# Optimisations VRAM (RTX 4060 - 8 Go)
+PER_DEVICE_TRAIN_BATCH_SIZE: 1
+PER_DEVICE_EVAL_BATCH_SIZE: 1
+GRADIENT_ACCUMULATION_STEPS: 16
+GRADIENT_CHECKPOINTING: true
+FP16: true
+USE_8BIT_QUANTIZATION: true
+
+# Paramètres d'entraînement
+LEARNING_RATE: 0.0001
+WARMUP_STEPS: 500
+MAX_STEPS: 10000
+SAVE_STEPS: 1000
+EVAL_STEPS: 500
+SAVE_TOTAL_LIMIT: 3
+
+# Logging
+LOGGING_STEPS: 100
+REPORT_TO: tensorboard
+
+# Évaluation
+METRIC_FOR_BEST_MODEL: wer
+GREATER_IS_BETTER: false
+PREDICT_WITH_GENERATE: true
+GENERATION_MAX_LENGTH: 225
+
+# Optimizer
+OPTIM: adamw_bnb_8bit

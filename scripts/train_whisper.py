@@ -1,20 +1,36 @@
 """
-Fine-tuning Whisper pour la reconnaissance vocale Mina
-Optimisé pour RTX 4060 8GB VRAM
+scripts/train_whisper.py - Fine-tuning de Whisper-small pour le Mina
+====================================================================
+
+Fine-tuning de openai/whisper-small sur le dataset Mina (gej) optimisé
+pour RTX 4060 avec 8 Go VRAM.
+
+Optimisations VRAM:
+    - Quantification 8-bit avec bitsandbytes
+    - Gradient checkpointing
+    - Gradient accumulation (16 steps)
+    - Mixed precision (fp16)
+    - Optimisation de la longueur de аудио
 
 Usage:
-    python scripts/train_whisper.py --data data/corpus/audio/ --epochs 5
+    python scripts/train_whisper.py [--config config.yaml]
+
+Auteur: Claude Opus 4.8
+Date: 2026-06-02
 """
+
 import os
 import sys
-from pathlib import Path
+import gc
+import json
 import argparse
+from pathlib import Path
+from datetime import datetime
+
+# Vérification GPU
 import torch
-from loguru import logger
 
-# Ajouter le chemin du projet
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
+# Deep Learning
 from transformers import (
     WhisperForConditionalGeneration,
     WhisperProcessor,
@@ -22,311 +38,661 @@ from transformers import (
     WhisperTokenizer,
     Seq2SeqTrainingArguments,
     Seq2SeqTrainer,
+    BitsAndBytesConfig,
 )
-
-# DataCollator peut etre importe differemment selon la version
-try:
-    from transformers import DataCollatorSpeechSeq2SeqWithPadding
-except ImportError:
-    from transformers import DataCollatorForSeq2Seq as DataCollatorSpeechSeq2SeqWithPadding
-
-from datasets import load_dataset, Audio
+from datasets import load_dataset, DatasetDict
 import evaluate
 
+# Logging
+from loguru import logger
 
-# Configuration
-MODEL_NAME = "openai/whisper-small"  # 244M params - optimal pour 8GB VRAM
+# =============================================================================
+# CONFIGURATION
+# =============================================================================
+
+PROJECT_ROOT = Path(__file__).parent.parent
+DATA_DIR = PROJECT_ROOT / "data"
+CORPUS_FILE = DATA_DIR / "corpus" / "mina_full_dataset.jsonl"
+CV_DATASET_DIR = DATA_DIR / "cv-corpus-25.0-2026-03-09"
+CLIPS_DIR = CV_DATASET_DIR / "gej" / "clips"
+
+MODEL_NAME = "openai/whisper-small"
+OUTPUT_DIR = PROJECT_ROOT / "models" / "mina-whisper-v1"
+
+# Configuration des logs
+LOG_DIR = PROJECT_ROOT / "logs"
+LOG_FILE = LOG_DIR / "training.log"
+
+# Paramètres d'entraînement optimisés pour 8 Go VRAM
+TRAINING_CONFIG = {
+    "per_device_train_batch_size": 1,
+    "per_device_eval_batch_size": 1,
+    "gradient_accumulation_steps": 16,  # effectif: 1 * 16 = 16
+    "learning_rate": 1e-4,
+    "warmup_steps": 500,
+    "max_steps": 10000,
+    "gradient_checkpointing": True,
+    "fp16": True,  # Mixed precision
+    "logging_steps": 100,
+    "save_steps": 1000,
+    "eval_steps": 500,
+    "save_total_limit": 3,
+    "predict_with_generate": True,
+    "generation_max_length": 225,
+    "remove_unused_columns": False,
+    "optim": "adamw_bnb_8bit",  # Optimiseur 8-bit
+}
+
+# Langue target
+TARGET_LANGUAGE = "French"  # Mina -> Français (ou "Mina" pour Français -> Mina)
+LANGUAGE_CODE = "fr"  # Code ISO 639-1
+TASK = "translate"  # ou "transcribe"
 
 
-def prepare_dataset(dataset_path: Path, language: str = "mina"):
-    """
-    Prépare le dataset pour l'entraînement Whisper
+# =============================================================================
+# CONFIGURATION DU LOGGING
+# =============================================================================
 
-    Attend une structure:
-        dataset_path/
-            audio1.wav  audio1.txt
-            audio2.wav  audio2.txt
-            ...
-    """
-    logger.info(f"Preparation dataset depuis {dataset_path}")
+def setup_logging():
+    """Configure le logging vers fichier et console"""
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Collecter les fichiers audio et texte
-    audio_files = list(dataset_path.glob("*.wav")) + list(dataset_path.glob("*.mp3"))
+    # Configuration Loguru
+    logger.remove()
 
-    if not audio_files:
-        logger.warning(f"Aucun fichier audio trouve dans {dataset_path}")
-        logger.info("Creation d'un dataset dummy pour demo")
-        return create_demo_dataset()
-
-    data_items = []
-    for audio_file in audio_files:
-        text_file = audio_file.with_suffix(".txt")
-        if text_file.exists():
-            with open(text_file, "r", encoding="utf-8") as f:
-                text = f.read().strip()
-            data_items.append({
-                "audio_path": str(audio_file),
-                "text": text,
-            })
-
-    logger.info(f"Dataset pret: {len(data_items)} exemples")
-
-    # Charger le processor
-    processor = WhisperProcessor.from_pretrained(MODEL_NAME)
-
-    # Créer le dataset HF
-    from datasets import Dataset
-
-    def prepare_example(example):
-        # Charger l'audio
-        audio, sr = librosa_load(example["audio_path"], sampling_rate=16000)
-        input_features = processor(
-            audio, sampling_rate=16000, return_tensors="pt"
-        ).input_features[0]
-
-        # Tokeniser le texte
-        labels = processor.tokenizer(example["text"]).input_ids
-
-        return {
-            "input_features": input_features,
-            "labels": labels,
-        }
-
-    # Note: En production, utiliser load_dataset avec Audio pour gérer le resampling
-    dataset_dict = {
-        "audio_path": [item["audio_path"] for item in data_items],
-        "text": [item["text"] for item in data_items],
-    }
-
-    dataset = Dataset.from_dict(dataset_dict)
-
-    # Prétraitement
-    def preprocess_function(examples):
-        # Charger et traiter audio
-        audio_arrays = []
-        for path in examples["audio_path"]:
-            try:
-                import librosa
-                audio, _ = librosa.load(path, sr=16000)
-                audio_arrays.append(audio)
-            except Exception as e:
-                logger.warning(f"Erreur chargement {path}: {e}")
-                audio_arrays.append(torch.zeros(16000))
-
-        # Feature extraction
-        input_features = processor.feature_extractor(
-            audio_arrays,
-            sampling_rate=16000,
-            padding=True,
-        ).input_features
-
-        # Tokenisation
-        labels = processor.tokenizer(
-            examples["text"],
-            padding=True,
-            truncation=True,
-            max_length=448,
-        )
-
-        return {
-            "input_features": input_features,
-            "labels": labels.input_ids,
-        }
-
-    # Appliquer le prétraitement
-    dataset = dataset.map(
-        preprocess_function,
-        batched=True,
-        batch_size=8,
-        remove_columns=dataset.column_names,
+    # Log vers fichier (avec rotation)
+    logger.add(
+        LOG_FILE,
+        format="{time:YYYY-MM-DD HH:mm:ss} | {level: <8} | {message}",
+        level="INFO",
+        rotation="100 MB",
+        retention="7 days",
+        encoding="utf-8",
     )
 
-    return dataset
+    # Log vers console
+    logger.add(
+        sys.stderr,
+        format="<level>{time:HH:mm:ss}</level> | <level>{message}</level>",
+        level="INFO",
+        colorize=True,
+    )
+
+    return logger
 
 
-def create_demo_dataset():
-    """Crée un dataset de démo pour tester le pipeline"""
-    logger.info("Creation dataset demo...")
+# =============================================================================
+# VÉRIFICATIONS INITIALES
+# =============================================================================
 
-    from datasets import Dataset
+def check_gpu():
+    """Vérifie la disponibilité et les capacités du GPU"""
+    if not torch.cuda.is_available():
+        logger.error("Aucun GPU détecté! Ce script nécessite un GPU NVIDIA avec CUDA.")
+        sys.exit(1)
 
-    # Dataset minimal pour tester
-    demo_data = [
-        {"text": "Mɛlɔ", "audio_path": "demo"},
-        {"text": "Ntsɛ nyabi?", "audio_path": "demo"},
-        {"text": "Nyametsɛ", "audio_path": "demo"},
-    ]
+    gpu_name = torch.cuda.get_device_name(0)
+    gpu_memory = torch.cuda.get_device_properties(0).total_memory / (1024**3)
+    cuda_version = torch.version.cuda
 
-    dataset = Dataset.from_list(demo_data)
-    return dataset
+    logger.info("=" * 60)
+    logger.info("GPU DÉTECTÉ")
+    logger.info("=" * 60)
+    logger.info(f"Modèle: {gpu_name}")
+    logger.info(f"Mémoire VRAM: {gpu_memory:.1f} Go")
+    logger.info(f"CUDA Version: {cuda_version}")
+    logger.info(f"PyTorch Version: {torch.__version__}")
+    logger.info("=" * 60)
+
+    if gpu_memory < 6:
+        logger.warning(f"VRAM ({gpu_memory:.1f} Go) inférieure à 6 Go - utilisation de paramètres très conservatives")
+        TRAINING_CONFIG["gradient_accumulation_steps"] = 32
+        TRAINING_CONFIG["per_device_train_batch_size"] = 1
+
+    return gpu_memory
 
 
-def compute_metrics(pred):
-    """Calcule les métriques WER et CER"""
-    metric = evaluate.load("wer")
-    processor = WhisperProcessor.from_pretrained(MODEL_NAME)
+def check_dependencies():
+    """Vérifie les dépendances nécessaires"""
+    missing = []
 
+    try:
+        import bitsandbytes
+    except ImportError:
+        missing.append("bitsandbytes")
+
+    try:
+        import peft
+    except ImportError:
+        missing.append("peft")
+
+    try:
+        from datasets import load_dataset
+    except ImportError:
+        missing.append("datasets")
+
+    try:
+        import evaluate
+    except ImportError:
+        missing.append("evaluate")
+
+    if missing:
+        logger.error(f"Dépendances manquantes: {missing}")
+        logger.info("Installez-les avec: pip install " + " ".join(missing))
+        sys.exit(1)
+
+    logger.info("Toutes les dépendances sont disponibles")
+
+
+# =============================================================================
+# PRÉPARATION DU DATASET
+# =============================================================================
+
+def load_mina_dataset(corpus_file: Path, clips_dir: Path, streaming: bool = True):
+    """
+    Charge le dataset Mina en mode streaming pour éviter de saturer la RAM
+
+    Args:
+        corpus_file: Chemin vers le fichier JSONL
+        clips_dir: Répertoire contenant les fichiers audio
+        streaming: Mode streaming (True) ou chargement complet (False)
+
+    Returns:
+        DatasetDict avec les splits train/dev/test
+    """
+    logger.info(f"Chargement du dataset depuis {corpus_file}")
+    logger.info(f"Mode streaming: {streaming}")
+
+    # Charger en streaming
+    raw_dataset = load_dataset(
+        "json",
+        data_files=str(corpus_file),
+        split="train",
+        streaming=streaming,
+    )
+
+    # Diviser en train/test
+    if streaming:
+        # Pour le mode streaming, on fait une division simple
+        dataset_list = list(raw_dataset)
+
+        # Séparer selon le split
+        train_data = [d for d in dataset_list if d.get("split") in ["train", "validated"]]
+        test_data = [d for d in dataset_list if d.get("split") in ["test"]]
+        dev_data = [d for d in dataset_list if d.get("split") == ["dev"]]
+
+        # Pour le dev, on prend les derniers éléments du train
+        if len(dev_data) == 0 and len(train_data) > 100:
+            dev_size = min(500, len(train_data) // 10)
+            dev_data = train_data[-dev_size:]
+            train_data = train_data[:-dev_size]
+
+        from datasets import Dataset
+
+        dataset_dict = DatasetDict({
+            "train": Dataset.from_list(train_data),
+            "test": Dataset.from_list(test_data) if test_data else Dataset.from_list(train_data[-500:]),
+            "dev": Dataset.from_list(dev_data) if dev_data else Dataset.from_list(train_data[-500:]),
+        })
+    else:
+        dataset_dict = raw_dataset.train_test_split(test_size=0.1)
+
+    logger.info(f"Dataset chargé: {len(dataset_dict['train'])} train, {len(dataset_dict.get('test', 0))} test")
+
+    return dataset_dict
+
+
+def prepare_dataset(batch, feature_extractor, tokenizer):
+    """
+    Prépare un batch pour l'entraînement Whisper
+
+    - Charge le fichier audio
+    - Extrait les features
+    - Tokenise le texte
+
+    Args:
+        batch: Exemple du dataset
+        feature_extractor: WhisperFeatureExtractor
+        tokenizer: WhisperTokenizer
+
+    Returns:
+        Batch préparer pour l'entraînement
+    """
+    # Construire le chemin complet vers l'audio
+    audio_path = str(CV_DATASET_DIR / batch["audio_path"])
+
+    # Charger et ré-échantillonner l'audio à 16kHz
+    try:
+        import librosa
+        audio, sr = librosa.load(audio_path, sr=16000)
+    except Exception as e:
+        logger.warning(f"Erreur chargement audio {audio_path}: {e}")
+        return {"labels": [], "input_features": []}
+
+    # Extraire les features
+    input_features = feature_extractor(
+        audio,
+        sampling_rate=16000,
+        return_tensors="pt"
+    ).input_features[0]
+
+    # Tokeniser le texte
+    labels = tokenizer(
+        batch["text"],
+        return_tensors="pt",
+        padding="max_length",
+        max_length=448,
+        truncation=True,
+    ).input_ids[0]
+
+    return {
+        "input_features": input_features,
+        "labels": labels,
+    }
+
+
+def prepare_dataset_batch(batch, processor):
+    """
+    Prépare un batch complet avec le processor Whisper
+    Plus efficace pour l'entraînement
+    """
+    from transformers import WhisperProcessor
+
+    # Charger l'audio
+    audio_path = str(CV_DATASET_DIR / batch["audio_path"])
+
+    try:
+        import librosa
+        audio, sr = librosa.load(audio_path, sr=16000)
+    except Exception as e:
+        logger.warning(f"Erreur chargement audio {audio_path}: {e}")
+        return {"labels": [], "input_features": [], "example": batch["text"]}
+
+    # Traiter avec le processor
+    input_features = processor.feature_extractor(
+        audio,
+        sampling_rate=16000,
+        return_tensors="pt"
+    ).input_features[0]
+
+    # Tokeniser
+    labels = processor.tokenizer(
+        batch["text"],
+        return_tensors="pt",
+        padding="max_length",
+        max_length=448,
+        truncation=True,
+    ).input_ids[0]
+
+    return {
+        "input_features": input_features,
+        "labels": labels,
+        "text": batch["text"],  # Garder le texte original pour le WER
+    }
+
+
+# =============================================================================
+# CALCUL DU WER
+# =============================================================================
+
+def compute_metrics(pred, tokenizer, metric):
+    """
+    Calcule le Word Error Rate (WER) pour la génération
+
+    Args:
+        pred: Prédiction du modèle
+        tokenizer: Tokenizer pour décoder
+        metric: Métrique evaluate WER
+
+    Returns:
+        Dictionary avec le WER
+    """
     pred_ids = pred.predictions
     label_ids = pred.label_ids
 
-    # Remplacer -100 par pad token
-    label_ids[label_ids == -100] = processor.tokenizer.pad_token_id
+    # Remplacer -100 par le padding token
+    label_ids[label_ids == -100] = tokenizer.pad_token_id
 
     # Décoder
-    pred_str = processor.batch_decode(pred_ids, skip_special_tokens=True)
-    label_str = processor.batch_decode(label_ids, skip_special_tokens=True)
+    pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=True)
+    label_str = tokenizer.batch_decode(label_ids, skip_special_tokens=True)
 
+    # Filtrer les prédictions vides
+    pred_str = [p if p else "[EMPTY]" for p in pred_str]
+    label_str = [l if l else "[EMPTY]" for l in label_str]
+
+    # Calculer le WER
     wer = metric.compute(predictions=pred_str, references=label_str)
 
     return {"wer": wer}
 
 
-def train_whisper(
-    dataset_path: Path = None,
-    output_dir: Path = None,
-    language: str = "mina",
-    epochs: int = 3,
-    batch_size: int = 8,
-    learning_rate: float = 1e-5,
-):
+# =============================================================================
+# CONFIGURATION DU MODÈLE
+# =============================================================================
+
+def load_quantized_model(model_name: str, gradient_checkpointing: bool = True):
     """
-    Fine-tune Whisper sur le dataset Mina
+    Charge le modèle Whisper avec quantification 8-bit
 
     Args:
-        dataset_path: Chemin vers les données audio
-        output_dir: Répertoire de sortie pour le modèle
-        language: Code langue (mina)
-        epochs: Nombre d'époques
-        batch_size: Taille de batch (ajuster selon VRAM)
-        learning_rate: Taux d'apprentissage
+        model_name: Nom du modèle Hugging Face
+        gradient_checkpointing: Activer le gradient checkpointing
+
+    Returns:
+        Modèle prêt pour l'entraînement
     """
+    logger.info(f"Chargement de {model_name} avec quantification 8-bit...")
+
+    # Configuration de quantification
+    bnb_config = BitsAndBytesConfig(
+        load_in_8bit=True,  # Quantification 8-bit
+        llm_int8_threshold=6.0,
+        llm_int8_has_fp16_weight=False,
+    )
+
+    # Charger le modèle avec quantification
+    model = WhisperForConditionalGeneration.from_pretrained(
+        model_name,
+        quantization_config=bnb_config,
+        device_map="auto",
+        trust_remote_code=True,
+    )
+
+    # Activer le gradient checkpointing pour экономить VRAM
+    if gradient_checkpointing:
+        model.gradient_checkpointing_enable()
+        logger.info("Gradient checkpointing activé")
+
+    # Congeler les paramètres non nécessaires (optionnel)
+    # for name, param in model.named_parameters():
+    #     if "encoder" not in name:
+    #         param.requires_grad = False
+
+    logger.info(f"Modèle chargé: {sum(p.numel() for p in model.parameters()) / 1e6:.1f}M paramètres")
+
+    return model
+
+
+def load_model_with_fp16(model_name: str, gradient_checkpointing: bool = True):
+    """
+    Charge le modèle Whisper sans quantification (FP16)
+    Alternative si bitsandbytes pose des problèmes
+
+    Args:
+        model_name: Nom du modèle Hugging Face
+        gradient_checkpointing: Activer le gradient checkpointing
+
+    Returns:
+        Modèle prêt pour l'entraînement
+    """
+    logger.info(f"Chargement de {model_name} en FP16...")
+
+    # Charger le modèle en FP16
+    model = WhisperForConditionalGeneration.from_pretrained(
+        model_name,
+        torch_dtype=torch.float16,
+        device_map="auto",
+        trust_remote_code=True,
+    )
+
+    # Activer le gradient checkpointing
+    if gradient_checkpointing:
+        model.gradient_checkpointing_enable()
+        logger.info("Gradient checkpointing activé")
+
+    logger.info(f"Modèle chargé: {sum(p.numel() for p in model.parameters()) / 1e6:.1f}M paramètres")
+
+    return model
+
+
+def load_processor(model_name: str):
+    """
+    Charge le processor Whisper
+
+    Args:
+        model_name: Nom du modèle
+
+    Returns:
+        Processor complet (feature extractor + tokenizer)
+    """
+    logger.info(f"Chargement du processor {model_name}...")
+
+    processor = WhisperProcessor.from_pretrained(model_name)
+
+    logger.info(f"Tokenizer vocab size: {processor.tokenizer.vocab_size}")
+    logger.info(f"Feature extractor: {processor.feature_extractor.__class__.__name__}")
+
+    return processor
+
+
+# =============================================================================
+# ENTRAÎNEMENT
+# =============================================================================
+
+def train_whisper(
+    model_name: str = MODEL_NAME,
+    output_dir: Path = OUTPUT_DIR,
+    use_quantization: bool = True,
+    max_steps: int = 10000,
+    learning_rate: float = 1e-4,
+    warmup_steps: int = 500,
+):
+    """
+    Lance l'entraînement complet de Whisper
+
+    Args:
+        model_name: Modèle de base
+        output_dir: Répertoire de sauvegarde
+        use_quantization: Utiliser la quantification 8-bit
+        max_steps: Nombre maximum de steps
+        learning_rate: Taux d'apprentissage
+        warmup_steps: Steps de warmup
+    """
+    start_time = datetime.now()
     logger.info("=" * 60)
-    logger.info("FINE-TUNING WHISPER POUR LE MINA")
+    logger.info("DÉMARRAGE DU FINE-TUNING WHISPER MINA")
+    logger.info("=" * 60)
+    logger.info(f"Modèle: {model_name}")
+    logger.info(f"Output: {output_dir}")
+    logger.info(f"Quantization: {'8-bit' if use_quantization else 'FP16'}")
     logger.info("=" * 60)
 
-    # Configuration GPU
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    logger.info(f"Device: {device}")
+    # Créer le répertoire de sortie
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    if device == "cuda":
-        vram_gb = torch.cuda.get_device_properties(0).total_memory / 1e9
-        logger.info(f"VRAM disponible: {vram_gb:.1f} GB")
+    # Charger le processor
+    processor = load_processor(model_name)
 
     # Charger le modèle
-    logger.info(f"Chargement {MODEL_NAME}...")
-    processor = WhisperProcessor.from_pretrained(MODEL_NAME)
-    model = WhisperForConditionalGeneration.from_pretrained(
-        MODEL_NAME,
-        torch_dtype=torch.float16 if device == "cuda" else torch.float32,
-    )
-
-    # Forcer la langue
-    model.config.forced_decoder_ids = processor.get_decoder_prompt_ids(
-        language=language,
-        task="transcribe"
-    )
-    model.config.suppress_tokens = []
-
-    # Préparer les données
-    if dataset_path and dataset_path.exists():
-        dataset = prepare_dataset(dataset_path, language)
+    if use_quantization:
+        try:
+            model = load_quantized_model(model_name, gradient_checkpointing=True)
+        except Exception as e:
+            logger.warning(f"Quantization 8-bit échouée: {e}")
+            logger.info("Fallback vers FP16...")
+            model = load_model_with_fp16(model_name, gradient_checkpointing=True)
     else:
-        logger.warning("Dataset non trouve - utilisation mode demo")
-        dataset = create_demo_dataset()
+        model = load_model_with_fp16(model_name, gradient_checkpointing=True)
 
-    # Split train/val
-    if len(dataset) > 2:
-        train_test = dataset.train_test_split(test_size=0.1)
-        train_dataset = train_test["train"]
-        eval_dataset = train_test["test"]
-    else:
-        train_dataset = dataset
-        eval_dataset = dataset
+    # Charger le dataset
+    dataset = load_mina_dataset(CORPUS_FILE, CLIPS_DIR, streaming=False)
 
-    logger.info(f"Train: {len(train_dataset)} exemples")
-    logger.info(f"Eval: {len(eval_dataset)} exemples")
+    # Préparer le dataset
+    logger.info("Préparation du dataset...")
 
-    # Data collator
-    data_collator = DataCollatorSpeechSeq2SeqWithPadding(
-        processor=processor,
-        model=model,
+    # Utiliser une fonction de prétraitement plus légère
+    def prepare_batch(batch):
+        audio_path = str(CV_DATASET_DIR / batch["audio_path"])
+
+        try:
+            import librosa
+            audio, sr = librosa.load(audio_path, sr=16000)
+        except Exception as e:
+            logger.debug(f"Erreur audio: {e}")
+            batch["input_features"] = None
+            batch["labels"] = [0]
+            return batch
+
+        input_features = processor.feature_extractor(
+            audio, sampling_rate=16000
+        ).input_features[0]
+
+        labels = processor.tokenizer(
+            batch["text"],
+            return_tensors="pt",
+            padding="max_length",
+            max_length=448,
+            truncation=True,
+        ).input_ids[0]
+
+        batch["input_features"] = input_features
+        batch["labels"] = labels
+
+        return batch
+
+    # Appliquer le prétraitement
+    logger.info("Prétraitement du dataset (ça peut prendre du temps)...")
+
+    # Traiter les splits
+    dataset = dataset.map(
+        prepare_batch,
+        remove_columns=["audio_path", "split", "validated", "text"],
+        num_proc=4,
     )
 
-    # Arguments d'entraînement
+    # Filtrer les entrées problématiques
+    dataset["train"] = dataset["train"].filter(
+        lambda x: x["input_features"] is not None,
+        num_proc=4,
+    )
+
+    # Charger la métrique WER
+    logger.info("Chargement de la métrique WER...")
+    wer_metric = evaluate.load("wer")
+
+    # Configurer les arguments d'entraînement
     training_args = Seq2SeqTrainingArguments(
-        output_dir=str(output_dir or "models/whisper-mina"),
-        per_device_train_batch_size=batch_size,
-        gradient_accumulation_steps=4,  # Équivalent batch_size * 4
+        output_dir=str(output_dir),
+        per_device_train_batch_size=TRAINING_CONFIG["per_device_train_batch_size"],
+        per_device_eval_batch_size=TRAINING_CONFIG["per_device_eval_batch_size"],
+        gradient_accumulation_steps=TRAINING_CONFIG["gradient_accumulation_steps"],
         learning_rate=learning_rate,
-        warmup_steps=100,
-        max_steps=len(train_dataset) * epochs // batch_size,
-        num_train_epochs=epochs,
-        fp16=device == "cuda",
-        eval_strategy="epoch",
-        save_strategy="epoch",
-        per_device_eval_batch_size=batch_size,
-        predict_with_generate=True,
-        generation_max_length=448,
-        logging_steps=10,
-        save_total_limit=2,
+        warmup_steps=warmup_steps,
+        max_steps=max_steps,
+        gradient_checkpointing=TRAINING_CONFIG["gradient_checkpointing"],
+        fp16=TRAINING_CONFIG["fp16"],
+        logging_steps=TRAINING_CONFIG["logging_steps"],
+        save_steps=TRAINING_CONFIG["save_steps"],
+        eval_steps=TRAINING_CONFIG["eval_steps"],
+        save_total_limit=TRAINING_CONFIG["save_total_limit"],
+        predict_with_generate=TRAINING_CONFIG["predict_with_generate"],
+        generation_max_length=TRAINING_CONFIG["generation_max_length"],
+        remove_unused_columns=TRAINING_CONFIG["remove_unused_columns"],
+        optim=TRAINING_CONFIG["optim"],
+        report_to="tensorboard",
         load_best_model_at_end=True,
         metric_for_best_model="wer",
         greater_is_better=False,
-        resume_from_checkpoint=True,
-        report_to="none",
     )
 
-    # Trainer
+    # Créer le trainer
     trainer = Seq2SeqTrainer(
-        args=training_args,
         model=model,
-        train_dataset=train_dataset,
-        eval_dataset=eval_dataset,
-        data_collator=data_collator,
-        compute_metrics=compute_metrics if eval_dataset else None,
-        tokenizer=processor.feature_extractor,
+        args=training_args,
+        train_dataset=dataset["train"],
+        eval_dataset=dataset.get("test", dataset["train"]),
+        compute_metrics=lambda pred: compute_metrics(pred, processor.tokenizer, wer_metric),
     )
 
-    # Entraîner
-    logger.info("Debut de l'entrainement...")
-    trainer.train()
+    # Lancer l'entraînement
+    logger.info("=" * 60)
+    logger.info("DÉMARRAGE DE L'ENTRAÎNEMENT")
+    logger.info("=" * 60)
 
-    # Sauvegarder
-    final_model_path = output_dir / "final" if output_dir else Path("models/whisper-mina/final")
-    trainer.save_model(str(final_model_path))
-    processor.save_pretrained(str(final_model_path))
+    try:
+        trainer.train()
 
-    logger.info(f"Modele sauvegarde: {final_model_path}")
-    logger.info("Fine-tuning termine!")
+        # Sauvegarder le modèle final
+        logger.info("Sauvegarde du modèle final...")
+        trainer.save_model(output_dir / "final")
+        processor.save_pretrained(output_dir / "final")
 
-    return final_model_path
+        # Temps d'exécution
+        elapsed = datetime.now() - start_time
+        logger.info("=" * 60)
+        logger.info(f"ENTRAÎNEMENT TERMINÉ (durée: {elapsed})")
+        logger.info("=" * 60)
 
+    except Exception as e:
+        logger.error(f"Erreur pendant l'entraînement: {e}")
+        raise
+
+    # Nettoyer
+    gc.collect()
+    torch.cuda.empty_cache()
+
+
+# =============================================================================
+# MAIN
+# =============================================================================
 
 def main():
-    parser = argparse.ArgumentParser(description="Fine-tune Whisper for Mina")
-    parser.add_argument("--data", type=str, default="data/corpus/audio",
-                        help="Chemin vers les donnees audio")
-    parser.add_argument("--output", type=str, default="models/whisper-mina",
-                        help="Repertoire de sortie")
-    parser.add_argument("--language", type=str, default="mina",
-                        help="Code langue")
-    parser.add_argument("--epochs", type=int, default=3,
-                        help="Nombre d'epoques")
-    parser.add_argument("--batch_size", type=int, default=8,
-                        help="Taille de batch")
-    parser.add_argument("--lr", type=float, default=1e-5,
-                        help="Taux d'apprentissage")
+    """Point d'entrée principal"""
+    parser = argparse.ArgumentParser(description="Fine-tuning Whisper pour le Mina")
+    parser.add_argument(
+        "--model",
+        type=str,
+        default=MODEL_NAME,
+        help="Modèle de base (défaut: openai/whisper-small)",
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default=str(OUTPUT_DIR),
+        help="Répertoire de sortie",
+    )
+    parser.add_argument(
+        "--no-quantize",
+        action="store_true",
+        help="Désactiver la quantification 8-bit",
+    )
+    parser.add_argument(
+        "--max-steps",
+        type=int,
+        default=10000,
+        help="Nombre maximum de steps",
+    )
+    parser.add_argument(
+        "--lr",
+        type=float,
+        default=1e-4,
+        help="Taux d'apprentissage",
+    )
+    parser.add_argument(
+        "--warmup",
+        type=int,
+        default=500,
+        help="Steps de warmup",
+    )
 
     args = parser.parse_args()
 
-    # Entraîner
+    # Configurer le logging
+    setup_logging()
+
+    # Vérifications
+    gpu_memory = check_gpu()
+    check_dependencies()
+
+    # Lancer l'entraînement
     train_whisper(
-        dataset_path=Path(args.data) if args.data else None,
+        model_name=args.model,
         output_dir=Path(args.output),
-        language=args.language,
-        epochs=args.epochs,
-        batch_size=args.batch_size,
+        use_quantization=not args.no_quantize,
+        max_steps=args.max_steps,
         learning_rate=args.lr,
+        warmup_steps=args.warmup,
     )
 
 

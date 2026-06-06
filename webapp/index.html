@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mina-Voice - Traducteur Vocal Français ↔ Mina 🇹🇬</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="flag">🇹🇬</span>
+                <h1>Mina-Voice</h1>
+            </div>
+            <p class="subtitle">Traducteur Vocal Français ↔ Mina (Ewe du Togo)</p>
+        </header>
+
+        <!-- API Status -->
+        <div class="api-status" id="apiStatus">
+            <span class="status-dot" id="statusDot"></span>
+            <span id="statusText">Connexion à l'API...</span>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <!-- Translation Direction -->
+            <div class="mode-selector">
+                <button class="mode-btn active" data-mode="mina-to-fr">
+                    <span class="mode-icon">🇹🇬</span>
+                    <span>Mina → Français</span>
+                </button>
+                <button class="mode-btn" data-mode="fr-to-mina">
+                    <span class="mode-icon">🇫🇷</span>
+                    <span>Français → Mina</span>
+                </button>
+            </div>
+
+            <!-- Input Mode Toggle -->
+            <div class="input-mode-selector">
+                <button class="input-mode-btn active" data-input="voice">
+                    <span>🎤</span> Vocal
+                </button>
+                <button class="input-mode-btn" data-input="text">
+                    <span>⌨️</span> Texte
+                </button>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- VOICE INPUT SECTION -->
+        <!-- ============================================ -->
+        <div class="voice-section" id="voiceSection">
+            <div class="recording-section">
+                <div class="wave-container" id="waveContainer">
+                    <canvas id="waveCanvas" width="400" height="100"></canvas>
+                    <div class="wave-placeholder" id="wavePlaceholder">
+                        <span>🎤 Cliquez sur le bouton pour parler</span>
+                    </div>
+                </div>
+
+                <div class="record-btn-container">
+                    <button class="record-btn" id="recordBtn">
+                        <span class="record-icon" id="recordIcon">🎤</span>
+                        <span id="recordText">Enregistrer</span>
+                    </button>
+                </div>
+
+                <div class="recording-timer" id="recordingTimer">
+                    <span id="timerText">00:00</span>
+                </div>
+            </div>
+
+            <!-- Audio Player -->
+            <div class="audio-player" id="audioPlayer" style="display: none;">
+                <audio id="audioPlayback" controls></audio>
+                <button class="btn btn-secondary" id="replayBtn">🔄 Rejouer</button>
+            </div>
+
+            <!-- Process Button -->
+            <div class="process-section">
+                <button class="btn btn-primary btn-large" id="processBtn" disabled>
+                    <span id="processText">🎯 Transcrire et Traduire</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- TEXT INPUT SECTION -->
+        <!-- ============================================ -->
+        <div class="text-section" id="textSection" style="display: none;">
+            <div class="text-input-container">
+                <label for="inputText" id="inputLabel">Entrez votre texte en Mina:</label>
+                <textarea id="inputText" placeholder="Tapez votre texte ici..." rows="4"></textarea>
+                <div class="char-count">
+                    <span id="charCount">0</span> / 500 caractères
+                </div>
+            </div>
+
+            <!-- Quick Phrases -->
+            <div class="quick-phrases">
+                <label>Phrases rapides:</label>
+                <div class="phrase-buttons">
+                    <button class="phrase-btn" data-phrase="Mebu etɔ.">Je suis fatigué</button>
+                    <button class="phrase-btn" data-phrase="Woana numeɖa?">Comment vas-tu?</button>
+                    <button class="phrase-btn" data-phrase="Ema na govie.">C'est dangereux</button>
+                    <button class="phrase-btn" data-phrase="Mifi oʋɔ.">J'ai faim</button>
+                </div>
+            </div>
+
+            <!-- Translate Button -->
+            <div class="process-section">
+                <button class="btn btn-primary btn-large" id="translateTextBtn">
+                    <span id="translateTextIcon">🔄</span>
+                    <span id="translateTextText">Traduire</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- RESULTS SECTION -->
+        <!-- ============================================ -->
+        <div class="results-section" id="resultsSection" style="display: none;">
+            <!-- Input/Transcription (for voice mode) -->
+            <div class="result-card" id="inputCard" style="display: none;">
+                <div class="result-header">
+                    <h3 id="inputTitle">🎤 Transcription (Mina)</h3>
+                    <span class="time-badge" id="inputTime">-- ms</span>
+                </div>
+                <div class="result-content" id="inputResult">
+                    <span class="placeholder">La transcription apparaîtra ici...</span>
+                </div>
+            </div>
+
+            <!-- Translation Result -->
+            <div class="result-card highlight">
+                <div class="result-header">
+                    <h3 id="translationTitle">🔄 Traduction</h3>
+                    <span class="time-badge" id="translationTime">-- ms</span>
+                </div>
+                <div class="result-content" id="translationResult">
+                    <span class="placeholder">La traduction apparaîtra ici...</span>
+                </div>
+                <div class="result-actions">
+                    <button class="btn btn-small btn-copy" id="copyBtn">
+                        📋 Copier
+                    </button>
+                    <button class="btn btn-small btn-speak" id="speakBtn">
+                        🔊 Écouter
+                    </button>
+                </div>
+            </div>
+
+            <!-- Confidence Score -->
+            <div class="confidence-section" id="confidenceSection">
+                <div class="confidence-bar">
+                    <div class="confidence-fill" id="confidenceFill"></div>
+                </div>
+                <span class="confidence-text" id="confidenceText">Confiance: --%</span>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-section">
+                <span id="processingTime">Temps total: -- ms</span>
+            </div>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" id="errorMessage" style="display: none;">
+            <span id="errorText"></span>
+            <button class="btn-close" id="closeError">✕</button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>🇹🇬 Mina-Voice | API: Mina-Translator v1.0 | Raccourcis: Espace=Enregistrer, Entrée=Traduire</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

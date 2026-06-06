@@ -1,0 +1,27 @@
+[
+  {
+    "audio": "c:\\Ce PC\\Projet_python\\IA traduction Français Mina\\data\\cv-corpus-25.0-2026-03-09\\gej\\clips\\common_voice_gej_43151119.mp3",
+    "reference": "E bu na me.",
+    "transcription": "E bu na me."
+  },
+  {
+    "audio": "c:\\Ce PC\\Projet_python\\IA traduction Français Mina\\data\\cv-corpus-25.0-2026-03-09\\gej\\clips\\common_voice_gej_43122488.mp3",
+    "reference": "Afokpa.",
+    "transcription": "Afokpa."
+  },
+  {
+    "audio": "c:\\Ce PC\\Projet_python\\IA traduction Français Mina\\data\\cv-corpus-25.0-2026-03-09\\gej\\clips\\common_voice_gej_43164293.mp3",
+    "reference": "Blifa.",
+    "transcription": "Blifa."
+  },
+  {
+    "audio": "c:\\Ce PC\\Projet_python\\IA traduction Français Mina\\data\\cv-corpus-25.0-2026-03-09\\gej\\clips\\common_voice_gej_43287972.mp3",
+    "reference": "Yi ahuagbeji.",
+    "transcription": "Yi ahwagbeji."
+  },
+  {
+    "audio": "c:\\Ce PC\\Projet_python\\IA traduction Français Mina\\data\\cv-corpus-25.0-2026-03-09\\gej\\clips\\common_voice_gej_43273678.mp3",
+    "reference": "Adole do jesi.",
+    "transcription": "Ado le do je si."
+  }
+]

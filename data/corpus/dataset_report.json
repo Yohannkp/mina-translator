@@ -1,0 +1,44 @@
+{
+  "dataset": "common-voice-mina-gej",
+  "version": "25.0-2026-03-09",
+  "generated_at": "2026-06-02T19:39:10.945252",
+  "splits": {
+    "train": {
+      "lines_read": 1293,
+      "valid_entries": 1293,
+      "missing_audio": 0,
+      "empty_text": 0,
+      "invalid_encoding": 0
+    },
+    "dev": {
+      "lines_read": 946,
+      "valid_entries": 946,
+      "missing_audio": 0,
+      "empty_text": 0,
+      "invalid_encoding": 0
+    },
+    "test": {
+      "lines_read": 949,
+      "valid_entries": 949,
+      "missing_audio": 0,
+      "empty_text": 0,
+      "invalid_encoding": 0
+    },
+    "validated": {
+      "lines_read": 16417,
+      "valid_entries": 16417,
+      "missing_audio": 0,
+      "empty_text": 0,
+      "invalid_encoding": 0
+    }
+  },
+  "totals": {
+    "lines_processed": 19605,
+    "valid_entries": 19605,
+    "missing_audio": 0,
+    "empty_text": 0
+  },
+  "output_file": "c:\\Ce PC\\Projet_python\\IA traduction Français Mina\\data\\corpus\\mina_full_dataset.jsonl",
+  "output_size_mb": 2.32,
+  "estimated_audio_size_gb": 0.27
+}

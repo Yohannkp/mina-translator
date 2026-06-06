@@ -1,0 +1,1824 @@
+{
+  "metadata": {
+    "version": "1.1",
+    "source": "dataset_mina.jsonl",
+    "description": "Vocabulaire Mina extrait du corpus FR->MINA (360 paires)",
+    "date": "2026-06-02",
+    "total_pairs": 360
+  },
+  "vocabulary": {
+    "salutations": {},
+    "corps_humain": {},
+    "maladies": {},
+    "medecin": {},
+    "hopital": {},
+    "temps": {},
+    "nombres": {},
+    "verbes": {},
+    "autres": {}
+  },
+  "expressions_communes": [
+    {
+      "francais": "La santé est importante.",
+      "mina": "Nuwɔna nye na devɛwo."
+    },
+    {
+      "francais": "Je suis malade.",
+      "mina": "Eku mɛ."
+    },
+    {
+      "francais": "Il a mal à la tête.",
+      "mina": "Eƒu nu mɛ."
+    },
+    {
+      "francais": "Elle a de la fièvre.",
+      "mina": "Eku ɖevi."
+    },
+    {
+      "francais": "J'ai mal au ventre.",
+      "mina": "Aku mɛ nyongbɔ mɛ."
+    },
+    {
+      "francais": "Le médecin est venu.",
+      "mina": "Nusɔla la va."
+    },
+    {
+      "francais": "Il tousse beaucoup.",
+      "mina": "Ehu ʋu alo."
+    },
+    {
+      "francais": "Elle a mal à la gorge.",
+      "mina": "Eku ɖevi tɔgbo."
+    },
+    {
+      "francais": "J'ai vomi ce matin.",
+      "mina": "Manɔ kuku ɖa gboẽ."
+    },
+    {
+      "francais": "L'enfant a la diarrhée.",
+      "mina": "ŋkɔ vi la ɖo."
+    },
+    {
+      "francais": "Mon père a le paludisme.",
+      "mina": "Tata ɖaƒiaɖɔ."
+    },
+    {
+      "francais": "Elle a une blessure au pied.",
+      "mina": "Eku ɖeviʋu amɛ."
+    },
+    {
+      "francais": "Le médecin a prescrit des médicaments.",
+      "mina": "Nusɔla la bu le asawuwu."
+    },
+    {
+      "francais": "Je dois aller à l'hôpital.",
+      "mina": "Mekpɔa ŋkɔ o klɔe."
+    },
+    {
+      "francais": "Elle est enceinte.",
+      "mina": "Eku ɖevi ɖo."
+    },
+    {
+      "francais": "Le bébé dort bien.",
+      "mina": "Koklo vi la susumɔ."
+    },
+    {
+      "francais": "Il a une allergie cutanée.",
+      "mina": "Eku nu tso dzi."
+    },
+    {
+      "francais": "Le patient est faible.",
+      "mina": "Mɔla la ku ɖevie."
+    },
+    {
+      "francais": "Elle a mal aux dents.",
+      "mina": "Eku ɖevi ɖu."
+    },
+    {
+      "francais": "J'ai mal au dos.",
+      "mina": "Aku mɛ tɔnyɔ."
+    },
+    {
+      "francais": "Le comprimé est amer.",
+      "mina": "Asawuwu ta tɔ."
+    },
+    {
+      "francais": "Il doit se reposer.",
+      "mina": "Ekpɔa dzikpɔku o."
+    },
+    {
+      "francais": "La plaie est infectée.",
+      "mina": "Gaɖa la ku hena."
+    },
+    {
+      "francais": "Il a une brûlure.",
+      "mina": "Eku ɖeƒu."
+    },
+    {
+      "francais": "Elle a le zona.",
+      "mina": "Eku ɖevi ɖo nyɔnu dzi."
+    },
+    {
+      "francais": "Le patient a une insolation.",
+      "mina": "Mɔla la ku nyɔnu ɖa."
+    },
+    {
+      "francais": "J'ai des vertiges.",
+      "mina": "Aku tɔgbo mɛ."
+    },
+    {
+      "francais": "Elle a mal au cœur.",
+      "mina": "Eku ɖevi ʋu ɖeƒe."
+    },
+    {
+      "francais": "Il a l'asthme.",
+      "mina": "Eku ɖeƒe yiyu mɛ."
+    },
+    {
+      "francais": "Le pansement est serré.",
+      "mina": "Sisisẽ la ka."
+    },
+    {
+      "francais": "Il a la tuberculose.",
+      "mina": "Eku ɖeƒe blɔ."
+    },
+    {
+      "francais": "Elle est guérie.",
+      "mina": "Eku ɖevi ɖa."
+    },
+    {
+      "francais": "La piqûre fait mal.",
+      "mina": "Wɔla ku."
+    },
+    {
+      "francais": "Il tousse du sang.",
+      "mina": "Ehu nyɔnu."
+    },
+    {
+      "francais": "Le miel est bon pour la toux.",
+      "mina": "Dodome kpɔe na hu."
+    },
+    {
+      "francais": "L'eau est sale, elle cause la diarrhée.",
+      "mina": "Dzii ta wu, eye ake ɖo."
+    },
+    {
+      "francais": "Elle a une infection urinaire.",
+      "mina": "Eku ɖevi sɔ gbɔ."
+    },
+    {
+      "francais": "J'ai mal au genou.",
+      "mina": "Aku mɛ dunɔ."
+    },
+    {
+      "francais": "La ambulance est arrivée.",
+      "mina": "To vi ta sɔŋ la va."
+    },
+    {
+      "francais": "Le pharmacien a préparé le remède.",
+      "mina": "Asawuwuƒo la wɔ le asawuwu."
+    },
+    {
+      "francais": "Il a une fracture.",
+      "mina": "Eku ɖeƒe blɔ."
+    },
+    {
+      "francais": "Elle a mal aux yeux.",
+      "mina": "Eku ɖevi anyi."
+    },
+    {
+      "francais": "Le bandage est tombé.",
+      "mina": "Sisisẽ la ɖa."
+    },
+    {
+      "francais": "J'ai pris le traitement.",
+      "mina": "Maɖa le asawuwu."
+    },
+    {
+      "francais": "La consultation est finie.",
+      "mina": "Nuwɔna ta ku."
+    },
+    {
+      "francais": "Il a le rhume.",
+      "mina": "Eku ɖeƒe ɖovi."
+    },
+    {
+      "francais": "Elle a une sinusite.",
+      "mina": "Eku ɖevi tɔgbo mɛ."
+    },
+    {
+      "francais": "Le patient est décédé.",
+      "mina": "Mɔla la ku."
+    },
+    {
+      "francais": "La maladie est contagieuse.",
+      "mina": "Nuɖuɖu ake ba."
+    },
+    {
+      "francais": "Il a la varicelle.",
+      "mina": "Eku ɖeƒe nyɔnu blɔ."
+    },
+    {
+      "francais": "Elle a une hépatite.",
+      "mina": "Eku ɖevi teƒe blɔ."
+    },
+    {
+      "francais": "Le moustique cause le paludisme.",
+      "mina": "Nuki ta sɔŋ ɖaƒiaɖɔ."
+    },
+    {
+      "francais": "Le juge rend la sentence.",
+      "mina": "Ɣletɔ va wu dete."
+    },
+    {
+      "francais": "Le voleur est arrêté par la police.",
+      "mina": "Sɔsɔ va ta dzɔɖi."
+    },
+    {
+      "francais": "Le prisonnier est dans la cellule.",
+      "mina": "Eɖa le dunu ta."
+    },
+    {
+      "francais": "Le témoin dit la vérité.",
+      "mina": "Sisi va sɔ nyamǝ."
+    },
+    {
+      "francais": "Le policier arrête le coupable.",
+      "mina": "Ɣlatɔ va ta sɔgbɔ."
+    },
+    {
+      "francais": "La courprononce le verdict.",
+      "mina": "Nyamedenu va kple gbeɖe."
+    },
+    {
+      "francais": "L'accusé nie les faits.",
+      "mina": "Wǝna va le nɔnɔɖe."
+    },
+    {
+      "francais": "L'avocate défend son client.",
+      "mina": "Ɣɖevɔ va tsɔ kpɔtɔ."
+    },
+    {
+      "francais": "La justice protège les innocents.",
+      "mina": "Nyamedenu va tso nyamǝwo."
+    },
+    {
+      "francais": "L'enquête est terminée.",
+      "mina": "Dzigbɔ le xexlẽ."
+    },
+    {
+      "francais": "Le criminel purge sa peine.",
+      "mina": "Wo va kple kɔto."
+    },
+    {
+      "francais": "Le tribunal siège chaque matin.",
+      "mina": "Nyamedenu le ɣletɔna."
+    },
+    {
+      "francais": "Le jury délibère en secret.",
+      "mina": "Nyamedenu va le seɖee."
+    },
+    {
+      "francais": "L'huissier appelle le témoin.",
+      "mina": "Ɣlatɔ va wu sisi."
+    },
+    {
+      "francais": "La magistrate instruisit l'affaire.",
+      "mina": "Ɣletɔ leƒe nyawo."
+    },
+    {
+      "francais": "Le greffier enregistre les débats.",
+      "mina": "Ɣlatɔ le dzɔɖi."
+    },
+    {
+      "francais": "Le justiciable fait appel.",
+      "mina": "Amǝ va le dzigbɔ."
+    },
+    {
+      "francais": "La sentence est rendue.",
+      "mina": "Nunya le nyamedenu ta."
+    },
+    {
+      "francais": "L'enquêteur pose des questions.",
+      "mina": "Ɣlatɔ va le nyamedenu."
+    },
+    {
+      "francais": "Le magistrat vérifie les preuves.",
+      "mina": "Ɣletɔ va sɔ seɖe."
+    },
+    {
+      "francais": "Le gardé à vue refuse de parler.",
+      "mina": "Amǝ va ɖo seɖe."
+    },
+    {
+      "francais": "La victime témoigne au tribunal.",
+      "mina": "Wo va ta nyamǝ."
+    },
+    {
+      "francais": "Le parquet requiert la prison.",
+      "mina": "Ɣlatɔ va wo dzɔɖi."
+    },
+    {
+      "francais": "L'inculpé nie sa culpabilité.",
+      "mina": "Wǝna va wo ta."
+    },
+    {
+      "francais": "Le commissariat reçoit la plainte.",
+      "mina": "Sɔsɔ va ta sɔgbɔ."
+    },
+    {
+      "francais": "L'officier de police perquisitionne.",
+      "mina": "Ɣlatɔ va ɣli gbo."
+    },
+    {
+      "francais": "Le brigadier interroge le suspect.",
+      "mina": "Ɣlatɔ va tsɔ sɔgbɔ."
+    },
+    {
+      "francais": "Le parquet enquête sur l'affaire.",
+      "mina": "Wo va ta nyamǝ."
+    },
+    {
+      "francais": "L'huissier notifie l'ordonnance.",
+      "mina": "Ɣlatɔ va tsɔ seɖe."
+    },
+    {
+      "francais": "L'avocate cross-examine le témoin.",
+      "mina": "Ɣɖevɔ va ɖo sisi."
+    },
+    {
+      "francais": "Le greffier signe le procès-verbal.",
+      "mina": "Ɣlatɔ va tso nyamedenu."
+    },
+    {
+      "francais": "L'huissier signifie l'acte.",
+      "mina": "Ɣlatɔ va tsɔ nyamedenu."
+    },
+    {
+      "francais": "Le témoin oculaire confirme le fait.",
+      "mina": "Sisi le nyamǝ."
+    },
+    {
+      "francais": "Le jury prononce l'acquittement.",
+      "mina": "Wo va le nyamedenu ta."
+    },
+    {
+      "francais": "Le condamné purge sa peine.",
+      "mina": "Wo va tso kɔto."
+    },
+    {
+      "francais": "La justice est rendue au peuple.",
+      "mina": "Nyamedenu va le amǝ ta."
+    },
+    {
+      "francais": "L'agent de police escorte le détenu.",
+      "mina": "Ɣlatɔ va ɣli dzigbɔ."
+    },
+    {
+      "francais": "Le magistrat prononce l'amende.",
+      "mina": "Ɣletɔ va wu xexlẽ."
+    },
+    {
+      "francais": "Le pénal statue sur le délit.",
+      "mina": "Nyamedenu le nyamǝ ta."
+    },
+    {
+      "francais": "La Cour suprême examine l'appel.",
+      "mina": "Nyamedenu le ta."
+    },
+    {
+      "francais": "Le témoin contredit l'accusé.",
+      "mina": "Sisi va ta sɔgbɔ."
+    },
+    {
+      "francais": "L'enquête révèle la vérité.",
+      "mina": "Wo va sɔ nyamǝ."
+    },
+    {
+      "francais": "Le justiciable comparaît demain.",
+      "mina": "Amǝ va ta nyamedenu."
+    },
+    {
+      "francais": "Le greffier enregistre l'audience.",
+      "mina": "Ɣlatɔ va ta nyamedenu."
+    },
+    {
+      "francais": "Le directeur de prison supervise.",
+      "mina": "Ɣlatɔ le dzigbɔ ta."
+    },
+    {
+      "francais": "La Cour confirme la sentence.",
+      "mina": "Nyamedenu va nyamǝwo."
+    },
+    {
+      "francais": "Le tribunal acquitte l'innocent.",
+      "mina": "Nyamedenu va wo."
+    },
+    {
+      "francais": "Le gardé à vue est libéré.",
+      "mina": "Amǝ va tsɔ dzigbɔ."
+    },
+    {
+      "francais": "La justice condamne le bandit.",
+      "mina": "Nyamedenu va ta sɔgbɔ."
+    },
+    {
+      "francais": "Le prévenu paye l'amende.",
+      "mina": "Amǝ va kpɔna xexlẽ."
+    },
+    {
+      "francais": "Le marché est ouvert.",
+      "mina": "Ɛ̀kɔ ɖà."
+    },
+    {
+      "francais": "Je vais au marché.",
+      "mina": "Me sᴐ ɖàkɔ."
+    },
+    {
+      "francais": "Tu achètes du poisson ?",
+      "mina": "Won xɔ alɔ ?"
+    },
+    {
+      "francais": "Le prix est élevé.",
+      "mina": "Se ɖà."
+    },
+    {
+      "francais": "Combien ça coûte ?",
+      "mina": "Se ɖè kɛ ?"
+    },
+    {
+      "francais": "Vends-moi cette tomate.",
+      "mina": "Nyè nye tomati."
+    },
+    {
+      "francais": "Le marché est bondé.",
+      "mina": "Ɛ̀kɔ ɖà ɖàwù."
+    },
+    {
+      "francais": "Je vends du piment.",
+      "mina": "Mèdzᴐ atadyᴐ."
+    },
+    {
+      "francais": "Elle achète des oignons.",
+      "mina": "Ɛyɔ xɔayᴐ."
+    },
+    {
+      "francais": "Voici mon argent.",
+      "mina": "Nyè fa le."
+    },
+    {
+      "francais": "La tomate est fraîche.",
+      "mina": "Tomati yɛyɛ."
+    },
+    {
+      "francais": "Donne-moi la好了.",
+      "mina": "Nyè nye sᴐ."
+    },
+    {
+      "francais": "Le vendeur est gentil.",
+      "mina": "Nɔxᴐ ɖàwù."
+    },
+    {
+      "francais": "J'ai acheté du manioc.",
+      "mina": "Me xɔ akpu."
+    },
+    {
+      "francais": "Le marché ferme tôt.",
+      "mina": "Ɛ̀kɔ kple yɛ."
+    },
+    {
+      "francais": "Tu as de la monnaie ?",
+      "mina": "Won mia fa le ?"
+    },
+    {
+      "francais": "La bonne est chère.",
+      "mina": "Nyamᴐ ɖà."
+    },
+    {
+      "francais": "Je veux du sucre.",
+      "mina": "Mèkɔ suga."
+    },
+    {
+      "francais": "Où est le marché ?",
+      "mina": "Ɛ̀kɔ ɖò ke ?"
+    },
+    {
+      "francais": "Il manque du sel.",
+      "mina": "Dze kɔ."
+    },
+    {
+      "francais": "Le riz est bon.",
+      "mina": "Orizi yɛ."
+    },
+    {
+      "francais": "Combien de kilogrammes ?",
+      "mina": "Kilo ɖè kɛ ?"
+    },
+    {
+      "francais": "La tomate est mûre.",
+      "mina": "Tomati ku."
+    },
+    {
+      "francais": "Je vends du riz.",
+      "mina": "Mèdzᴐ orizi."
+    },
+    {
+      "francais": "Le poisson est salé.",
+      "mina": "Alɔ yù."
+    },
+    {
+      "francais": "Achète ce pagne.",
+      "mina": "Xɔ savᴐ nye."
+    },
+    {
+      "francais": "Le commerçant est parti.",
+      "mina": "Nɔxᴐ sᴐ."
+    },
+    {
+      "francais": "Elle veut vendre.",
+      "mina": "Ɛyɔ dzᴐ."
+    },
+    {
+      "francais": "Le prix a augmenté.",
+      "mina": "Se ɖà."
+    },
+    {
+      "francais": "Je vends des bananes.",
+      "mina": "Mèdzᴐ alika."
+    },
+    {
+      "francais": "Le marché est loin.",
+      "mina": "Ɛ̀kɔ ɖò."
+    },
+    {
+      "francais": "Achète ici.",
+      "mina": "Xɔ vɔ."
+    },
+    {
+      "francais": "Vends là-bas.",
+      "mina": "Dzᴐ be."
+    },
+    {
+      "francais": "Le sac est lourd.",
+      "mina": "Kete ɖà."
+    },
+    {
+      "francais": "Je compte l'argent.",
+      "mina": "Mèkɔ fa."
+    },
+    {
+      "francais": "Le client est parti.",
+      "mina": "Nyamᴐ ɖà sᴐ."
+    },
+    {
+      "francais": "Elle achète du pain.",
+      "mina": "Ɛyɔ xɔ amᴐ."
+    },
+    {
+      "francais": "Le marché est calme.",
+      "mina": "Ɛ̀kɔ ɖù."
+    },
+    {
+      "francais": "Donne-moi deux.",
+      "mina": "Nyè eve."
+    },
+    {
+      "francais": "La sauce est prête.",
+      "mina": "Yɔfua yɛ."
+    },
+    {
+      "francais": "Je vends des ignames.",
+      "mina": "Mèdzᴐ ɖᴐ."
+    },
+    {
+      "francais": "Le prix est bas.",
+      "mina": "Se kɔ."
+    },
+    {
+      "francais": "Tu veux négocier ?",
+      "mina": "Won kɔ se ?"
+    },
+    {
+      "francais": "La pintade est grasse.",
+      "mina": "Kɔku ɖà."
+    },
+    {
+      "francais": "Je vends des herbes.",
+      "mina": "Mèdzᴐ akɔwᴐ."
+    },
+    {
+      "francais": "L'eau est froide.",
+      "mina": "Mɛwù."
+    },
+    {
+      "francais": "Le marché est propre.",
+      "mina": "Ɛ̀kɔ yù."
+    },
+    {
+      "francais": "Elle attend le client.",
+      "mina": "Ɛyɔ xɔ nyamᴐ."
+    },
+    {
+      "francais": "Le millet est sec.",
+      "mina": "Aɖᴐ kɔ."
+    },
+    {
+      "francais": "Viens au marché demain.",
+      "mina": "Va ɖàkɔ ɖù."
+    },
+    {
+      "francais": "La tomate est tombée.",
+      "mina": "Tomati fà."
+    },
+    {
+      "francais": "Le bus est parti.",
+      "mina": "Bas la dɔ nu."
+    },
+    {
+      "francais": "Je prends le taxi.",
+      "mina": "Me kple taksi."
+    },
+    {
+      "francais": "La voiture est pleine.",
+      "mina": "Kpɔtɔ la xlɛ."
+    },
+    {
+      "francais": "Où est la gare ?",
+      "mina": "Gare la nye nanɛɔ ?"
+    },
+    {
+      "francais": "Je vais à Lomé.",
+      "mina": "Me ya lɔ Lomé."
+    },
+    {
+      "francais": "Le train arrive.",
+      "mina": "Siklet la bɔ."
+    },
+    {
+      "francais": "L'avion vole haut.",
+      "mina": "Kakɛ la tso nu."
+    },
+    {
+      "francais": "Le bateau a coulé.",
+      "mina": "Dzata la nu ɖe."
+    },
+    {
+      "francais": "La route est longue.",
+      "mina": "Anyimɔ la ɖe."
+    },
+    {
+      "francais": "Le pont est cassé.",
+      "mina": "ʋu la wu."
+    },
+    {
+      "francais": "J'attends le bus.",
+      "mina": "Me tso bas."
+    },
+    {
+      "francais": "Le chauffeur conduit vite.",
+      "mina": "Sɔwɔla la ɖe nɔ."
+    },
+    {
+      "francais": "L'essence est chère.",
+      "mina": "Petro la kɔ."
+    },
+    {
+      "francais": "J'ai payé le ticket.",
+      "mina": "Me kple bilɛ."
+    },
+    {
+      "francais": "Le moteur tourne.",
+      "mina": "Motɔ la kɔ."
+    },
+    {
+      "francais": "La roue est plate.",
+      "mina": "Wɔ la wu."
+    },
+    {
+      "francais": "Le siège est confortable.",
+      "mina": "Tu la ku."
+    },
+    {
+      "francais": "Je traverse la rue.",
+      "mina": "Me kple anyimɔ."
+    },
+    {
+      "francais": "Le carrefour est loin.",
+      "mina": "Dɔdɔ la ɖe."
+    },
+    {
+      "francais": "Il y a un embouteillage.",
+      "mina": "Dɔdze aɖe ɖe."
+    },
+    {
+      "francais": "Le taxi est rapide.",
+      "mina": "Taksi la nɔ."
+    },
+    {
+      "francais": "Où va ce bus ?",
+      "mina": "Bas sia ya kɔ nanɛɔ ?"
+    },
+    {
+      "francais": "Je descends ici.",
+      "mina": "Me si hi."
+    },
+    {
+      "francais": "Le feu est rouge.",
+      "mina": "Hənya la blabo."
+    },
+    {
+      "francais": "La gare est bondée.",
+      "mina": "Gare la blɔ."
+    },
+    {
+      "francais": "Le passager est en retard.",
+      "mina": "Dɔliwo la ɖe ƒe."
+    },
+    {
+      "francais": "J'ai oublié mon ticket.",
+      "mina": "Me li bilɛ na."
+    },
+    {
+      "francais": "Le trajet est court.",
+      "mina": "Dɔli la fifi."
+    },
+    {
+      "francais": "Le chauffeur est fatigué.",
+      "mina": "Sɔwɔla la xɔ."
+    },
+    {
+      "francais": "L'horaire est affiché.",
+      "mina": "ƒe sia la tso."
+    },
+    {
+      "francais": "Le prix du transport est bas.",
+      "mina": "Kɔnɛɔ la fifi."
+    },
+    {
+      "francais": "Je marche vers la gare.",
+      "mina": "Me ɖe ya gare."
+    },
+    {
+      "francais": "La distance est de 100 km.",
+      "mina": "Ku la ɖe kpa ta."
+    },
+    {
+      "francais": "Le bus s'est arrêté.",
+      "mina": "Bas la dra."
+    },
+    {
+      "francais": "J'ai raté le dernier bus.",
+      "mina": "Me wu bas ɖe."
+    },
+    {
+      "francais": "Le taxi coûte combien ?",
+      "mina": "Taksi la kɔ nanɛɔ ?"
+    },
+    {
+      "francais": "La charrette est cassée.",
+      "mina": "Wuwu la wu."
+    },
+    {
+      "francais": "Le voyage a été long.",
+      "mina": "Dɔdze la ɖe."
+    },
+    {
+      "francais": "Je veux aller à Aného.",
+      "mina": "Me dzɔ ya Aného."
+    },
+    {
+      "francais": "Le pont est dangereux.",
+      "mina": "ʋu la sɔ."
+    },
+    {
+      "francais": "La route est mouillée.",
+      "mina": "Anyimɔ la ɖu."
+    },
+    {
+      "francais": "L'arrêt de bus est plein.",
+      "mina": "Basfɔ la blɔ."
+    },
+    {
+      "francais": "J'ai trouvé une place.",
+      "mina": "Me ku funya aɖe."
+    },
+    {
+      "francais": "Le moteur est en panne.",
+      "mina": "Motɔ la wu."
+    },
+    {
+      "francais": "Je monte dans le bus.",
+      "mina": "Me nɔ bas me."
+    },
+    {
+      "francais": "La moto roule vite.",
+      "mina": "Moto la kɔ nɔ."
+    },
+    {
+      "francais": "Le bicycle est ancien.",
+      "mina": "Siklɛ la du."
+    },
+    {
+      "francais": "Le feu est vert.",
+      "mina": "Hənya la gbɔ."
+    },
+    {
+      "francais": "J'arrive à Tsévié.",
+      "mina": "Me bɔ Tsévié."
+    },
+    {
+      "francais": "Le交通 est fluide.",
+      "mina": "Dɔdze la ɖu."
+    },
+    {
+      "francais": "Merci pour le transport.",
+      "mina": "Nyamedzo na dɔdze la."
+    },
+    {
+      "francais": "Ma mère est à la maison.",
+      "mina": "Nyɔ̱ ɖevi ŋuƒeƒe la."
+    },
+    {
+      "francais": "Mon père est cultivateur.",
+      "mina": "Nyɔ̱ gbã tɔtrɔ."
+    },
+    {
+      "francais": "Mon frère cadet habite à Lomé.",
+      "mina": "Nuƒome ŋuƒeƒe ŋɔkɔe ɖa Lomé ta."
+    },
+    {
+      "francais": "Ma sœur aînée est institutrice.",
+      "mina": "Nyɔ̱ yɔɖi ɖe nye."
+    },
+    {
+      "francais": "Mon fils est malade.",
+      "mina": "D斧 o."
+    },
+    {
+      "francais": "Ma fille joue dans la cour.",
+      "mina": "Nyɔ̱ ta sɔ ɖi."
+    },
+    {
+      "francais": "Mon grand-père est très âgé.",
+      "mina": "Nyɔ̱ gbãtɔ nye kɔkɔe."
+    },
+    {
+      "francais": "Ma grand-mère prépare le repas.",
+      "mina": "Nyɔ̱ yɔɖitɔ nɔ kpɔ dze."
+    },
+    {
+      "francais": "Mon oncle est venu hier.",
+      "mina": "Nyɔ̱ ɖɔƒe ɖa nuʋʋa."
+    },
+    {
+      "francais": "Ma tante est revenue ce matin.",
+      "mina": "Nyɔ̱ yɔɖiɖe ɖa etɔ̃."
+    },
+    {
+      "francais": "J'ai trois enfants.",
+      "mina": "Nye daƒo eli."
+    },
+    {
+      "francais": "Mon neveu est un bon élève.",
+      "mina": "Nyɔ̱ d斧 ko vɔ."
+    },
+    {
+      "francais": "Ma nièce apprend à coudre.",
+      "mina": "Nyɔ̱ ta ko kɔ ɖaƒe."
+    },
+    {
+      "francais": "Mon cousin joue au football.",
+      "mina": "Nyɔ̱ fetɔ ko to ɖi."
+    },
+    {
+      "francais": "Ma cousine danse très bien.",
+      "mina": "Nyɔ̱ feta sɔ̃ vɔ."
+    },
+    {
+      "francais": "Mon petit-fils est né le mois dernier.",
+      "mina": "Nyɔ̱ gbã o wuƒeƒe ɖa xexe."
+    },
+    {
+      "francais": "Ma petite-fille s'appelle Akua.",
+      "mina": "Nyɔ̱ yɔɖi o ŋlɔ nye Akua."
+    },
+    {
+      "francais": "Mon beau-père est artisan.",
+      "mina": "Nyɔ̱ ɖɔƒeɖe ko vɔ."
+    },
+    {
+      "francais": "Ma belle-mère est vendeuse.",
+      "mina": "Nyɔ̱ yɔɖiɖe ko dzɔ."
+    },
+    {
+      "francais": "Mon beau-frère est cultivateur.",
+      "mina": "Nyɔ̱ fetɔ ko tɔtrɔ."
+    },
+    {
+      "francais": "Ma belle-sœur fait la cuisine.",
+      "mina": "Nyɔ̱ feta ko ɖa kpɔ."
+    },
+    {
+      "francais": "Mon gendre est policeman.",
+      "mina": "Nyɔ̱ gbã o ko nuƒo."
+    },
+    {
+      "francais": "Ma bru est institutrice.",
+      "mina": "Nyɔ̱ ta o ko ɖokpɔ."
+    },
+    {
+      "francais": "J'aime ma famille.",
+      "mina": "Nye ku na nyɔ̱a."
+    },
+    {
+      "francais": "La famille est précieuse.",
+      "mina": "Nyɔ̱a ŋlɔ vɔ."
+    },
+    {
+      "francais": "Nous mangeons ensemble le soir.",
+      "mina": "Mie ɖaɖaƒe ɖi."
+    },
+    {
+      "francais": "Mon père cultivate le champ.",
+      "mina": "Nyɔ̱ gbã ko kplo."
+    },
+    {
+      "francais": "Ma mère vend au marché.",
+      "mina": "Nyɔ̱ ɖevi ko dzɔ ɖa kplɔe."
+    },
+    {
+      "francais": "Mon frère travaille à Aného.",
+      "mina": "Nuƒome koƒe ɖa Aného."
+    },
+    {
+      "francais": "Ma sœur garde les enfants.",
+      "mina": "Nyɔ̱ yɔɖi ko ɖaƒi eli."
+    },
+    {
+      "francais": "Mon fils lit le livre.",
+      "mina": "Nyɔ̱ o ko ku ɖaƒe."
+    },
+    {
+      "francais": "Ma fille lave les vêtements.",
+      "mina": "Nyɔ̱ ta ko ɖa xɔ."
+    },
+    {
+      "francais": "Mon oncle construit une maison.",
+      "mina": "Nyɔ̱ ɖɔƒe ko wuƒe."
+    },
+    {
+      "francais": "Ma tante prépare le repas.",
+      "mina": "Nyɔ̱ yɔɖiɖe ko kpɔ dze."
+    },
+    {
+      "francais": "Mon neveu est à l'école.",
+      "mina": "Nyɔ̱ d斧 ko ɖa kpɔ."
+    },
+    {
+      "francais": "Ma nièce chante au chorale.",
+      "mina": "Nyɔ̱ ta ko ɖe gbe."
+    },
+    {
+      "francais": "Mon cousin pêche au fleuve.",
+      "mina": "Nyɔ̱ fetɔ ko ɖo nu."
+    },
+    {
+      "francais": "Ma cousine tresse les cheveux.",
+      "mina": "Nyɔ̱ feta ko ɖaƒi."
+    },
+    {
+      "francais": "Mon grand-père conte des histoires.",
+      "mina": "Nyɔ̱ gbãtɔ ko ɖe ɖeƒe."
+    },
+    {
+      "francais": "Ma grand-mère prie chaque jour.",
+      "mina": "Nyɔ̱ yɔɖitɔ ko ɖe nyane."
+    },
+    {
+      "francais": "Les enfants jouent dehors.",
+      "mina": "Eli ko sɔ ɖaƒe."
+    },
+    {
+      "francais": "Mon père dort sous le mbeli.",
+      "mina": "Nyɔ̱ gbã ko ɖo ɖa xexe."
+    },
+    {
+      "francais": "Ma mère se lève tôt le matin.",
+      "mina": "Nyɔ̱ ɖevi ko ɖu etɔ̃."
+    },
+    {
+      "francais": "Mon petit-fils pleure souvent.",
+      "mina": "Nyɔ̱ gbã o ko lɔ."
+    },
+    {
+      "francais": "Ma petite-fille rit beaucoup.",
+      "mina": "Nyɔ̱ yɔɖi o ko ɖe."
+    },
+    {
+      "francais": "Mon fils aîné est marié.",
+      "mina": "Nyɔ̱ o ɖe ko ɖo."
+    },
+    {
+      "francais": "Ma fille aînée est mariée.",
+      "mina": "Nyɔ̱ ta ɖe ko ɖo."
+    },
+    {
+      "francais": "Mon gendre construit sa propre maison.",
+      "mina": "Nyɔ̱ gbã o ko ɖe."
+    },
+    {
+      "francais": "Ma bru soigne ma mère.",
+      "mina": "Nyɔ̱ ta o ko ɖe nyɔ̱ ɖevi."
+    },
+    {
+      "francais": "La famille se réunit chaque dimanche.",
+      "mina": "Nyɔ̱a ko ɖaɖaƒe ɖa nyɔ̃."
+    },
+    {
+      "francais": "Nous aimons notre famille.",
+      "mina": "Mie ku na nyɔ̱a."
+    },
+    {
+      "francais": "La famille est notre richesse.",
+      "mina": "Nyɔ̱a nye mɔ."
+    },
+    {
+      "francais": "Le fidèle sert Dieu.",
+      "mina": "Katɔlɛki fia Mawu."
+    },
+    {
+      "francais": "L'élève entre en classe.",
+      "mina": "Mɔ anɔ xa."
+    },
+    {
+      "francais": "Le maître enseigne la leçon.",
+      "mina": "Mɛlɔ kplɔ nu."
+    },
+    {
+      "francais": "L'enfant lit le livre.",
+      "mina": "Kɔ anɔ agbɛsɔ."
+    },
+    {
+      "francais": "La fillette écrit au tableau.",
+      "mina": "Kɔtinyi sɔ nu tɔn."
+    },
+    {
+      "francais": "L'école commence à sept heures.",
+      "mina": "Axa nɔ dzɔ ɖo ɖokpoe ɖe."
+    },
+    {
+      "francais": "L'examen finit demain.",
+      "mina": "Nyityɔwo va ɖo ɣetrɔ."
+    },
+    {
+      "francais": "Le maître corrige les devoirs.",
+      "mina": "Mɛlɔ nɔ fafa nuwowɔme."
+    },
+    {
+      "francais": "L'élève répond à la question.",
+      "mina": "Mɔ ta nu le didi."
+    },
+    {
+      "francais": "Le cartable est sur la table.",
+      "mina": "Nyɔnu nɔ ɖo te ɖokpo."
+    },
+    {
+      "francais": "La craie est blanche.",
+      "mina": "Kakaɖa nɔ wɛ ɖe."
+    },
+    {
+      "francais": "J'apprends à lire le mina.",
+      "mina": "Mɛnɔ mɔ kpɔ nu na."
+    },
+    {
+      "francais": "La leçon est difficile.",
+      "mina": "Nu nɔ wɔ blɔ."
+    },
+    {
+      "francais": "Le maître explique la grammaire.",
+      "mina": "Mɛlɔ nɔ sɔ amɛ凡 nu."
+    },
+    {
+      "francais": "L'élève fait ses devoirs.",
+      "mina": "Mɔ nɔ wɔ nuwowɔme."
+    },
+    {
+      "francais": "La classe est silencieuse.",
+      "mina": "Xa nɔ ŋuŋlɔ."
+    },
+    {
+      "francais": "Le directeur est dans le bureau.",
+      "mina": "Tɔgbui nɔ ɖo taɖaɖa."
+    },
+    {
+      "francais": "J'aime beaucoup l'école.",
+      "mina": "Mɛnɔ ɖa axa."
+    },
+    {
+      "francais": "L'ami prête son livre.",
+      "mina": "Nyitɔ kpɔ agbɛsɔe ɖo."
+    },
+    {
+      "francais": "La carte du Togo est sur le mur.",
+      "mina": "Xexefia tɔn nɔ ɖo dzata."
+    },
+    {
+      "francais": "Le maître punit l'élève indiscipliné.",
+      "mina": "Mɛlɔ ta mɔ aɖɛ."
+    },
+    {
+      "francais": "L'élève prépare son sac.",
+      "mina": "Mɔ nɔ fɔ nyɔnue."
+    },
+    {
+      "francais": "La cloche sonne le matin.",
+      "mina": "Gɔnɔ nɔ xu ɖo ɣetrɔ."
+    },
+    {
+      "francais": "Le tableau est noir.",
+      "mina": "Tɔn nɔ wɛ ɖa."
+    },
+    {
+      "francais": "J'ai réussi mon examen.",
+      "mina": "Nyityɔwo katɔ mɛ."
+    },
+    {
+      "francais": "Le livre de mathématiques est lourd.",
+      "mina": "Agbɛsɔ aɖɛ nɔ to."
+    },
+    {
+      "francais": "La maîtresse sourit aux enfants.",
+      "mina": "Mɛlɔtinyi nɔ bɔa kɔwo."
+    },
+    {
+      "francais": "L'école est loin de la maison.",
+      "mina": "Axa nɔ kpli tɔn."
+    },
+    {
+      "francais": "L'élève compte jusqu'à cent.",
+      "mina": "Mɔ nɔ yra ɖo alafia."
+    },
+    {
+      "francais": "Le crayon sert à écrire.",
+      "mina": "Sɔnu nɔ na sɔ nu."
+    },
+    {
+      "francais": "La fenêtre de la classe est ouverte.",
+      "mina": "Xaxata xa tɔn nɔ kpɔ."
+    },
+    {
+      "francais": "L'examen commence demain.",
+      "mina": "Nyityɔwo nɔ dzɔ ɖo ɣetrɔ."
+    },
+    {
+      "francais": "Le maître dicte une phrase.",
+      "mina": "Mɛlɔ nɔ sɔ anyifyo."
+    },
+    {
+      "francais": "Le pupitre est devant le tableau.",
+      "mina": "Teɖokpo nɔ ɖo tɔn do."
+    },
+    {
+      "francais": "L'élève lève la main.",
+      "mina": "Mɔ nɔ gblɔa."
+    },
+    {
+      "francais": "La craie tombe par terre.",
+      "mina": "Kakaɖa nɔ dzi te."
+    },
+    {
+      "francais": "J'apporte mon cahier.",
+      "mina": "Mɛtɔ kɔnuɖa."
+    },
+    {
+      "francais": "Le maître donne un exemple.",
+      "mina": "Mɛlɔ nɔ sɔ nu ta."
+    },
+    {
+      "francais": "La récréation dure quinze minutes.",
+      "mina": "Nyɔɖɔɖɔ nɔ ta alafa."
+    },
+    {
+      "francais": "L'école a un grand terrain.",
+      "mina": "Axa nɔ na tɔ."
+    },
+    {
+      "francais": "Le directeur fait un discours.",
+      "mina": "Tɔgbui nɔ xɔ nu."
+    },
+    {
+      "francais": "L'élève écoute le maître.",
+      "mina": "Mɔ nɔ sɛ mɛlɔ."
+    },
+    {
+      "francais": "La cloche sonne à midi.",
+      "mina": "Gɔnɔ nɔ xu ɖo ɣle."
+    },
+    {
+      "francais": "La leçon de sciences est intéressante.",
+      "mina": "Nuwɔna nɔ ɖa."
+    },
+    {
+      "francais": "J'étudie le français tous les jours.",
+      "mina": "Mɛwɔ xexefa ɖo nuwɔtɔ."
+    },
+    {
+      "francais": "Le livre est sous la chaise.",
+      "mina": "Agbɛsɔ nɔ ɖo toɖa."
+    },
+    {
+      "francais": "La carte du monde est grande.",
+      "mina": "Xexefia aɖɛ nɔ to."
+    },
+    {
+      "francais": "L'examen de fin d'année approche.",
+      "mina": "Nyityɔ aɖɛ nɔ yɔ."
+    },
+    {
+      "francais": "Le maître distribue les copies.",
+      "mina": "Mɛlɔ nɔ kpɔ nuwɔme."
+    },
+    {
+      "francais": "La bibliothèque est ouverte.",
+      "mina": "Nuwɔnaaxa nɔ kpɔ."
+    },
+    {
+      "francais": "J'emprunte un livre à la bibliothèque.",
+      "mina": "Mɛkplɔ agbɛsɔ ɖo nuwɔnaaxa."
+    },
+    {
+      "francais": "Les amis révisent ensemble.",
+      "mina": "Nyitɔwo nɔ wɔ anyi."
+    },
+    {
+      "francais": "Je suis fonctionnaire.",
+      "mina": "Nye nɔdrɔ̃."
+    },
+    {
+      "francais": "J'ai un travail à faire.",
+      "mina": "Nyɛ gbetɔ le nye ta."
+    },
+    {
+      "francais": "Je veux un certificat de naissance.",
+      "mina": "Nyɛ aɖaŋlɔ̃ ɖo nyɔnɔ ta a."
+    },
+    {
+      "francais": "J'ai perdu ma carte d'identité.",
+      "mina": "Nyɛ xɔsrɔ̃ ɖo eƒe le kple."
+    },
+    {
+      "francais": "Je veux ouvrir un dossier.",
+      "mina": "Nyɛ xɔsrɔ̃ lugbɔ a."
+    },
+    {
+      "francais": "Le bureau est ouvert.",
+      "mina": "Axa gbo."
+    },
+    {
+      "francais": "Le bureau est fermé.",
+      "mina": "Axa to."
+    },
+    {
+      "francais": "J'ai besoin d'un formulaire.",
+      "mina": "Nyɛ aɖaŋlɔ̃ xɔsrɔ̃ a."
+    },
+    {
+      "francais": "Où est le guichet ?",
+      "mina": "Se xɔsrɔ̃ le a ?"
+    },
+    {
+      "francais": "Le guichet est là-bas.",
+      "mina": "Se xɔsrɔ̃ le exale."
+    },
+    {
+      "francais": "Donnez-moi un reçu.",
+      "mina": "Nyɔnɔ xɔsrɔ̃ ta na nyɛ."
+    },
+    {
+      "francais": "Le reçu est ici.",
+      "mina": "Nyɔnɔ xɔsrɔ̃ ta le axaɔ."
+    },
+    {
+      "francais": "Je cherche le chef de bureau.",
+      "mina": "Nyɛ fia ɖo axa xɔsrɔ̃ ta."
+    },
+    {
+      "francais": "Le chef de bureau est absent.",
+      "mina": "Fia ɖo axa xɔsrɔ̃ ta va ko."
+    },
+    {
+      "francais": "Le chef de bureau est présent.",
+      "mina": "Fia ɖo axa xɔsrɔ̃ ta va."
+    },
+    {
+      "francais": "Le dossier est prêt.",
+      "mina": "Xɔsrɔ̃ ko."
+    },
+    {
+      "francais": "Le dossier n'est pas prêt.",
+      "mina": "Xɔsrɔ̃ ko a."
+    },
+    {
+      "francais": "Le dossier est incomplet.",
+      "mina": "Xɔsrɔ̃ le gbogbo."
+    },
+    {
+      "francais": "Le dossier est complet.",
+      "mina": "Xɔsrɔ̃ gbogbo."
+    },
+    {
+      "francais": "Je veux payer les frais.",
+      "mina": "Nyɛ srafa ta a."
+    },
+    {
+      "francais": "Combien coûtent les frais ?",
+      "mina": "Srafa le vɔ ?"
+    },
+    {
+      "francais": "Les frais ne suffisent pas.",
+      "mina": "Srafa va ko."
+    },
+    {
+      "francais": "Le délai est de combien de jours ?",
+      "mina": "Kɔkɔtɔ le vɔ ?"
+    },
+    {
+      "francais": "Le délai est de trois jours.",
+      "mina": "Kɔkɔtɔ le eƒe."
+    },
+    {
+      "francais": "C'est urgent.",
+      "mina": "Eya gɔ̃."
+    },
+    {
+      "francais": "Ce n'est pas urgent.",
+      "mina": "Eya gɔ̃ a."
+    },
+    {
+      "francais": "Je veux signer le document.",
+      "mina": "Nyɛ nyɔnɔ xɔsrɔ̃ ɖa a."
+    },
+    {
+      "francais": "Où dois-je signer ?",
+      "mina": "Nyɛ ɖa le a ?"
+    },
+    {
+      "francais": "Signez ici.",
+      "mina": "Ɖa axaɔ."
+    },
+    {
+      "francais": "Merci pour votre aide.",
+      "mina": "Nyɛ ta e ɖa wò."
+    },
+    {
+      "francais": "De rien.",
+      "mina": "Ahiamba."
+    },
+    {
+      "francais": "Revenez demain.",
+      "mina": "Va gɔ."
+    },
+    {
+      "francais": "Attendez là.",
+      "mina": "Dɔ ɖaka exale."
+    },
+    {
+      "francais": "Entrez, s'il vous plaît.",
+      "mina": "Gbo axaɔ."
+    },
+    {
+      "francais": "Veuillez vous asseoir.",
+      "mina": "Tso le ta."
+    },
+    {
+      "francais": "Je suis citoyen.",
+      "mina": "Nyɛ ame ɖo dukɔ."
+    },
+    {
+      "francais": "Je suis étranger.",
+      "mina": "Nyɛ ame ɖo gbesi."
+    },
+    {
+      "francais": "Le document n'est pas disponible.",
+      "mina": "Nyɔnɔ xɔsrɔ̃ le a."
+    },
+    {
+      "francais": "Le document est disponible.",
+      "mina": "Nyɔnɔ xɔsrɔ̃ le."
+    },
+    {
+      "francais": "J'ai fait ma demande.",
+      "mina": "Nyɛ nyɔnɔ ɖo."
+    },
+    {
+      "francais": "Ma demande est en cours.",
+      "mina": "Nye nyɔnɔ ɖo va."
+    },
+    {
+      "francais": "La procédure est claire.",
+      "mina": "Nyɔnɔ gbɔtɔ wo."
+    },
+    {
+      "francais": "Le délai est long.",
+      "mina": "Kɔkɔtɔ gɔ̃."
+    },
+    {
+      "francais": "Le bureau est loin.",
+      "mina": "Axa ɖo ta."
+    },
+    {
+      "francais": "La file d'attente est longue.",
+      "mina": "Ame ɖo axa ta dodo."
+    },
+    {
+      "francais": "J'ai déjà payé.",
+      "mina": "Nyɛ srafa ta ko."
+    },
+    {
+      "francais": "Le cachet est ici.",
+      "mina": "Nyɔnɔ se le axaɔ."
+    },
+    {
+      "francais": "Le cachet n'est pas là.",
+      "mina": "Nyɔnɔ se le a."
+    },
+    {
+      "francais": "Mon dossier est retenu.",
+      "mina": "Nye xɔsrɔ̃ le ta."
+    },
+    {
+      "francais": "Le fonctionnaire est occupé.",
+      "mina": "Nɔdrɔ̃ gbetɔ ta."
+    },
+    {
+      "francais": "Le fonctionnaire est libre.",
+      "mina": "Nɔdrɔ̃ gbetɔ a."
+    },
+    {
+      "francais": "Il faut attendre.",
+      "mina": "E na dɔ a."
+    }
+  ],
+  "corpus_translations": {
+    "La santé est importante.": "Nuwɔna nye na devɛwo.",
+    "Je suis malade.": "Eku mɛ.",
+    "Il a mal à la tête.": "Eƒu nu mɛ.",
+    "Elle a de la fièvre.": "Eku ɖevi.",
+    "J'ai mal au ventre.": "Aku mɛ nyongbɔ mɛ.",
+    "Le médecin est venu.": "Nusɔla la va.",
+    "Il tousse beaucoup.": "Ehu ʋu alo.",
+    "Elle a mal à la gorge.": "Eku ɖevi tɔgbo.",
+    "J'ai vomi ce matin.": "Manɔ kuku ɖa gboẽ.",
+    "L'enfant a la diarrhée.": "ŋkɔ vi la ɖo.",
+    "Mon père a le paludisme.": "Tata ɖaƒiaɖɔ.",
+    "Elle a une blessure au pied.": "Eku ɖeviʋu amɛ.",
+    "Le médecin a prescrit des médicaments.": "Nusɔla la bu le asawuwu.",
+    "Je dois aller à l'hôpital.": "Mekpɔa ŋkɔ o klɔe.",
+    "Elle est enceinte.": "Eku ɖevi ɖo.",
+    "Le bébé dort bien.": "Koklo vi la susumɔ.",
+    "Il a une allergie cutanée.": "Eku nu tso dzi.",
+    "Le patient est faible.": "Mɔla la ku ɖevie.",
+    "Elle a mal aux dents.": "Eku ɖevi ɖu.",
+    "J'ai mal au dos.": "Aku mɛ tɔnyɔ.",
+    "Le comprimé est amer.": "Asawuwu ta tɔ.",
+    "Il doit se reposer.": "Ekpɔa dzikpɔku o.",
+    "La plaie est infectée.": "Gaɖa la ku hena.",
+    "Il a une brûlure.": "Eku ɖeƒu.",
+    "Elle a le zona.": "Eku ɖevi ɖo nyɔnu dzi.",
+    "Le patient a une insolation.": "Mɔla la ku nyɔnu ɖa.",
+    "J'ai des vertiges.": "Aku tɔgbo mɛ.",
+    "Elle a mal au cœur.": "Eku ɖevi ʋu ɖeƒe.",
+    "Il a l'asthme.": "Eku ɖeƒe yiyu mɛ.",
+    "Le pansement est serré.": "Sisisẽ la ka.",
+    "Il a la tuberculose.": "Eku ɖeƒe blɔ.",
+    "Elle est guérie.": "Eku ɖevi ɖa.",
+    "La piqûre fait mal.": "Wɔla ku.",
+    "Il tousse du sang.": "Ehu nyɔnu.",
+    "Le miel est bon pour la toux.": "Dodome kpɔe na hu.",
+    "L'eau est sale, elle cause la diarrhée.": "Dzii ta wu, eye ake ɖo.",
+    "Elle a une infection urinaire.": "Eku ɖevi sɔ gbɔ.",
+    "J'ai mal au genou.": "Aku mɛ dunɔ.",
+    "La ambulance est arrivée.": "To vi ta sɔŋ la va.",
+    "Le pharmacien a préparé le remède.": "Asawuwuƒo la wɔ le asawuwu.",
+    "Il a une fracture.": "Eku ɖeƒe blɔ.",
+    "Elle a mal aux yeux.": "Eku ɖevi anyi.",
+    "Le bandage est tombé.": "Sisisẽ la ɖa.",
+    "J'ai pris le traitement.": "Maɖa le asawuwu.",
+    "La consultation est finie.": "Nuwɔna ta ku.",
+    "Il a le rhume.": "Eku ɖeƒe ɖovi.",
+    "Elle a une sinusite.": "Eku ɖevi tɔgbo mɛ.",
+    "Le patient est décédé.": "Mɔla la ku.",
+    "La maladie est contagieuse.": "Nuɖuɖu ake ba.",
+    "Il a la varicelle.": "Eku ɖeƒe nyɔnu blɔ.",
+    "Elle a une hépatite.": "Eku ɖevi teƒe blɔ.",
+    "Le moustique cause le paludisme.": "Nuki ta sɔŋ ɖaƒiaɖɔ.",
+    "Le juge rend la sentence.": "Ɣletɔ va wu dete.",
+    "Le voleur est arrêté par la police.": "Sɔsɔ va ta dzɔɖi.",
+    "Le prisonnier est dans la cellule.": "Eɖa le dunu ta.",
+    "Le témoin dit la vérité.": "Sisi va sɔ nyamǝ.",
+    "Le policier arrête le coupable.": "Ɣlatɔ va ta sɔgbɔ.",
+    "La courprononce le verdict.": "Nyamedenu va kple gbeɖe.",
+    "L'accusé nie les faits.": "Wǝna va le nɔnɔɖe.",
+    "L'avocate défend son client.": "Ɣɖevɔ va tsɔ kpɔtɔ.",
+    "La justice protège les innocents.": "Nyamedenu va tso nyamǝwo.",
+    "L'enquête est terminée.": "Dzigbɔ le xexlẽ.",
+    "Le criminel purge sa peine.": "Wo va kple kɔto.",
+    "Le tribunal siège chaque matin.": "Nyamedenu le ɣletɔna.",
+    "Le jury délibère en secret.": "Nyamedenu va le seɖee.",
+    "L'huissier appelle le témoin.": "Ɣlatɔ va wu sisi.",
+    "La magistrate instruisit l'affaire.": "Ɣletɔ leƒe nyawo.",
+    "Le greffier enregistre les débats.": "Ɣlatɔ le dzɔɖi.",
+    "Le justiciable fait appel.": "Amǝ va le dzigbɔ.",
+    "La sentence est rendue.": "Nunya le nyamedenu ta.",
+    "L'enquêteur pose des questions.": "Ɣlatɔ va le nyamedenu.",
+    "Le magistrat vérifie les preuves.": "Ɣletɔ va sɔ seɖe.",
+    "Le gardé à vue refuse de parler.": "Amǝ va ɖo seɖe.",
+    "La victime témoigne au tribunal.": "Wo va ta nyamǝ.",
+    "Le parquet requiert la prison.": "Ɣlatɔ va wo dzɔɖi.",
+    "L'inculpé nie sa culpabilité.": "Wǝna va wo ta.",
+    "Le commissariat reçoit la plainte.": "Sɔsɔ va ta sɔgbɔ.",
+    "L'officier de police perquisitionne.": "Ɣlatɔ va ɣli gbo.",
+    "Le brigadier interroge le suspect.": "Ɣlatɔ va tsɔ sɔgbɔ.",
+    "Le parquet enquête sur l'affaire.": "Wo va ta nyamǝ.",
+    "L'huissier notifie l'ordonnance.": "Ɣlatɔ va tsɔ seɖe.",
+    "L'avocate cross-examine le témoin.": "Ɣɖevɔ va ɖo sisi.",
+    "Le greffier signe le procès-verbal.": "Ɣlatɔ va tso nyamedenu.",
+    "L'huissier signifie l'acte.": "Ɣlatɔ va tsɔ nyamedenu.",
+    "Le témoin oculaire confirme le fait.": "Sisi le nyamǝ.",
+    "Le jury prononce l'acquittement.": "Wo va le nyamedenu ta.",
+    "Le condamné purge sa peine.": "Wo va tso kɔto.",
+    "La justice est rendue au peuple.": "Nyamedenu va le amǝ ta.",
+    "L'agent de police escorte le détenu.": "Ɣlatɔ va ɣli dzigbɔ.",
+    "Le magistrat prononce l'amende.": "Ɣletɔ va wu xexlẽ.",
+    "Le pénal statue sur le délit.": "Nyamedenu le nyamǝ ta.",
+    "La Cour suprême examine l'appel.": "Nyamedenu le ta.",
+    "Le témoin contredit l'accusé.": "Sisi va ta sɔgbɔ.",
+    "L'enquête révèle la vérité.": "Wo va sɔ nyamǝ.",
+    "Le justiciable comparaît demain.": "Amǝ va ta nyamedenu.",
+    "Le greffier enregistre l'audience.": "Ɣlatɔ va ta nyamedenu.",
+    "Le directeur de prison supervise.": "Ɣlatɔ le dzigbɔ ta.",
+    "La Cour confirme la sentence.": "Nyamedenu va nyamǝwo.",
+    "Le tribunal acquitte l'innocent.": "Nyamedenu va wo.",
+    "Le gardé à vue est libéré.": "Amǝ va tsɔ dzigbɔ.",
+    "La justice condamne le bandit.": "Nyamedenu va ta sɔgbɔ.",
+    "Le prévenu paye l'amende.": "Amǝ va kpɔna xexlẽ.",
+    "Le marché est ouvert.": "Ɛ̀kɔ ɖà.",
+    "Je vais au marché.": "Me sᴐ ɖàkɔ.",
+    "Tu achètes du poisson ?": "Won xɔ alɔ ?",
+    "Le prix est élevé.": "Se ɖà.",
+    "Combien ça coûte ?": "Se ɖè kɛ ?",
+    "Vends-moi cette tomate.": "Nyè nye tomati.",
+    "Le marché est bondé.": "Ɛ̀kɔ ɖà ɖàwù.",
+    "Je vends du piment.": "Mèdzᴐ atadyᴐ.",
+    "Elle achète des oignons.": "Ɛyɔ xɔayᴐ.",
+    "Voici mon argent.": "Nyè fa le.",
+    "La tomate est fraîche.": "Tomati yɛyɛ.",
+    "Donne-moi la好了.": "Nyè nye sᴐ.",
+    "Le vendeur est gentil.": "Nɔxᴐ ɖàwù.",
+    "J'ai acheté du manioc.": "Me xɔ akpu.",
+    "Le marché ferme tôt.": "Ɛ̀kɔ kple yɛ.",
+    "Tu as de la monnaie ?": "Won mia fa le ?",
+    "La bonne est chère.": "Nyamᴐ ɖà.",
+    "Je veux du sucre.": "Mèkɔ suga.",
+    "Où est le marché ?": "Ɛ̀kɔ ɖò ke ?",
+    "Il manque du sel.": "Dze kɔ.",
+    "Le riz est bon.": "Orizi yɛ.",
+    "Combien de kilogrammes ?": "Kilo ɖè kɛ ?",
+    "La tomate est mûre.": "Tomati ku.",
+    "Je vends du riz.": "Mèdzᴐ orizi.",
+    "Le poisson est salé.": "Alɔ yù.",
+    "Achète ce pagne.": "Xɔ savᴐ nye.",
+    "Le commerçant est parti.": "Nɔxᴐ sᴐ.",
+    "Elle veut vendre.": "Ɛyɔ dzᴐ.",
+    "Le prix a augmenté.": "Se ɖà.",
+    "Je vends des bananes.": "Mèdzᴐ alika.",
+    "Le marché est loin.": "Ɛ̀kɔ ɖò.",
+    "Achète ici.": "Xɔ vɔ.",
+    "Vends là-bas.": "Dzᴐ be.",
+    "Le sac est lourd.": "Kete ɖà.",
+    "Je compte l'argent.": "Mèkɔ fa.",
+    "Le client est parti.": "Nyamᴐ ɖà sᴐ.",
+    "Elle achète du pain.": "Ɛyɔ xɔ amᴐ.",
+    "Le marché est calme.": "Ɛ̀kɔ ɖù.",
+    "Donne-moi deux.": "Nyè eve.",
+    "La sauce est prête.": "Yɔfua yɛ.",
+    "Je vends des ignames.": "Mèdzᴐ ɖᴐ.",
+    "Le prix est bas.": "Se kɔ.",
+    "Tu veux négocier ?": "Won kɔ se ?",
+    "La pintade est grasse.": "Kɔku ɖà.",
+    "Je vends des herbes.": "Mèdzᴐ akɔwᴐ.",
+    "L'eau est froide.": "Mɛwù.",
+    "Le marché est propre.": "Ɛ̀kɔ yù.",
+    "Elle attend le client.": "Ɛyɔ xɔ nyamᴐ.",
+    "Le millet est sec.": "Aɖᴐ kɔ.",
+    "Viens au marché demain.": "Va ɖàkɔ ɖù.",
+    "La tomate est tombée.": "Tomati fà.",
+    "Le bus est parti.": "Bas la dɔ nu.",
+    "Je prends le taxi.": "Me kple taksi.",
+    "La voiture est pleine.": "Kpɔtɔ la xlɛ.",
+    "Où est la gare ?": "Gare la nye nanɛɔ ?",
+    "Je vais à Lomé.": "Me ya lɔ Lomé.",
+    "Le train arrive.": "Siklet la bɔ.",
+    "L'avion vole haut.": "Kakɛ la tso nu.",
+    "Le bateau a coulé.": "Dzata la nu ɖe.",
+    "La route est longue.": "Anyimɔ la ɖe.",
+    "Le pont est cassé.": "ʋu la wu.",
+    "J'attends le bus.": "Me tso bas.",
+    "Le chauffeur conduit vite.": "Sɔwɔla la ɖe nɔ.",
+    "L'essence est chère.": "Petro la kɔ.",
+    "J'ai payé le ticket.": "Me kple bilɛ.",
+    "Le moteur tourne.": "Motɔ la kɔ.",
+    "La roue est plate.": "Wɔ la wu.",
+    "Le siège est confortable.": "Tu la ku.",
+    "Je traverse la rue.": "Me kple anyimɔ.",
+    "Le carrefour est loin.": "Dɔdɔ la ɖe.",
+    "Il y a un embouteillage.": "Dɔdze aɖe ɖe.",
+    "Le taxi est rapide.": "Taksi la nɔ.",
+    "Où va ce bus ?": "Bas sia ya kɔ nanɛɔ ?",
+    "Je descends ici.": "Me si hi.",
+    "Le feu est rouge.": "Hənya la blabo.",
+    "La gare est bondée.": "Gare la blɔ.",
+    "Le passager est en retard.": "Dɔliwo la ɖe ƒe.",
+    "J'ai oublié mon ticket.": "Me li bilɛ na.",
+    "Le trajet est court.": "Dɔli la fifi.",
+    "Le chauffeur est fatigué.": "Sɔwɔla la xɔ.",
+    "L'horaire est affiché.": "ƒe sia la tso.",
+    "Le prix du transport est bas.": "Kɔnɛɔ la fifi.",
+    "Je marche vers la gare.": "Me ɖe ya gare.",
+    "La distance est de 100 km.": "Ku la ɖe kpa ta.",
+    "Le bus s'est arrêté.": "Bas la dra.",
+    "J'ai raté le dernier bus.": "Me wu bas ɖe.",
+    "Le taxi coûte combien ?": "Taksi la kɔ nanɛɔ ?",
+    "La charrette est cassée.": "Wuwu la wu.",
+    "Le voyage a été long.": "Dɔdze la ɖe.",
+    "Je veux aller à Aného.": "Me dzɔ ya Aného.",
+    "Le pont est dangereux.": "ʋu la sɔ.",
+    "La route est mouillée.": "Anyimɔ la ɖu.",
+    "L'arrêt de bus est plein.": "Basfɔ la blɔ.",
+    "J'ai trouvé une place.": "Me ku funya aɖe.",
+    "Le moteur est en panne.": "Motɔ la wu.",
+    "Je monte dans le bus.": "Me nɔ bas me.",
+    "La moto roule vite.": "Moto la kɔ nɔ.",
+    "Le bicycle est ancien.": "Siklɛ la du.",
+    "Le feu est vert.": "Hənya la gbɔ.",
+    "J'arrive à Tsévié.": "Me bɔ Tsévié.",
+    "Le交通 est fluide.": "Dɔdze la ɖu.",
+    "Merci pour le transport.": "Nyamedzo na dɔdze la.",
+    "Ma mère est à la maison.": "Nyɔ̱ ɖevi ŋuƒeƒe la.",
+    "Mon père est cultivateur.": "Nyɔ̱ gbã tɔtrɔ.",
+    "Mon frère cadet habite à Lomé.": "Nuƒome ŋuƒeƒe ŋɔkɔe ɖa Lomé ta.",
+    "Ma sœur aînée est institutrice.": "Nyɔ̱ yɔɖi ɖe nye.",
+    "Mon fils est malade.": "D斧 o.",
+    "Ma fille joue dans la cour.": "Nyɔ̱ ta sɔ ɖi.",
+    "Mon grand-père est très âgé.": "Nyɔ̱ gbãtɔ nye kɔkɔe.",
+    "Ma grand-mère prépare le repas.": "Nyɔ̱ yɔɖitɔ nɔ kpɔ dze.",
+    "Mon oncle est venu hier.": "Nyɔ̱ ɖɔƒe ɖa nuʋʋa.",
+    "Ma tante est revenue ce matin.": "Nyɔ̱ yɔɖiɖe ɖa etɔ̃.",
+    "J'ai trois enfants.": "Nye daƒo eli.",
+    "Mon neveu est un bon élève.": "Nyɔ̱ d斧 ko vɔ.",
+    "Ma nièce apprend à coudre.": "Nyɔ̱ ta ko kɔ ɖaƒe.",
+    "Mon cousin joue au football.": "Nyɔ̱ fetɔ ko to ɖi.",
+    "Ma cousine danse très bien.": "Nyɔ̱ feta sɔ̃ vɔ.",
+    "Mon petit-fils est né le mois dernier.": "Nyɔ̱ gbã o wuƒeƒe ɖa xexe.",
+    "Ma petite-fille s'appelle Akua.": "Nyɔ̱ yɔɖi o ŋlɔ nye Akua.",
+    "Mon beau-père est artisan.": "Nyɔ̱ ɖɔƒeɖe ko vɔ.",
+    "Ma belle-mère est vendeuse.": "Nyɔ̱ yɔɖiɖe ko dzɔ.",
+    "Mon beau-frère est cultivateur.": "Nyɔ̱ fetɔ ko tɔtrɔ.",
+    "Ma belle-sœur fait la cuisine.": "Nyɔ̱ feta ko ɖa kpɔ.",
+    "Mon gendre est policeman.": "Nyɔ̱ gbã o ko nuƒo.",
+    "Ma bru est institutrice.": "Nyɔ̱ ta o ko ɖokpɔ.",
+    "J'aime ma famille.": "Nye ku na nyɔ̱a.",
+    "La famille est précieuse.": "Nyɔ̱a ŋlɔ vɔ.",
+    "Nous mangeons ensemble le soir.": "Mie ɖaɖaƒe ɖi.",
+    "Mon père cultivate le champ.": "Nyɔ̱ gbã ko kplo.",
+    "Ma mère vend au marché.": "Nyɔ̱ ɖevi ko dzɔ ɖa kplɔe.",
+    "Mon frère travaille à Aného.": "Nuƒome koƒe ɖa Aného.",
+    "Ma sœur garde les enfants.": "Nyɔ̱ yɔɖi ko ɖaƒi eli.",
+    "Mon fils lit le livre.": "Nyɔ̱ o ko ku ɖaƒe.",
+    "Ma fille lave les vêtements.": "Nyɔ̱ ta ko ɖa xɔ.",
+    "Mon oncle construit une maison.": "Nyɔ̱ ɖɔƒe ko wuƒe.",
+    "Ma tante prépare le repas.": "Nyɔ̱ yɔɖiɖe ko kpɔ dze.",
+    "Mon neveu est à l'école.": "Nyɔ̱ d斧 ko ɖa kpɔ.",
+    "Ma nièce chante au chorale.": "Nyɔ̱ ta ko ɖe gbe.",
+    "Mon cousin pêche au fleuve.": "Nyɔ̱ fetɔ ko ɖo nu.",
+    "Ma cousine tresse les cheveux.": "Nyɔ̱ feta ko ɖaƒi.",
+    "Mon grand-père conte des histoires.": "Nyɔ̱ gbãtɔ ko ɖe ɖeƒe.",
+    "Ma grand-mère prie chaque jour.": "Nyɔ̱ yɔɖitɔ ko ɖe nyane.",
+    "Les enfants jouent dehors.": "Eli ko sɔ ɖaƒe.",
+    "Mon père dort sous le mbeli.": "Nyɔ̱ gbã ko ɖo ɖa xexe.",
+    "Ma mère se lève tôt le matin.": "Nyɔ̱ ɖevi ko ɖu etɔ̃.",
+    "Mon petit-fils pleure souvent.": "Nyɔ̱ gbã o ko lɔ.",
+    "Ma petite-fille rit beaucoup.": "Nyɔ̱ yɔɖi o ko ɖe.",
+    "Mon fils aîné est marié.": "Nyɔ̱ o ɖe ko ɖo.",
+    "Ma fille aînée est mariée.": "Nyɔ̱ ta ɖe ko ɖo.",
+    "Mon gendre construit sa propre maison.": "Nyɔ̱ gbã o ko ɖe.",
+    "Ma bru soigne ma mère.": "Nyɔ̱ ta o ko ɖe nyɔ̱ ɖevi.",
+    "La famille se réunit chaque dimanche.": "Nyɔ̱a ko ɖaɖaƒe ɖa nyɔ̃.",
+    "Nous aimons notre famille.": "Mie ku na nyɔ̱a.",
+    "La famille est notre richesse.": "Nyɔ̱a nye mɔ.",
+    "Le fidèle sert Dieu.": "Katɔlɛki fia Mawu.",
+    "L'élève entre en classe.": "Mɔ anɔ xa.",
+    "Le maître enseigne la leçon.": "Mɛlɔ kplɔ nu.",
+    "L'enfant lit le livre.": "Kɔ anɔ agbɛsɔ.",
+    "La fillette écrit au tableau.": "Kɔtinyi sɔ nu tɔn.",
+    "L'école commence à sept heures.": "Axa nɔ dzɔ ɖo ɖokpoe ɖe.",
+    "L'examen finit demain.": "Nyityɔwo va ɖo ɣetrɔ.",
+    "Le maître corrige les devoirs.": "Mɛlɔ nɔ fafa nuwowɔme.",
+    "L'élève répond à la question.": "Mɔ ta nu le didi.",
+    "Le cartable est sur la table.": "Nyɔnu nɔ ɖo te ɖokpo.",
+    "La craie est blanche.": "Kakaɖa nɔ wɛ ɖe.",
+    "J'apprends à lire le mina.": "Mɛnɔ mɔ kpɔ nu na.",
+    "La leçon est difficile.": "Nu nɔ wɔ blɔ.",
+    "Le maître explique la grammaire.": "Mɛlɔ nɔ sɔ amɛ凡 nu.",
+    "L'élève fait ses devoirs.": "Mɔ nɔ wɔ nuwowɔme.",
+    "La classe est silencieuse.": "Xa nɔ ŋuŋlɔ.",
+    "Le directeur est dans le bureau.": "Tɔgbui nɔ ɖo taɖaɖa.",
+    "J'aime beaucoup l'école.": "Mɛnɔ ɖa axa.",
+    "L'ami prête son livre.": "Nyitɔ kpɔ agbɛsɔe ɖo.",
+    "La carte du Togo est sur le mur.": "Xexefia tɔn nɔ ɖo dzata.",
+    "Le maître punit l'élève indiscipliné.": "Mɛlɔ ta mɔ aɖɛ.",
+    "L'élève prépare son sac.": "Mɔ nɔ fɔ nyɔnue.",
+    "La cloche sonne le matin.": "Gɔnɔ nɔ xu ɖo ɣetrɔ.",
+    "Le tableau est noir.": "Tɔn nɔ wɛ ɖa.",
+    "J'ai réussi mon examen.": "Nyityɔwo katɔ mɛ.",
+    "Le livre de mathématiques est lourd.": "Agbɛsɔ aɖɛ nɔ to.",
+    "La maîtresse sourit aux enfants.": "Mɛlɔtinyi nɔ bɔa kɔwo.",
+    "L'école est loin de la maison.": "Axa nɔ kpli tɔn.",
+    "L'élève compte jusqu'à cent.": "Mɔ nɔ yra ɖo alafia.",
+    "Le crayon sert à écrire.": "Sɔnu nɔ na sɔ nu.",
+    "La fenêtre de la classe est ouverte.": "Xaxata xa tɔn nɔ kpɔ.",
+    "L'examen commence demain.": "Nyityɔwo nɔ dzɔ ɖo ɣetrɔ.",
+    "Le maître dicte une phrase.": "Mɛlɔ nɔ sɔ anyifyo.",
+    "Le pupitre est devant le tableau.": "Teɖokpo nɔ ɖo tɔn do.",
+    "L'élève lève la main.": "Mɔ nɔ gblɔa.",
+    "La craie tombe par terre.": "Kakaɖa nɔ dzi te.",
+    "J'apporte mon cahier.": "Mɛtɔ kɔnuɖa.",
+    "Le maître donne un exemple.": "Mɛlɔ nɔ sɔ nu ta.",
+    "La récréation dure quinze minutes.": "Nyɔɖɔɖɔ nɔ ta alafa.",
+    "L'école a un grand terrain.": "Axa nɔ na tɔ.",
+    "Le directeur fait un discours.": "Tɔgbui nɔ xɔ nu.",
+    "L'élève écoute le maître.": "Mɔ nɔ sɛ mɛlɔ.",
+    "La cloche sonne à midi.": "Gɔnɔ nɔ xu ɖo ɣle.",
+    "La leçon de sciences est intéressante.": "Nuwɔna nɔ ɖa.",
+    "J'étudie le français tous les jours.": "Mɛwɔ xexefa ɖo nuwɔtɔ.",
+    "Le livre est sous la chaise.": "Agbɛsɔ nɔ ɖo toɖa.",
+    "La carte du monde est grande.": "Xexefia aɖɛ nɔ to.",
+    "L'examen de fin d'année approche.": "Nyityɔ aɖɛ nɔ yɔ.",
+    "Le maître distribue les copies.": "Mɛlɔ nɔ kpɔ nuwɔme.",
+    "La bibliothèque est ouverte.": "Nuwɔnaaxa nɔ kpɔ.",
+    "J'emprunte un livre à la bibliothèque.": "Mɛkplɔ agbɛsɔ ɖo nuwɔnaaxa.",
+    "Les amis révisent ensemble.": "Nyitɔwo nɔ wɔ anyi.",
+    "Je suis fonctionnaire.": "Nye nɔdrɔ̃.",
+    "J'ai un travail à faire.": "Nyɛ gbetɔ le nye ta.",
+    "Je veux un certificat de naissance.": "Nyɛ aɖaŋlɔ̃ ɖo nyɔnɔ ta a.",
+    "J'ai perdu ma carte d'identité.": "Nyɛ xɔsrɔ̃ ɖo eƒe le kple.",
+    "Je veux ouvrir un dossier.": "Nyɛ xɔsrɔ̃ lugbɔ a.",
+    "Le bureau est ouvert.": "Axa gbo.",
+    "Le bureau est fermé.": "Axa to.",
+    "J'ai besoin d'un formulaire.": "Nyɛ aɖaŋlɔ̃ xɔsrɔ̃ a.",
+    "Où est le guichet ?": "Se xɔsrɔ̃ le a ?",
+    "Le guichet est là-bas.": "Se xɔsrɔ̃ le exale.",
+    "Donnez-moi un reçu.": "Nyɔnɔ xɔsrɔ̃ ta na nyɛ.",
+    "Le reçu est ici.": "Nyɔnɔ xɔsrɔ̃ ta le axaɔ.",
+    "Je cherche le chef de bureau.": "Nyɛ fia ɖo axa xɔsrɔ̃ ta.",
+    "Le chef de bureau est absent.": "Fia ɖo axa xɔsrɔ̃ ta va ko.",
+    "Le chef de bureau est présent.": "Fia ɖo axa xɔsrɔ̃ ta va.",
+    "Le dossier est prêt.": "Xɔsrɔ̃ ko.",
+    "Le dossier n'est pas prêt.": "Xɔsrɔ̃ ko a.",
+    "Le dossier est incomplet.": "Xɔsrɔ̃ le gbogbo.",
+    "Le dossier est complet.": "Xɔsrɔ̃ gbogbo.",
+    "Je veux payer les frais.": "Nyɛ srafa ta a.",
+    "Combien coûtent les frais ?": "Srafa le vɔ ?",
+    "Les frais ne suffisent pas.": "Srafa va ko.",
+    "Le délai est de combien de jours ?": "Kɔkɔtɔ le vɔ ?",
+    "Le délai est de trois jours.": "Kɔkɔtɔ le eƒe.",
+    "C'est urgent.": "Eya gɔ̃.",
+    "Ce n'est pas urgent.": "Eya gɔ̃ a.",
+    "Je veux signer le document.": "Nyɛ nyɔnɔ xɔsrɔ̃ ɖa a.",
+    "Où dois-je signer ?": "Nyɛ ɖa le a ?",
+    "Signez ici.": "Ɖa axaɔ.",
+    "Merci pour votre aide.": "Nyɛ ta e ɖa wò.",
+    "De rien.": "Ahiamba.",
+    "Revenez demain.": "Va gɔ.",
+    "Attendez là.": "Dɔ ɖaka exale.",
+    "Entrez, s'il vous plaît.": "Gbo axaɔ.",
+    "Veuillez vous asseoir.": "Tso le ta.",
+    "Je suis citoyen.": "Nyɛ ame ɖo dukɔ.",
+    "Je suis étranger.": "Nyɛ ame ɖo gbesi.",
+    "Le document n'est pas disponible.": "Nyɔnɔ xɔsrɔ̃ le a.",
+    "Le document est disponible.": "Nyɔnɔ xɔsrɔ̃ le.",
+    "J'ai fait ma demande.": "Nyɛ nyɔnɔ ɖo.",
+    "Ma demande est en cours.": "Nye nyɔnɔ ɖo va.",
+    "La procédure est claire.": "Nyɔnɔ gbɔtɔ wo.",
+    "Le délai est long.": "Kɔkɔtɔ gɔ̃.",
+    "Le bureau est loin.": "Axa ɖo ta.",
+    "La file d'attente est longue.": "Ame ɖo axa ta dodo.",
+    "J'ai déjà payé.": "Nyɛ srafa ta ko.",
+    "Le cachet est ici.": "Nyɔnɔ se le axaɔ.",
+    "Le cachet n'est pas là.": "Nyɔnɔ se le a.",
+    "Mon dossier est retenu.": "Nye xɔsrɔ̃ le ta.",
+    "Le fonctionnaire est occupé.": "Nɔdrɔ̃ gbetɔ ta.",
+    "Le fonctionnaire est libre.": "Nɔdrɔ̃ gbetɔ a.",
+    "Il faut attendre.": "E na dɔ a."
+  }
+}

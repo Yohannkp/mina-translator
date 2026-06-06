@@ -1,177 +1,215 @@
 """
-API FastAPI pour traduction Mina-Français
-=========================================
+api/main.py - API de traduction Français ↔ Mina
+==============================================
 
-Endpoints:
-    POST /translate - Traduit du texte
-    POST /transcribe - Transcrit de l'audio
-    POST /speak - Synthétise la parole
-    GET /health - Santé de l'API
+API FastAPI production-ready pour traduire entre Français et Mina (Ewe du Togo).
+
+Points de terminaison:
+- GET / : Page d'accueil
+- GET /health : Health check
+- POST /translate : Traduire FR → Mina
+- POST /translate_mina : Traduire Mina → FR
 
 Usage:
     uvicorn api.main:app --reload --port 8000
-"""
-import os
-import sys
-import asyncio
-from pathlib import Path
-from typing import Optional
-from contextlib import asynccontextmanager
 
-from fastapi import FastAPI, HTTPException, BackgroundTasks
+Auteur: Claude Opus 4.8
+Date: 2026-06-05
+"""
+
+import sys
+import io
+from pathlib import Path
+from typing import Optional, List
+from datetime import datetime
+
+# Fix encoding Windows
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+
+import torch
+from fastapi import FastAPI, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from loguru import logger
+from transformers import AutoModelForCausalLM, AutoTokenizer, pipeline
+import logging
+import tempfile
+import os
 
-# Ajouter le chemin du projet
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-from config.settings import get_settings
-settings = get_settings()
+import librosa
 
 # =============================================================================
-# MODÈLES DE DONNÉES
+# CONFIG
 # =============================================================================
 
-class TranslateRequest(BaseModel):
-    """Requête de traduction"""
-    text: str = Field(..., min_length=1, max_length=1000, description="Texte à traduire")
-    source_lang: str = Field(default="fr", description="Langue source: fr ou mina")
-    target_lang: str = Field(default="mina", description="Langue cible: fr ou mina")
+PROJECT_ROOT = Path(__file__).parent.parent
+MODEL_DIR = PROJECT_ROOT / "models" / "mina-translator"
+WHISPER_DIR = PROJECT_ROOT / "models" / "mina-whisper-v1"
+FALLBACK_MODEL = "Qwen/Qwen2-0.5B-Instruct"
+FALLBACK_WHISPER = "openai/whisper-small"
 
+# =============================================================================
+# LOGGING
+# =============================================================================
 
-class TranslateResponse(BaseModel):
-    """Réponse de traduction"""
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# =============================================================================
+# PYDANTIC MODELS
+# =============================================================================
+
+class TranslationRequest(BaseModel):
+    text: str = Field(..., min_length=1, max_length=2000, description="Texte à traduire")
+    temperature: float = Field(default=0.3, ge=0.0, le=1.0, description="Température de génération")
+    max_length: int = Field(default=256, ge=16, le=512, description="Longueur max de la traduction")
+
+class TranslationResponse(BaseModel):
     original: str
-    translated: str
-    source_lang: str
-    target_lang: str
-    confidence: Optional[float] = None
+    translation: str
+    direction: str
+    model: str
+    inference_time_ms: float
 
-
-class TranscribeRequest(BaseModel):
-    """Requête de transcription audio"""
-    audio_url: Optional[str] = None
-    audio_data: Optional[str] = None  # Base64 encoded
-
-
-class TranscribeResponse(BaseModel):
-    """Réponse de transcription"""
-    text: str
-    language: str = "mina"
-    confidence: Optional[float] = None
-
-
-class SpeakRequest(BaseModel):
-    """Requête de synthèse vocale"""
-    text: str = Field(..., min_length=1, max_length=500)
-    lang: str = Field(default="mina", description="Langue: mina ou fr")
-    speed: float = Field(default=1.0, ge=0.5, le=2.0)
-
-
-class SpeakResponse(BaseModel):
-    """Réponse de synthèse vocale"""
-    audio_url: str
-    duration: float
-
+class BatchTranslationRequest(BaseModel):
+    texts: List[str] = Field(..., min_items=1, max_items=10)
+    temperature: float = Field(default=0.3, ge=0.0, le=1.0)
 
 class HealthResponse(BaseModel):
-    """Réponse de santé"""
     status: str
-    gpu_available: bool
     model_loaded: bool
-    gpu_memory_used: float
-    gpu_memory_total: float
-
+    model_name: str
+    device: str
+    timestamp: str
 
 # =============================================================================
-# GESTIONNAIRE DE CYCLE DE VIE
+# MODEL LOADING
 # =============================================================================
 
-# Global state
-model = None
-tokenizer = None
-device = None
+class MinaTranslator:
+    """Gestionnaire de modèle de traduction Mina"""
 
+    def __init__(self):
+        self.model = None
+        self.tokenizer = None
+        self.model_name = FALLBACK_MODEL
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Gère le démarrage et l'arrêt de l'application"""
-    logger.info("=" * 60)
-    logger.info("DÉMARRAGE DE L'API MINA-TRANSLATOR")
-    logger.info("=" * 60)
+    def load(self):
+        """Charge le modèle fine-tuné ou le modèle de base"""
+        logger.info(f"Chargement du modèle depuis {MODEL_DIR}...")
 
-    global model, tokenizer, device
-
-    # Initialiser le device
-    import torch
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    logger.info(f"Device: {device}")
-
-    if torch.cuda.is_available():
-        logger.info(f"GPU: {torch.cuda.get_device_name(0)}")
-        logger.info(f"VRAM: {torch.cuda.get_device_properties(0).total_memory / 1e9:.1f} Go")
-
-    # Charger le modèle si disponible
-    model_path = settings.MODELS_DIR / "mina-translator"
-    if model_path.exists():
-        try:
-            from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-            import torch
-
-            logger.info("Chargement du modèle fine-tuné...")
-
-            tokenizer = AutoTokenizer.from_pretrained(model_path)
-            tokenizer.pad_token = tokenizer.eos_token
-
-            # Chargement avec quantisation si sur GPU
-            if torch.cuda.is_available():
-                bnb_config = BitsAndBytesConfig(
-                    load_in_4bit=True,
-                    bnb_4bit_compute_dtype=torch.float16,
+        if MODEL_DIR.exists():
+            try:
+                self.tokenizer = AutoTokenizer.from_pretrained(
+                    str(MODEL_DIR),
+                    trust_remote_code=True
                 )
-                model = AutoModelForCausalLM.from_pretrained(
-                    model_path,
-                    quantization_config=bnb_config,
-                    device_map="auto",
+                self.model = AutoModelForCausalLM.from_pretrained(
+                    str(MODEL_DIR),
+                    torch_dtype=torch.float16 if self.device == "cuda" else torch.float32,
+                    trust_remote_code=True
                 )
-            else:
-                model = AutoModelForCausalLM.from_pretrained(model_path)
+                self.model_name = str(MODEL_DIR)
+                logger.info("Modèle fine-tuné chargé avec succès!")
+            except Exception as e:
+                logger.warning(f"Impossible de charger le modèle fine-tuné: {e}")
+                logger.info("Utilisation du modèle de base...")
+                self._load_base_model()
+        else:
+            logger.info("Modèle fine-tuné non trouvé, utilisation du modèle de base...")
+            self._load_base_model()
 
-            logger.info("Modèle chargé avec succès!")
+        self.model.to(self.device)
+        self.model.eval()
 
-        except Exception as e:
-            logger.warning(f"Impossible de charger le modèle fine-tuné: {e}")
-            logger.info("L'API utilisera des traductions de base")
-            model = None
-    else:
-        logger.info("Modèle fine-tuné non trouvé, utilisation du mode base")
-        logger.info(f"Entraîne le modèle avec: python scripts/train_translation.py")
+    def _load_base_model(self):
+        """Charge le modèle de base Qwen2"""
+        self.tokenizer = AutoTokenizer.from_pretrained(
+            FALLBACK_MODEL,
+            trust_remote_code=True
+        )
+        self.model = AutoModelForCausalLM.from_pretrained(
+            FALLBACK_MODEL,
+            torch_dtype=torch.float16 if self.device == "cuda" else torch.float32,
+            trust_remote_code=True
+        )
+        self.model_name = FALLBACK_MODEL
 
-    yield
+    def translate_fr_to_mina(self, text: str, temperature: float = 0.3, max_length: int = 256) -> tuple:
+        """Traduit du Français vers le Mina"""
+        start_time = datetime.now()
 
-    # Nettoyage
-    logger.info("Arrêt de l'API...")
-    if model:
-        del model
-    if tokenizer:
-        del tokenizer
-    if torch.cuda.is_available():
-        torch.cuda.empty_cache()
+        prompt = f"""Tu es un assistant de traduction expert en Français et Ewe (Mina du Togo).
+Traduis la phrase suivante du Français vers le Mina (Ewe).
+Sois précis et utilise les caractères spéciaux : ɛ ɔ ɖ
 
+Français: {text}
+Mina:"""
+
+        inputs = self.tokenizer(prompt, return_tensors="pt").to(self.device)
+
+        with torch.no_grad():
+            outputs = self.model.generate(
+                **inputs,
+                max_new_tokens=max_length,
+                temperature=temperature,
+                top_p=0.9,
+                do_sample=True,
+                repetition_penalty=1.1,
+            )
+
+        response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        # Extraire juste la traduction
+        translation = response.split("Mina:")[-1].strip()
+
+        inference_time = (datetime.now() - start_time).total_seconds() * 1000
+
+        return translation, inference_time
+
+    def translate_mina_to_fr(self, text: str, temperature: float = 0.3, max_length: int = 256) -> tuple:
+        """Traduit du Mina vers le Français"""
+        start_time = datetime.now()
+
+        prompt = f"""Tu es un assistant de traduction expert en Français et Ewe (Mina du Togo).
+Traduis la phrase suivante du Mina (Ewe) vers le Français.
+Sois précis.
+
+Mina: {text}
+Français:"""
+
+        inputs = self.tokenizer(prompt, return_tensors="pt").to(self.device)
+
+        with torch.no_grad():
+            outputs = self.model.generate(
+                **inputs,
+                max_new_tokens=max_length,
+                temperature=temperature,
+                top_p=0.9,
+                do_sample=True,
+                repetition_penalty=1.1,
+            )
+
+        response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        translation = response.split("Français:")[-1].strip()
+
+        inference_time = (datetime.now() - start_time).total_seconds() * 1000
+
+        return translation, inference_time
+
+    def is_loaded(self) -> bool:
+        return self.model is not None
 
 # =============================================================================
-# CRÉER L'APPLICATION
+# FASTAPI APP
 # =============================================================================
 
 app = FastAPI(
     title="Mina-Translator API",
-    description="API pour la traduction et transcription Mina-Français",
+    description="API de traduction Français ↔ Mina (Ewe du Togo) pour l'inclusion numérique au Togo",
     version="1.0.0",
-    lifespan=lifespan,
 )
 
-# CORS
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -180,237 +218,246 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Global translator instance
+translator = MinaTranslator()
+whisper_model = None
+whisper_processor = None
 
-# =============================================================================
-# FONCTIONS DE TRADUCTION
-# =============================================================================
+@app.on_event("startup")
+async def startup_event():
+    """Charge le modèle au démarrage de l'API"""
+    logger.info("=" * 60)
+    logger.info("DÉMARRAGE DE MINA-TRANSLATOR API")
+    logger.info("=" * 60)
+    translator.load()
+    logger.info(f"Appareil: {translator.device}")
+    logger.info(f"Modèle: {translator.model_name}")
 
-def translate_with_model(text: str, source: str, target: str) -> tuple[str, float]:
-    """Traduit en utilisant le modèle fine-tuné"""
+    # Charger Whisper pour STT
+    global whisper_model, whisper_processor
+    try:
+        if WHISPER_DIR.exists():
+            whisper_processor = WhisperProcessor.from_pretrained(str(WHISPER_DIR))
+            whisper_model = WhisperForConditionalGeneration.from_pretrained(str(WHISPER_DIR))
+        else:
+            whisper_processor = WhisperProcessor.from_pretrained(FALLBACK_WHISPER)
+            whisper_model = WhisperForConditionalGeneration.from_pretrained(FALLBACK_WHISPER)
+        whisper_model.to(translator.device)
+        whisper_model.eval()
+        logger.info(f"Whisper chargé: {FALLBACK_WHISPER if not WHISPER_DIR.exists() else WHISPER_DIR}")
+    except Exception as e:
+        logger.warning(f"Whisper non chargé: {e}")
 
-    if model is None or tokenizer is None:
-        raise HTTPException(
-            status_code=503,
-            detail="Modèle non disponible. Traduction de base uniquement."
-        )
+    logger.info("=" * 60)
 
-    # Formater le prompt selon la direction
-    if source == "fr" and target == "mina":
-        prompt = f"Traduis en mina: {text}"
-    else:
-        prompt = f"Traduis en français: {text}"
-
-    # Tokeniser
-    inputs = tokenizer(prompt, return_tensors="pt", truncation=True, max_length=256)
-
-    if torch.cuda.is_available():
-        inputs = {k: v.to("cuda") for k, v in inputs.items()}
-
-    # Générer
-    import torch
-    with torch.no_grad():
-        outputs = model.generate(
-            **inputs,
-            max_new_tokens=100,
-            temperature=0.7,
-            do_sample=True,
-            pad_token_id=tokenizer.eos_token_id,
-        )
-
-    # Décoder
-    result = tokenizer.decode(outputs[0], skip_special_tokens=True)
-
-    # Extraire la traduction
-    if "Traduis en mina:" in result:
-        result = result.split("Traduis en mina:")[1].strip()
-    elif "Traduis en français:" in result:
-        result = result.split("Traduis en français:")[1].strip()
-
-    # Estimation confiance (basée sur la longueur)
-    confidence = min(len(result) / 50, 1.0)
-
-    return result.strip(), confidence
-
-
-def translate_base(text: str, source: str, target: str) -> tuple[str, float]:
-    """Traduit en utilisant les données de base"""
-
-    from scripts.generate_dataset import TRANSLATIONS
-
-    text_lower = text.lower().strip()
-
-    # Construire un index bidirectionnel
-    fr_to_mina = {}
-    mina_to_fr = {}
-
-    for theme_data in TRANSLATIONS.values():
-        for fr, mina in theme_data["paires"]:
-            fr_lower = fr.lower().strip()
-            mina_lower = mina.lower().strip()
-            fr_to_mina[fr_lower] = mina
-            mina_to_fr[mina_lower] = fr
-
-    # Chercher selon la direction
-    if source == "fr" and target == "mina":
-        if text_lower in fr_to_mina:
-            return fr_to_mina[text_lower], 0.95
-    elif source == "mina" and target == "fr":
-        if text_lower in mina_to_fr:
-            return mina_to_fr[text_lower], 0.95
-
-    # Recherche par mot-clé (si la phrase exacte n'est pas trouvée)
-    # Pour FR -> MINA: chercher si les mots sont dans une phrase du corpus
-    if source == "fr" and target == "mina":
-        for fr_lower, mina in fr_to_mina.items():
-            # Si au moins 60% des mots matchent
-            text_words = set(text_lower.split())
-            fr_words = set(fr_lower.split())
-            if len(text_words) > 0 and len(fr_words & text_words) / len(text_words) >= 0.6:
-                return mina, 0.7  # Confiance réduite pour match partiel
-
-    # Traduction non trouvée
-    raise HTTPException(
-        status_code=400,
-        detail=f"Traduction non trouvee pour: '{text}'. "
-               f"Entraine le modele pour plus de couverture."
-    )
-
-
-# =============================================================================
-# ENDPOINTS
-# =============================================================================
-
-@app.get("/", tags=["Root"])
-async def root():
-    """Page d'accueil"""
+@app.get("/", tags=["Home"])
+async def home():
+    """Page d'accueil de l'API"""
     return {
         "name": "Mina-Translator API",
         "version": "1.0.0",
-        "docs": "/docs",
-        "health": "/health",
+        "description": "API de traduction Français ↔ Mina pour le Togo",
+        "endpoints": {
+            "health": "/health",
+            "translate_fr_to_mina": "/translate",
+            "translate_mina_to_fr": "/translate_mina",
+            "batch_translate": "/translate/batch",
+        },
+        "documentation": "/docs",
     }
 
-
 @app.get("/health", response_model=HealthResponse, tags=["Health"])
-async def health():
-    """Vérifie l'état de l'API"""
-
-    import torch
-
-    gpu_available = torch.cuda.is_available()
-    model_loaded = model is not None
-
-    gpu_memory_used = 0
-    gpu_memory_total = 0
-
-    if gpu_available:
-        gpu_memory_total = torch.cuda.get_device_properties(0).total_memory / 1e9
-        gpu_memory_used = (torch.cuda.get_device_properties(0).total_memory -
-                          torch.cuda.memory_reserved(0)) / 1e9
-
+async def health_check():
+    """Vérifie l'état de l'API et du modèle"""
     return HealthResponse(
-        status="healthy" if (not gpu_available or gpu_memory_total > 1) else "degraded",
-        gpu_available=gpu_available,
-        model_loaded=model_loaded,
-        gpu_memory_used=round(gpu_memory_used, 2),
-        gpu_memory_total=round(gpu_memory_total, 2),
+        status="healthy" if translator.is_loaded() else "loading",
+        model_loaded=translator.is_loaded(),
+        model_name=translator.model_name,
+        device=translator.device,
+        timestamp=datetime.now().isoformat(),
     )
 
-
-@app.post("/translate", response_model=TranslateResponse, tags=["Translation"])
-async def translate(request: TranslateRequest):
+@app.post("/translate", response_model=TranslationResponse, tags=["Translation"])
+async def translate_fr_to_mina(request: TranslationRequest = Body(...)):
     """
-    Traduit du texte entre le français et le mina
+    Traduit du Français vers le Mina (Ewe du Togo).
 
-    - **text**: Texte à traduire
-    - **source_lang**: Langue source (fr ou mina)
-    - **target_lang**: Langue cible (fr ou mina)
+    - **text**: Texte en français à traduire
+    - **temperature**: Température de génération (0.0 = déterministe, 1.0 = créatif)
+    - **max_length**: Longueur maximale de la traduction en tokens
     """
-
-    if request.source_lang not in ["fr", "mina"]:
-        raise HTTPException(status_code=400, detail="source_lang doit être 'fr' ou 'mina'")
-
-    if request.target_lang not in ["fr", "mina"]:
-        raise HTTPException(status_code=400, detail="target_lang doit être 'fr' ou 'mina'")
-
-    if request.source_lang == request.target_lang:
-        raise HTTPException(status_code=400, detail="source et target doivent être différents")
+    if not translator.is_loaded():
+        raise HTTPException(status_code=503, detail="Modèle non chargé")
 
     try:
-        # Essayer avec le modèle si disponible
-        if model is not None:
-            translated, confidence = translate_with_model(
-                request.text,
-                request.source_lang,
-                request.target_lang
-            )
-        else:
-            translated, confidence = translate_base(
-                request.text,
-                request.source_lang,
-                request.target_lang
-            )
-
-        return TranslateResponse(
-            original=request.text,
-            translated=translated,
-            source_lang=request.source_lang,
-            target_lang=request.target_lang,
-            confidence=confidence,
+        translation, inference_time = translator.translate_fr_to_mina(
+            request.text,
+            temperature=request.temperature,
+            max_length=request.max_length,
         )
 
-    except HTTPException:
-        raise
+        return TranslationResponse(
+            original=request.text,
+            translation=translation,
+            direction="fr→mina",
+            model=translator.model_name,
+            inference_time_ms=round(inference_time, 2),
+        )
+
     except Exception as e:
-        logger.error(f"Erreur traduction: {e}")
+        logger.error(f"Erreur de traduction: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-
-@app.post("/transcribe", response_model=TranscribeResponse, tags=["Speech"])
-async def transcribe(request: TranscribeRequest):
+@app.post("/translate_mina", response_model=TranslationResponse, tags=["Translation"])
+async def translate_mina_to_fr(request: TranslationRequest = Body(...)):
     """
-    Transcrit de l'audio en texte
+    Traduit du Mina (Ewe) vers le Français.
 
-    Nécessite Whisper pour fonctionner.
+    - **text**: Texte en Mina à traduire
+    - **temperature**: Température de génération (0.0 = déterministe, 1.0 = créatif)
+    - **max_length**: Longueur maximale de la traduction en tokens
     """
+    if not translator.is_loaded():
+        raise HTTPException(status_code=503, detail="Modèle non chargé")
 
-    if not request.audio_url and not request.audio_data:
-        raise HTTPException(status_code=400, detail="audio_url ou audio_data requis")
+    try:
+        translation, inference_time = translator.translate_mina_to_fr(
+            request.text,
+            temperature=request.temperature,
+            max_length=request.max_length,
+        )
 
-    raise HTTPException(
-        status_code=501,
-        detail="Transcription non implémentée. Installe Whisper: pip install openai-whisper"
-    )
+        return TranslationResponse(
+            original=request.text,
+            translation=translation,
+            direction="mina→fr",
+            model=translator.model_name,
+            inference_time_ms=round(inference_time, 2),
+        )
 
+    except Exception as e:
+        logger.error(f"Erreur de traduction: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
-@app.post("/speak", response_model=SpeakResponse, tags=["Speech"])
-async def speak(request: SpeakRequest):
+@app.post("/translate/batch", tags=["Translation"])
+async def batch_translate(request: BatchTranslationRequest):
     """
-    Synthétise du texte en parole
+    Traduit plusieurs textes à la fois (max 10).
 
-    Nécessite un moteur TTS pour fonctionner.
+    - **texts**: Liste de textes à traduire (direction: fr→mina)
+    - **temperature**: Température de génération
     """
+    if not translator.is_loaded():
+        raise HTTPException(status_code=503, detail="Modèle non chargé")
 
-    if len(request.text) > 500:
-        raise HTTPException(status_code=400, detail="Texte trop long (max 500 caractères)")
+    results = []
+    for text in request.texts:
+        try:
+            translation, inference_time = translator.translate_fr_to_mina(
+                text,
+                temperature=request.temperature,
+            )
+            results.append({
+                "original": text,
+                "translation": translation,
+                "inference_time_ms": round(inference_time, 2),
+            })
+        except Exception as e:
+            results.append({
+                "original": text,
+                "error": str(e),
+            })
 
-    raise HTTPException(
-        status_code=501,
-        detail="Synthèse vocale non implémentée. Configure un moteur TTS."
-    )
+    return {
+        "results": results,
+        "count": len(results),
+        "model": translator.model_name,
+    }
 
+@app.get("/languages", tags=["Info"])
+async def get_languages():
+    """Retourne les langues supportées"""
+    return {
+        "source_languages": [
+            {"code": "fr", "name": "Français", "native_name": "Français"},
+            {"code": "ee", "name": "Mina (Ewe)", "native_name": "Eʋegbe"},
+        ],
+        "target_languages": [
+            {"code": "ee", "name": "Mina (Ewe)", "native_name": "Eʋegbe"},
+            {"code": "fr", "name": "Français", "native_name": "Français"},
+        ],
+    }
 
 # =============================================================================
-# POINT D'ENTRÉE
+# SPEECH-TO-TEXT (WHISPER)
+# =============================================================================
+
+class TranscribeResponse(BaseModel):
+    text: str
+    language: str
+    inference_time_ms: float
+    confidence: float
+
+@app.post("/transcribe", response_model=TranscribeResponse, tags=["Speech-to-Text"])
+async def transcribe_audio(file: UploadFile = File(...)):
+    """
+    Transcrit un fichier audio en texte (Mina).
+
+    - **file**: Fichier audio (webm, mp3, wav, etc.)
+    """
+    global whisper_model, whisper_processor
+
+    if whisper_model is None:
+        raise HTTPException(status_code=503, detail="Modèle Whisper non chargé")
+
+    try:
+        start_time = datetime.now()
+
+        # Sauvegarder temporairement le fichier audio
+        with tempfile.NamedTemporaryFile(delete=False, suffix=Path(file.filename).suffix) as tmp:
+            content = await file.read()
+            tmp.write(content)
+            tmp_path = tmp.name
+
+        try:
+            # Charger l'audio avec librosa (16kHz mono)
+            audio, sr = librosa.load(tmp_path, sr=16000)
+
+            # Transcrire avec Whisper
+            inputs = whisper_processor(audio, sampling_rate=16000, return_tensors="pt")
+            inputs = {k: v.to(translator.device) for k, v in inputs.items()}
+
+            with torch.no_grad():
+                generated_ids = whisper_model.generate(
+                    inputs["input_features"],
+                    max_new_tokens=256,
+                    language="ee",  # Code ISO pour Ewe
+                )
+
+            transcription = whisper_processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
+
+            inference_time = (datetime.now() - start_time).total_seconds() * 1000
+
+            return TranscribeResponse(
+                text=transcription,
+                language="mina",
+                inference_time_ms=round(inference_time, 2),
+                confidence=0.8,  # Confidence estimée
+            )
+
+        finally:
+            # Nettoyer le fichier temporaire
+            if os.path.exists(tmp_path):
+                os.remove(tmp_path)
+
+    except Exception as e:
+        logger.error(f"Erreur de transcription: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# =============================================================================
+# ENTRY POINT
 # =============================================================================
 
 if __name__ == "__main__":
     import uvicorn
-
-    uvicorn.run(
-        "api.main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True,
-        log_level="info",
-    )
+    uvicorn.run(app, host="0.0.0.0", port=8000)
