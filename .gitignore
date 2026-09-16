@@ -1,50 +1,46 @@
-# =============================================================================
-# .gitignore - Mina-Translator
-# =============================================================================
-
-# Modèles (téléchargeables, pas besoin de push)
-models/
-*.safetensors
-*.bin
-*.pt
-*.pth
-
-# Environnements virtuels
-venv/
-venv_train/
-.venv/
-env/
-
-# Cache Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-
-# Logs
-*.log
-logs/
+# Bases de données SQLite (NE JAMAIS COMMIT!)
+*.db
+*.db.backup_*
 
 # Fichiers temporaires
 *.tmp
-*.temp
-.DS_Store
+*.log
 
-# Jupyter
-.ipynb_checkpoints/
-
-# Variables d'environnement
+# Environment
 .env
 .env.local
+venv/
+venv_train/
+.venv/
 
-# Builds
-dist/
-build/
+# Python
+__pycache__/
+*.pyc
+*.pyo
 *.egg-info/
 
-# Whisper data (regénérable)
-data/whisper_data/
+# Logs
+logs/
 
-# Cache HuggingFace
-.cache/
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Credentials (NE JAMAIS COMMIT!)
+credentials.json
+token.json
+*.json
+!package.json
+
+# Modèles ML (trop volumineux)
+models/
+*.bin
+*.safetensors
+
+# Data volumineux
+data/whisper_data/
+data/cv-corpus-*/

@@ -2,15 +2,20 @@
 crowdsource_app.py - Application Streamlit pour le crowdsourcing Mina → Français
 ================================================================================
 
-Une application MINIMALISTE où les utilisateurs :
+Une application où les utilisateurs :
 1. Écoutent une phrase en Mina (audio aléatoire)
 2. Tapez la traduction en français
 3. Valident et passent au suivant
 
-Les données sont stockées dans SQLite (local) ET Google Sheets (cloud).
+💾 Les données sont stockées dans Google Sheets (cloud).
 
 Usage:
     streamlit run crowdsource_app.py
+
+Configuration (Streamlit Secrets):
+    ADMIN_CODE=VotreCodeSecret
+    GOOGLE_SPREADSHEET_ID=VotreIDSheet
+    USE_GOOGLE_SHEETS=true
 
 Auteur: Claude Opus 4.8
 Date: 2026-06-06
@@ -28,16 +33,27 @@ from pathlib import Path
 # =============================================================================
 
 PROJECT_ROOT = Path(__file__).parent
-DB_PATH = PROJECT_ROOT / "data" / "mina_crowdsource.db"
 CV_PATH = PROJECT_ROOT / "data" / "cv-corpus-25.0-2026-03-09" / "gej"
+CACHE_PATH = PROJECT_ROOT / "data" / ".mina_cache.db"
 
-# Google Sheets (optionnel - les données sont toujours stockées en SQLite)
-USE_GOOGLE_SHEETS = os.environ.get("USE_GOOGLE_SHEETS", "false").lower() == "true"
-GOOGLE_SPREADSHEET_ID = os.environ.get("GOOGLE_SPREADSHEET_ID", "")
+def get_setting(name, default=""):
+    """Lit une configuration depuis l'environnement ou les secrets Streamlit."""
+
+    value = os.environ.get(name)
+    if value:
+        return value
+    try:
+        return st.secrets.get(name, default)
+    except Exception:
+        return default
+
+
+# Configuration via secrets Streamlit ou environnement
+USE_GOOGLE_SHEETS = get_setting("USE_GOOGLE_SHEETS", "false").lower() == "true"
+GOOGLE_SPREADSHEET_ID = get_setting("GOOGLE_SPREADSHEET_ID")
+ADMIN_CODE = get_setting("ADMIN_CODE")
 CREDENTIALS_FILE = PROJECT_ROOT / "credentials.json"
 
-# Code secret pour télécharger la base (à changer!)
-ADMIN_CODE = os.environ.get("Yohann", "1604")
 
 # =============================================================================
 # FONCTIONS GOOGLE SHEETS
@@ -47,12 +63,15 @@ def init_google_sheets():
     """Initialise la connexion Google Sheets"""
 
     if not USE_GOOGLE_SHEETS:
+        st.info("💡 Google Sheets désactivé - données en local uniquement")
         return None
 
     if not GOOGLE_SPREADSHEET_ID:
+        st.warning("⚠️ GOOGLE_SPREADSHEET_ID non configuré")
         return None
 
     if not CREDENTIALS_FILE.exists():
+        st.warning("⚠️ credentials.json non trouvé - Google Sheets indisponible")
         return None
 
     try:
@@ -88,7 +107,7 @@ def init_google_sheets():
         return sheet
 
     except Exception as e:
-        st.warning(f"⚠️ Google Sheets non disponible: {e}")
+        st.warning(f"⚠️ Google Sheets: {e}")
         return None
 
 
@@ -113,19 +132,40 @@ def save_to_google_sheets(sheet, audio_id, mina_text, french_text, session_id):
         return True
 
     except Exception as e:
+        st.error(f"Erreur Google Sheets: {e}")
         return False
 
 
+def get_google_sheets_stats(sheet):
+    """Récupère les stats depuis Google Sheets"""
+
+    if sheet is None:
+        return {'total': 0, 'unique': 0}
+
+    try:
+        records = sheet.get_all_records()
+        total = len(records)
+
+        # Compter les audios uniques
+        seen = set()
+        for r in records:
+            seen.add(r.get('audio_id', ''))
+
+        return {'total': total, 'unique': len(seen)}
+    except:
+        return {'total': 0, 'unique': 0}
+
+
 # =============================================================================
-# FONCTIONS BASE DE DONNÉES
+# FONCTIONS BASE LOCALE (CACHE ONLY)
 # =============================================================================
 
-def init_database():
-    """Initialise la base SQLite"""
+def init_local_cache():
+    """Initialise le cache local SQLite (optionnel)"""
 
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
 
-    conn = sqlite3.connect(str(DB_PATH))
+    conn = sqlite3.connect(str(CACHE_PATH))
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -137,21 +177,69 @@ def init_database():
             french_text TEXT,
             translation_type TEXT DEFAULT 'text',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            session_id TEXT
+            session_id TEXT,
+            synced INTEGER DEFAULT 0
         )
     """)
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS seen_audios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            audio_id TEXT NOT NULL UNIQUE,
-            session_id TEXT,
-            seen_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            audio_id TEXT NOT NULL,
+            session_id TEXT NOT NULL,
+            seen_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(audio_id, session_id)
         )
     """)
 
     conn.commit()
     conn.close()
+
+
+def get_local_stats():
+    """Récupère les statistiques du cache local."""
+
+    init_local_cache()
+    with sqlite3.connect(str(CACHE_PATH)) as conn:
+        total = conn.execute("SELECT COUNT(*) FROM translations").fetchone()[0]
+        unique = conn.execute(
+            "SELECT COUNT(DISTINCT audio_id) FROM translations"
+        ).fetchone()[0]
+    return {'total': total, 'unique': unique}
+
+
+def save_to_local_cache(audio_id, mina_text, french_text, session_id):
+    """Sauvegarde une traduction et marque l'audio comme vu."""
+
+    init_local_cache()
+    with sqlite3.connect(str(CACHE_PATH)) as conn:
+        conn.execute(
+            """
+            INSERT INTO translations
+                (audio_id, audio_path, mina_text, french_text, session_id)
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (audio_id, str(CV_PATH / 'clips' / f'{audio_id}.mp3'),
+             mina_text, french_text, session_id),
+        )
+        conn.execute(
+            "INSERT OR IGNORE INTO seen_audios (audio_id, session_id) VALUES (?, ?)",
+            (audio_id, session_id),
+        )
+
+
+def get_local_next_audio(audios, session_id):
+    """Choisit un audio qui n'a pas encore été vu dans la session."""
+
+    init_local_cache()
+    with sqlite3.connect(str(CACHE_PATH)) as conn:
+        rows = conn.execute(
+            "SELECT audio_id FROM seen_audios WHERE session_id = ?",
+            (session_id,),
+        ).fetchall()
+    seen_ids = {row[0] for row in rows}
+    available = [audio for audio in audios if audio['id'] not in seen_ids]
+    return random.choice(available) if available else None
 
 
 def load_audio_list():
@@ -183,89 +271,36 @@ def load_audio_list():
 
 
 def get_next_audio(audios, session_id):
-    """Récupère un audio aléatoire non encore vu"""
+    """Récupère un audio aléatoire non encore vu (via Google Sheets)"""
 
-    conn = sqlite3.connect(str(DB_PATH))
-    cursor = conn.cursor()
+    if not USE_GOOGLE_SHEETS or not GOOGLE_SPREADSHEET_ID:
+        return get_local_next_audio(audios, session_id)
 
-    cursor.execute(
-        "SELECT audio_id FROM seen_audios WHERE session_id = ?",
-        (session_id,)
-    )
-    seen_ids = {row[0] for row in cursor.fetchall()}
-    conn.close()
+    try:
+        import gspread
+        from google.oauth2.service_account import Credentials
 
-    available = [a for a in audios if a['id'] not in seen_ids]
+        credentials = Credentials.from_service_account_file(
+            str(CREDENTIALS_FILE),
+            scopes=['https://www.googleapis.com/auth/spreadsheets.readonly']
+        )
+        gc = gspread.authorize(credentials)
+        spreadsheet = gc.open_by_key(GOOGLE_SPREADSHEET_ID)
+        sheet = spreadsheet.sheet1
 
-    if not available:
-        return None
+        # Récupérer les audios déjà vus par cette session
+        records = sheet.get_all_records()
+        seen_ids = {r.get('audio_id', '') for r in records if r.get('session_id') == session_id}
 
-    return random.choice(available)
+        available = [a for a in audios if a['id'] not in seen_ids]
 
+        if not available:
+            return None
 
-def save_translation(audio_id, mina_text, french_text, session_id, sheet=None):
-    """Enregistre une traduction"""
+        return random.choice(available)
 
-    conn = sqlite3.connect(str(DB_PATH))
-    cursor = conn.cursor()
-
-    cursor.execute("""
-        INSERT INTO translations
-        (audio_id, audio_path, mina_text, french_text, translation_type, session_id)
-        VALUES (?, ?, ?, ?, 'text', ?)
-    """, (
-        audio_id,
-        str(CV_PATH / 'clips' / f'{audio_id}.mp3'),
-        mina_text,
-        french_text,
-        session_id
-    ))
-
-    cursor.execute("""
-        INSERT OR IGNORE INTO seen_audios (audio_id, session_id)
-        VALUES (?, ?)
-    """, (audio_id, session_id))
-
-    conn.commit()
-    conn.close()
-
-    # Also save to Google Sheets if available
-    if sheet:
-        save_to_google_sheets(sheet, audio_id, mina_text, french_text, session_id)
-
-
-def get_stats():
-    """Récupère les statistiques"""
-
-    conn = sqlite3.connect(str(DB_PATH))
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT COUNT(*) FROM translations")
-    total = cursor.fetchone()[0]
-
-    cursor.execute("SELECT COUNT(DISTINCT audio_id) FROM translations")
-    unique = cursor.fetchone()[0]
-
-    conn.close()
-
-    return {'total': total, 'unique': unique}
-
-
-def get_user_stats(session_id):
-    """Récupère les stats de l'utilisateur"""
-
-    conn = sqlite3.connect(str(DB_PATH))
-    cursor = conn.cursor()
-
-    cursor.execute(
-        "SELECT COUNT(*) FROM seen_audios WHERE session_id = ?",
-        (session_id,)
-    )
-    count = cursor.fetchone()[0]
-
-    conn.close()
-
-    return count
+    except Exception:
+        return get_local_next_audio(audios, session_id)
 
 
 # =============================================================================
@@ -277,12 +312,12 @@ def main():
 
     # Configuration
     st.set_page_config(
-        page_title="Mina Crowdsource",
+        page_title="Mina Crowdsource 🇹🇬",
         page_icon="🇹🇬",
         layout="centered"
     )
 
-    # Style CSS - fond sombre pour meilleur contraste
+    # Style CSS
     st.markdown("""
     <style>
     .stApp {
@@ -318,9 +353,6 @@ def main():
         color: #00d9ff !important;
         font-size: 24px;
     }
-    [data-testid="stMetricLabel"] {
-        color: #ffffff !important;
-    }
     .info-box {
         background-color: #0f3460;
         padding: 15px;
@@ -340,9 +372,6 @@ def main():
         border: 2px solid #00d9ff !important;
         border-radius: 10px !important;
     }
-    textarea::placeholder {
-        color: #888888 !important;
-    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -353,8 +382,7 @@ def main():
     if 'current_audio' not in st.session_state:
         st.session_state.current_audio = None
 
-    # Initialiser la base et Google Sheets
-    init_database()
+    # Initialiser Google Sheets
     google_sheet = init_google_sheets()
 
     # ============================================================
@@ -378,7 +406,15 @@ def main():
         st.markdown("""
         <div style="text-align: center; padding: 5px; margin-bottom: 15px;">
             <span style="background-color: #1b5e20; padding: 5px 15px; border-radius: 20px; color: #4caf50;">
-                ☁️ Synchronisé avec Google Sheets
+                ☁️ Données sauvegardées dans Google Sheets ✅
+            </span>
+        </div>
+        """, unsafe_allow_html=True)
+    else:
+        st.markdown("""
+        <div style="text-align: center; padding: 5px; margin-bottom: 15px;">
+            <span style="background-color: #f57c00; padding: 5px 15px; border-radius: 20px; color: #ffffff;">
+                ⚠️ Mode local - Configurez Google Sheets pour la persistance
             </span>
         </div>
         """, unsafe_allow_html=True)
@@ -389,8 +425,7 @@ def main():
     # STATISTIQUES
     # ============================================================
 
-    stats = get_stats()
-    user_stats = get_user_stats(st.session_state.session_id)
+    stats = get_google_sheets_stats(google_sheet) if google_sheet else get_local_stats()
 
     col1, col2, col3 = st.columns(3)
 
@@ -401,46 +436,38 @@ def main():
         st.metric("🌍 Total traduits", stats['total'])
 
     with col3:
-        st.metric("👤 Vos traductions", user_stats)
+        st.metric("👤 Votre session", st.session_state.session_id[:8])
 
     st.markdown("---")
 
     # ============================================================
-    # SIDEBAR - ZONE ADMIN (CODE SECRET)
+    # SIDEBAR - ZONE ADMIN
     # ============================================================
 
     with st.sidebar:
         st.markdown("---")
         st.markdown("### 🔐 Zone Admin")
 
-        # Champ pour le code secret
         code_input = st.text_input("Entrez le code secret", type="password")
 
-        if code_input == ADMIN_CODE:
+        if ADMIN_CODE and code_input == ADMIN_CODE:
             st.success("✅ Code correct!")
 
-            # Bouton de téléchargement
             st.markdown("---")
-            st.markdown("### 📥 Téléchargement")
+            st.markdown("### 📊 Statistiques")
 
-            if os.path.exists(DB_PATH):
-                with open(DB_PATH, "rb") as f:
-                    db_data = f.read()
-                    st.download_button(
-                        label="💾 Télécharger la Base",
-                        data=db_data,
-                        file_name="mina_crowdsource.db",
-                        mime="application/octet-stream"
-                    )
+            st.write(f"📝 Total: **{stats['total']}**")
+            st.write(f"🎵 Uniques: **{stats['unique']}**")
 
-                # Statistiques
-                st.markdown("---")
-                st.markdown("### 📊 Stats Base")
-                stats = get_stats()
-                st.write(f"Total traductions: **{stats['total']}**")
-                st.write(f"Audios uniques: **{stats['unique']}**")
-            else:
-                st.warning("⚠️ Base non trouvée")
+            st.markdown("---")
+            st.markdown("### 📋 Actions Admin")
+
+            st.info("💡 Pour exporter les données:")
+            st.markdown("""
+            1. Ouvrez Google Sheets
+            2. Fichier > Télécharger > CSV
+            3. Convertissez en JSONL pour l'entraînement
+            """)
 
         elif code_input:
             st.error("❌ Code incorrect")
@@ -473,7 +500,7 @@ def main():
         <div style="text-align: center; padding: 40px;">
             <h2 style="color: #00d9ff;">🎉 Merci beaucoup !</h2>
             <p style="color: #ffffff; font-size: 18px;">
-                Vous avez traduit tous les audios disponibles aujourd'hui.
+                Vous avez traduit tous les audios disponibles.
             </p>
         </div>
         """, unsafe_allow_html=True)
@@ -511,7 +538,7 @@ def main():
     st.markdown("---")
 
     # ============================================================
-    # ZONE TRADUCTION (TEXTE SEULEMENT)
+    # ZONE TRADUCTION
     # ============================================================
 
     st.markdown("""
@@ -552,21 +579,36 @@ def main():
 
     if validate_clicked:
         if french_text and len(french_text.strip()) > 0:
-            save_translation(
+            # Sauvegarder localement, puis synchroniser vers Google Sheets.
+            save_to_local_cache(
+                audio_id=audio['id'],
+                mina_text=audio['mina'],
+                french_text=french_text.strip(),
+                session_id=st.session_state.session_id
+            )
+            cloud_success = save_to_google_sheets(
+                sheet=google_sheet,
                 audio_id=audio['id'],
                 mina_text=audio['mina'],
                 french_text=french_text.strip(),
                 session_id=st.session_state.session_id,
-                sheet=google_sheet
             )
 
             st.session_state.current_audio = get_next_audio(audios, st.session_state.session_id)
 
-            st.markdown("""
-            <div class="success-box" style="text-align: center;">
-                <h3>✅ Traduction enregistrée ! Merci ! 🙏</h3>
-            </div>
-            """, unsafe_allow_html=True)
+            if cloud_success:
+                st.markdown("""
+                <div class="success-box" style="text-align: center;">
+                    <h3>✅ Traduction enregistrée dans Google Sheets !</h3>
+                </div>
+                """, unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div class="info-box" style="text-align: center;">
+                    <h3>✅ Traduction enregistrée localement</h3>
+                    <p>Google Sheets n'est pas configuré ou indisponible.</p>
+                </div>
+                """, unsafe_allow_html=True)
 
         else:
             st.markdown("""
@@ -586,9 +628,6 @@ def main():
         st.markdown(f"""
         <div style="text-align: center; padding: 40px;">
             <h2 style="color: #00d9ff;">🎉 Merci pour votre participation !</h2>
-            <p style="color: #ffffff; font-size: 18px;">
-                Vous avez traduit <strong>{user_stats}</strong> phrases aujourd'hui.
-            </p>
             <p style="color: #888; font-size: 16px;">
                 💡 Revenez demain pour continuer !
             </p>
