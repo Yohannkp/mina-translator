@@ -189,7 +189,7 @@ mina-translator/
 
 1. **Étendre le corpus** — commerce, administration, urgences. C'est le seul levier qui change vraiment la qualité.
 2. **Affiner Whisper** sur le sous-ensemble `gej` : le Whisper générique ne connaît pas le mina, la transcription est le point faible de la chaîne audio.
-3. **Synthèse vocale** mina, pour fermer la boucle parole → parole.
+3. **Brancher la synthèse vocale** : le module existe (`modules/tts.py`, Coqui XTTS v2) mais n'est pas câblé dans la chaîne principale de l'API — c'est ce qui manque pour fermer la boucle parole → parole.
 4. **Évaluation chiffrée** — BLEU / chrF sur un jeu de test tenu à l'écart, ce qui manque aujourd'hui pour mesurer les progrès autrement qu'à l'œil.
 
 ---
