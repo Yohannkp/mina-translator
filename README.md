@@ -48,8 +48,8 @@ Le modèle de base fait 0,5 milliard de paramètres et l'adaptateur LoRA pèse ~
 
 | Ressource | Volume | Origine |
 |---|---|---|
-| Corpus parallèle FR ↔ Mina | **500 paires** (`parallel_corpus.jsonl`) | construit à la main — santé, marché, transport |
-| Corpus fusionné et nettoyé | **494 paires** (`corpus_merged.jsonl`) | dédoublonnage + validation du précédent |
+| Corpus parallèle FR ↔ Mina | **500 paires** (`parallel_corpus.jsonl`) | dérivé de Common Voice par traduction automatique — **68 % de lignes anormales, voir l'audit** |
+| Corpus fusionné | **494 paires** (`corpus_merged.jsonl`) | même origine, 68 % de lignes anormales |
 | Transcriptions mina | **19 605 lignes** (`mina_full_dataset.jsonl`) | Common Voice 25.0, sous-ensemble `gej` |
 | Clips audio | **16 773 fichiers** | idem, utilisés pour l'axe reconnaissance vocale |
 
@@ -63,6 +63,52 @@ cd mina-translator && git sparse-checkout set --no-cone '/*' '!/data'
 ```
 
 ---
+
+## Qualité du corpus — mesurée, pas supposée
+
+Le mina n'a aucun corpus parallèle public. Celui-ci a donc été constitué pour
+l'occasion, en grande partie par génération automatique. Une donnée générée
+contient des défauts qu'on ne voit pas en la survolant. Plutôt que de les
+supposer absents, le dépôt embarque un script qui les compte :
+
+```bash
+python scripts/audit_corpus.py            # rapport lisible
+python scripts/audit_corpus.py --json     # sortie machine
+python scripts/audit_corpus.py --seuil 10 # échoue si > 10 % d'anomalies (CI)
+```
+
+Résultats au 27 septembre 2026 :
+
+| Fichier | Paires | Lignes anormales | Principaux défauts |
+|---|---:|---:|---|
+| `final_clean_dataset.jsonl` | 360 | **7,8 %** | 18 `ᴐ` au lieu de `ɔ`, 6 traductions identiques pour des sens différents, 4 caractères chinois |
+| `corpus_enriched.jsonl` | 300 | **36,7 %** | 106 sources partiellement recopiées côté cible |
+| `corpus_merged.jsonl` | 494 | **68,0 %** | 225 encodages cassés, 93 sources tronquées, 25 artefacts de génération |
+| `parallel_corpus.jsonl` | 500 | **68,4 %** | idem — c'est le fichier que le script d'entraînement charge par défaut |
+
+Ce que ces chiffres disent : `final_clean_dataset.jsonl` est le seul jeu
+exploitable, et **l'entraînement pointe sur le mauvais fichier**. Cela explique
+le comportement décrit plus bas — un modèle qui recopie parfois le français au
+lieu de traduire apprend exactement ce qu'on lui a montré.
+
+Quelques exemples réels, tirés du rapport :
+
+```
+parallel_corpus.jsonl:5   « Je ne comprends pas "Wo tru nu". C'est peut-être une
+                             expression ou un mot en créole, mais je n'ai »
+                          → la réponse d'un LLM qui refuse, enregistrée comme traduction
+final_clean_dataset:209   « Mon fils est malade. » → « D斧 o. »
+final_clean_dataset:31    « Il a la tuberculose. » et « Il a une fracture. »
+                          → la même traduction « Eku ɖeƒe blɔ. »
+```
+
+Le script ne juge pas la **justesse** d'une traduction : cela demande un
+locuteur. Il ne détecte que des anomalies structurelles vérifiables sans
+connaître la langue — encodage, doublons, recopie, orthographe incohérente.
+
+**Prochaine étape, dans cet ordre** : faire pointer l'entraînement sur
+`final_clean_dataset.jsonl`, corriger les 28 lignes qu'il signale, puis
+étendre le corpus par la collecte participative plutôt que par génération.
 
 ## Installation
 
